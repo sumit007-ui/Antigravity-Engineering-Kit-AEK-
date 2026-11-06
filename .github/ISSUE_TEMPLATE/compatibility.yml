@@ -1,0 +1,49 @@
+name: Agent / Toolchain Compatibility Issue
+description: Report a compatibility issue with an AI agent (Antigravity, Claude Code, Cursor, OpenCode) or language toolchain
+title: "[COMPAT]: "
+labels: ["compatibility"]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for helping us maintain seamless multi-agent compatibility!
+  - type: dropdown
+    id: agent-or-toolchain
+    attributes:
+      label: Target Agent or Language Ecosystem
+      options:
+        - Gemini Antigravity
+        - Claude Code
+        - Cursor
+        - OpenCode
+        - Rust Toolchain
+        - Go Toolchain
+        - Python Toolchain
+        - TypeScript / Node.js
+        - C / C++ / Zig
+        - Flutter / Dart
+        - ROS 2 / Robotics
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: issue-summary
+    attributes:
+      label: Compatibility Problem Summary
+      description: What failed during detection, translation, synchronization, or execution?
+    validations:
+      required: true
+  - type: textarea
+    id: doctor-output
+    attributes:
+      label: Diagnostic Doctor Output
+      description: Please paste the relevant section of `aek agent doctor` or `aek language doctor`.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-vs-actual
+    attributes:
+      label: Expected vs Actual Behavior
+      description: Describe what should have happened according to official documentation.
+    validations:
+      required: true
+

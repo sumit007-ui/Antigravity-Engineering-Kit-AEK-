@@ -1,0 +1,30 @@
+name: Documentation Problem
+description: Report an issue with AEK documentation, outdated guides, or missing examples
+title: "[DOCS]: "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for helping keep AEK documentation accurate and actionable!
+  - type: textarea
+    id: page-or-section
+    attributes:
+      label: Page or Section
+      description: What document or section has an issue (e.g., `docs/multi-agent.md`, CLI help output)?
+    validations:
+      required: true
+  - type: textarea
+    id: issue-description
+    attributes:
+      label: Description of the Problem
+      description: What is inaccurate, outdated, unclear, or missing?
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-fix
+    attributes:
+      label: Suggested Fix or Content
+      description: If you know what the updated text, command, or explanation should be, please provide it.
+    validations:
+      required: false
+

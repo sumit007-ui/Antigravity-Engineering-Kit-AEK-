@@ -58,10 +58,20 @@ if ($Purge -and -not $Force) {
     }
 }
 
-# Delete binary
+# Delete binary with retry to handle Windows file locks
 if (Test-Path $TargetExe) {
-    Remove-Item -Path $TargetExe -Force
-    Write-Host "  Removed executable: $TargetExe"
+    $retries = 5
+    while ($retries -gt 0) {
+        try {
+            Remove-Item -Path $TargetExe -Force -ErrorAction Stop
+            Write-Host "  Removed executable: $TargetExe"
+            break
+        } catch {
+            $retries--
+            if ($retries -eq 0) { throw $_ }
+            Start-Sleep -Milliseconds 300
+        }
+    }
 }
 
 # Delete manifest

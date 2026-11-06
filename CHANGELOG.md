@@ -5,6 +5,32 @@ All notable changes to the Antigravity Engineering Kit (AEK) will be documented 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0] - 2026-11-06
+
+### Added
+- **Initial Public Release of Antigravity Engineering Kit (AEK)**:
+  - **Universal Multi-Agent Compatibility Framework (`aek agent`)**:
+    - Universal agent adapter architecture (`aek-agents`) for Google Gemini Antigravity, Anthropic Claude Code, Cursor, and OpenCode.
+    - Typed capability matrix covering rules, skills, MCP servers, hooks, instructions, and permissions.
+    - Multi-agent synchronization (`aek agent sync`) with conflict detection (`KeepExisting`, `ReplaceManaged`, `Skip`, `ManualResolution`) and ownership tracking via `.aek/managed-agents.toml`.
+    - 5 Predefined Engineering Profiles (`aek agent profile`): `antigravity-engineering`, `claude-code-engineering`, `cursor-engineering`, `opencode-engineering`, `multi-agent-engineering`.
+    - Non-destructive agent discovery and doctor diagnostics (`aek agent detect`, `aek agent doctor`).
+  - **Open-Source Community Health & Governance**:
+    - Dual licensing under Apache-2.0 and MIT (`LICENSE`, `LICENSE-APACHE`, `LICENSE-MIT`).
+    - Standard Contributor Covenant v2.1 `CODE_OF_CONDUCT.md`.
+    - Open-source contribution guidelines in `CONTRIBUTING.md`.
+    - Responsible security disclosure policy in `SECURITY.md`.
+    - Community support guide in `SUPPORT.md`.
+    - Automated GitHub Actions CI/CD matrix across Ubuntu, Windows, and macOS.
+    - Automated dependency management via Dependabot (`.github/dependabot.yml`).
+    - GitHub issue templates (`bug_report.yml`, `feature_request.yml`, `documentation.yml`, `compatibility.yml`) and pull request template.
+  - **Production Hardening & Quality Assurance**:
+    - Zero compiler and Clippy warnings with `-D warnings` across all 16 crates.
+    - Comprehensive unit, integration, and security regression test suite (>165 passing tests).
+    - Cross-platform release verification for Windows (`x86_64`) and Linux (`x86_64`).
+    - Benchmarking harness and performance measurements in `docs/benchmarks.md`.
+    - Complete technical documentation in `docs/` and polished `README.md`.
+
 ## [0.8.0] - 2026-11-06
 
 ### Added

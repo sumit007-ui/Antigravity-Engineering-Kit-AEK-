@@ -1,0 +1,8 @@
+# Antigravity Engineering Kit (AEK) Code Ownership
+# Core maintainers review all architectural and critical path changes
+
+* @google-antigravity/aek-maintainers
+/crates/ @google-antigravity/aek-maintainers
+/.github/ @google-antigravity/aek-maintainers
+/docs/ @google-antigravity/aek-maintainers
+
