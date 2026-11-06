@@ -27,39 +27,33 @@ pub fn execute_update(args: &UpdateArgs) -> ExitCode {
 
     let paths = DistributionPaths::user_default();
     let platform = PlatformSpec::current();
-    let checker = UpdateChecker::new(CURRENT_VERSION, platform);
+    let checker = UpdateChecker::new(CURRENT_VERSION, platform.clone());
 
     // Look for local release manifest in target or dist, or create simulated check
     let target_version = args
         .version
         .clone()
         .unwrap_or_else(|| CURRENT_VERSION.to_string());
+    let ext = if platform.os == "windows" {
+        "zip"
+    } else {
+        "tar.gz"
+    };
+    let filename = format!("aek-v{target_version}-{}.{ext}", platform.target_triple);
     let manifest = aek_distribution::manifest::ReleaseManifest {
         schema_version: "1.0.0".to_string(),
         version: target_version.clone(),
         release_channel: "stable".to_string(),
         timestamp: "2026-11-06T18:00:00Z".to_string(),
         artifacts: vec![aek_distribution::manifest::ReleaseArtifact {
-            filename: if cfg!(target_os = "windows") {
-                format!("aek-v{target_version}-windows-x86_64.zip")
-            } else {
-                format!("aek-v{target_version}-linux-x86_64.tar.gz")
-            },
-            target_triple: if cfg!(target_os = "windows") {
-                "x86_64-pc-windows-msvc".to_string()
-            } else {
-                "x86_64-unknown-linux-gnu".to_string()
-            },
-            os: if cfg!(target_os = "windows") {
-                "windows".to_string()
-            } else {
-                "linux".to_string()
-            },
-            arch: "x86_64".to_string(),
+            filename: filename.clone(),
+            target_triple: platform.target_triple.clone(),
+            os: platform.os.clone(),
+            arch: platform.arch.clone(),
             size_bytes: 5_242_880,
             sha256: "0000000000000000000000000000000000000000000000000000000000000000".to_string(),
             download_url: format!(
-                "https://github.com/google-antigravity/aek/releases/download/v{target_version}/aek.zip"
+                "https://github.com/google-antigravity/aek/releases/download/v{target_version}/{filename}"
             ),
         }],
     };
