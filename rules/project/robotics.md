@@ -6,3 +6,4 @@
 - **Transforms & Timing**: Use TF2 buffer with exact message header timestamps; avoid hardcoded frame identifiers.
 - **Safety Invariants**: Enforce bounded emergency stop (E-stop) timeouts and rate-limited command velocity publish limits.
 - **Simulation & Testing**: Validate URDF kinematics and launch files using Gazebo and `launch_testing`.
+

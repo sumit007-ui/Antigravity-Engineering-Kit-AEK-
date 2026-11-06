@@ -22,3 +22,4 @@ Provides deep expertise in Rust systems programming, memory safety, async runtim
    - `cargo clippy --workspace --all-targets -- -D warnings`
    - `cargo test --workspace`
 4. **Safety Review**: Proactively audit pointer provenance, slice indexing bounds, and potential deadlocks.
+

@@ -20,3 +20,4 @@ Directs infrastructure-as-code, containerization, automated testing pipelines, a
 3. **Verification**:
    - `hadolint Dockerfile`
    - `actionlint .github/workflows/*.yml`
+

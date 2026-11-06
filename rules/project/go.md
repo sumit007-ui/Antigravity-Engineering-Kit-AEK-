@@ -6,3 +6,4 @@
 - **Error Handling**: Use explicit error checks; wrap context with `fmt.Errorf("...: %w", err)`.
 - **Testing**: Implement table-driven tests (`testing.T`) with `go test -race ./...`.
 - **Linter**: Use `golangci-lint` with strict settings enabled.
+

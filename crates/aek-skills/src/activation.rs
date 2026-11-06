@@ -35,3 +35,4 @@ impl SkillActivationState {
         self.active_skills.contains(skill_name)
     }
 }
+

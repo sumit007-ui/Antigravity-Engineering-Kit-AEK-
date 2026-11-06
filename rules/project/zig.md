@@ -6,3 +6,4 @@
 - **Error Unions**: Explicit error handling via `try` and `@errorReturnTrace()`. No unhandled error unions.
 - **Comptime**: Use comptime metaprogramming for compile-time validation, generic types, and zero-runtime overhead.
 - **Testing**: Define `test "..." { ... }` blocks and execute `zig build test`.
+

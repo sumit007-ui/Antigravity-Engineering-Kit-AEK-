@@ -23,3 +23,4 @@ The **Antigravity Engineering Kit (AEK)** enforces strict security invariants ac
 
 - Rules and skills are stored as declarative Markdown runbooks. They cannot execute arbitrary shell code during discovery or indexing.
 - Over-sized rules exceeding the 24 KB per file limit are rejected during validation to prevent LLM context buffer overflows and prompt truncation attacks.
+

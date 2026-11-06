@@ -48,3 +48,4 @@ Based on inspection of the official Antigravity customization guides, built-in s
 | Arbitrary plugin code execution | Security sandbox restricted | AEK treats all skill scripts as static text; never executes downloaded scripts automatically |
 | Project-aware skill recommendation | Not present natively in AGY | AEK inspects project manifests (`Cargo.toml`, `go.mod`, etc.) and recommends appropriate skills |
 | Conflict resolution & rollbacks | Overwrites silently if unmanaged | AEK creates atomic backups and validates content containment prior to rule/skill installation |
+

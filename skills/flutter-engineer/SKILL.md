@@ -19,3 +19,4 @@ Enforces idiomatic Dart and Flutter application architecture, declarative state 
 3. **Verification**:
    - `flutter analyze --no-fatal-infos`
    - `flutter test --coverage`
+

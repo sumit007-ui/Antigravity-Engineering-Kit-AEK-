@@ -19,3 +19,4 @@ Guides robust systems engineering using the Zig programming language, with zero 
 3. **Verification**:
    - `zig fmt --check .`
    - `zig build test`
+

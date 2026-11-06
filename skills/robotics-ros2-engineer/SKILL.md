@@ -19,3 +19,4 @@ Directs robotics software architecture, sensor integration (LiDAR, IMU, cameras)
 3. **Verification**:
    - `colcon build --packages-select <pkg> --cmake-args -DCMAKE_BUILD_TYPE=Release`
    - `colcon test --packages-select <pkg>`
+

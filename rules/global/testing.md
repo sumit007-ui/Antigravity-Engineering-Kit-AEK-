@@ -15,3 +15,4 @@ Guarantee correctness, regression resilience, and high test coverage across all 
    - Security tests for path traversal, malformed input, and corrupted state handling.
 3. **Automated Verification**:
    - Every change must pass `cargo fmt --all -- --check`, `cargo clippy --workspace --all-targets -- -D warnings`, and `cargo test --workspace`.
+

@@ -19,3 +19,4 @@ Directs the architecture of production AI coding agents, tool-calling loops, con
 3. **Verification**:
    - Validate MCP JSON-RPC protocol compliance across stdio and streamable HTTP transports.
    - Run prompt regression test suites with Promptfoo.
+

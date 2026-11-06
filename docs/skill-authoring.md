@@ -52,3 +52,4 @@ Validate your new skill using the AEK CLI:
 ```bash
 aek skills validate --path ./path/to/my-custom-skill
 ```
+

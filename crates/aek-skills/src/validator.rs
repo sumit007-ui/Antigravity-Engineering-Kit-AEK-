@@ -87,3 +87,4 @@ pub fn parse_skill_markdown(content: &str) -> Result<SkillMetadata, SkillValidat
         triggers: Vec::new(),
     })
 }
+

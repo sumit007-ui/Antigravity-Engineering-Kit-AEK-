@@ -10,3 +10,4 @@ Enforce production-grade software engineering discipline across all coding agent
    - Intent Analysis -> Requirement Extraction -> Context Inspection -> Dependency Verification -> Architecture Selection -> Implementation -> Testing -> Security Review -> Completion Report.
 4. **Production Quality**: Produce complete, robust implementations. Never emit placeholder stubs or `// TODO` items.
 5. **Documentation Integrity**: Maintain accurate comments and docstrings. Update existing documentation whenever behavior changes.
+

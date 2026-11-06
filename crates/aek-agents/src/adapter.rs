@@ -87,3 +87,4 @@ pub trait AgentAdapter: Send + Sync {
         dry_run: bool,
     ) -> Result<InstallReport, AgentError>;
 }
+

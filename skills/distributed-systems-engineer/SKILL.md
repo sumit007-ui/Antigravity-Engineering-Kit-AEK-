@@ -19,3 +19,4 @@ Directs the design of distributed consensus (Raft/Paxos), partitioned data store
 3. **Verification**:
    - Run chaos / partition simulation tests.
    - Verify distributed trace context (`traceparent`) propagation across all service boundaries.
+

@@ -115,3 +115,4 @@ pub fn remove_rule(
         dry_run: false,
     })
 }
+

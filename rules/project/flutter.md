@@ -6,3 +6,4 @@
 - **Linting**: Enable `flutter_lints` with zero analyzer warnings.
 - **Platform Channels**: Encapsulate native MethodChannel calls inside dedicated service facades.
 - **Testing**: Require unit tests, widget tests with `testWidgets`, and golden raster comparisons.
+

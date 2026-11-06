@@ -21,3 +21,4 @@ Directs comprehensive application security audits, dependency supply chain revie
 3. **Verification**:
    - Verify zero hardcoded tokens or API keys via secret scanners.
    - Confirm defense-in-depth sanitization on all user input.
+

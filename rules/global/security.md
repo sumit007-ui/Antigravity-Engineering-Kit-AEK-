@@ -9,3 +9,4 @@ Prevent vulnerabilities, command injections, credential leaks, and privilege esc
 3. **Path Traversal Protection**: Validate all user-supplied paths with strict normalization and canonicalization to guarantee containment within authorized root directories.
 4. **Secret Sanitization**: Never store or output plaintext tokens, private keys, or passwords. Redact credentials in logs and reports.
 5. **Atomic File Persistence**: Never perform non-atomic updates on critical configuration files. Write to temporary files first and atomically replace targets.
+

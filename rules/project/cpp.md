@@ -6,3 +6,4 @@
 - **Memory Management**: Enforce RAII (`std::unique_ptr`, `std::shared_ptr`). Eliminate raw manual `malloc`/`free` or naked `new`/`delete`.
 - **Sanitizers**: Validate releases using AddressSanitizer (ASan) and UndefinedBehaviorSanitizer (UBSan).
 - **Diagnostics**: Enable `-Wall -Wextra -Wpedantic -Werror`.
+

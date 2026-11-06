@@ -20,3 +20,4 @@ Enforces idiomatic Go practices for microservices, database transactions, HTTP/g
 4. **Verification**:
    - `golangci-lint run`
    - `go test -race -v ./...`
+

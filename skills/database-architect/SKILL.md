@@ -19,3 +19,4 @@ Directs relational schema modeling (PostgreSQL), index design (B-tree, GIN, BRIN
 3. **Verification**:
    - Verify query plans eliminate sequential scans on large tables.
    - Test transactions under concurrent access with appropriate isolation levels (`READ COMMITTED`, `SERIALIZABLE`).
+

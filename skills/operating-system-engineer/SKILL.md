@@ -18,3 +18,4 @@ Directs OS kernel architecture, bare-metal hardware bring-up, memory management 
 2. **Kernel Testing**:
    - Run integration tests inside headless QEMU (`qemu-system-x86_64`).
    - Debug state with GDB remote target (`target remote :1234`).
+

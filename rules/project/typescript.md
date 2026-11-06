@@ -6,3 +6,4 @@
 - **Formatting & Linting**: Use Biome or ESLint + Prettier.
 - **Testing**: Vitest or Jest with deterministic mock assertions and 80%+ branch coverage.
 - **Security**: Regularly audit dependencies with `pnpm audit` / `npm audit`.
+
