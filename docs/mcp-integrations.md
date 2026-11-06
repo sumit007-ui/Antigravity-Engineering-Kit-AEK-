@@ -49,3 +49,4 @@ The **Antigravity Engineering Kit (AEK)** provides verified configuration adapte
 - **Authentication**: None required.
 - **Dependencies**: `node`, `npx`.
 - **Sandboxing**: Strictly restricted to designated directory paths (`./scratch` or configured root).
+

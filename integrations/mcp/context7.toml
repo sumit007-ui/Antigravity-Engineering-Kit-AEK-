@@ -18,3 +18,4 @@ allow_filesystem_write = false
 allow_network_write = false
 allow_sensitive = false
 allowed_paths = []
+

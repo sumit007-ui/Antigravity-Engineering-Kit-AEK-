@@ -48,3 +48,4 @@ Output indicators:
   aek mcp export --agent antigravity
   ```
   Verify that `~/.gemini/config/mcp_config.json` contains the updated `mcpServers` object.
+

@@ -42,3 +42,4 @@ pub fn standard_integrations_list(default_scratch_dir: impl AsRef<Path>) -> Vec<
         filesystem_config(default_scratch_dir),
     ]
 }
+

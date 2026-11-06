@@ -66,3 +66,4 @@ impl ServerCapabilities {
         self.prompts.is_some()
     }
 }
+

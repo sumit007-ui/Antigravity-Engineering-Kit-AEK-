@@ -66,3 +66,4 @@ DISCONNECTED ──> CONNECTING ──> INITIALIZING ──> READY
 
 ### 1.4 Agent Adapters
 The MCP client engine remains independent of any specific AI coding agent. The Google Antigravity adapter in `aek-agents` translates AEK server configurations into Antigravity's native `mcp_config.json` schema (`mcpServers`), preserving existing user configurations with automatic safety backups.
+

@@ -43,3 +43,4 @@ For filesystem servers (such as `@modelcontextprotocol/server-filesystem`):
 - Local stdio servers are spawned with explicit argument arrays, preventing shell interpolation attacks (`sh -c` or `cmd /c`).
 - On Windows, child processes are spawned with `CREATE_NO_WINDOW` to prevent visual disruption and terminal hijacking.
 - Operations enforce hard timeout bounds to prevent hanging or denial-of-service states.
+
