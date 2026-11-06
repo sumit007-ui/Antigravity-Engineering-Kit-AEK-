@@ -25,3 +25,4 @@ The Antigravity Engineering Kit (AEK) is a cross-platform, modular AI engineerin
 - High maintainability and clean boundary enforcement.
 - Strict compile-time safety and zero unsafe code in foundation crates.
 - Seamless extension for MCP and agent tooling in subsequent phases.
+

@@ -16,3 +16,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Comprehensive unit and integration test suites covering doctor diagnostics, config serialization, and CLI invocations.
   - Cross-platform GitHub Actions CI workflow for Linux, Windows, and macOS.
   - Architecture Decision Record (ADR 0001) documenting crate boundaries and design decisions.
+

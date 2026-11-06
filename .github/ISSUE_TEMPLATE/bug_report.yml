@@ -30,3 +30,4 @@ body:
       description: Output of `aek doctor` or system details (OS, Rust version, etc.).
     validations:
       required: true
+

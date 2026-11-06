@@ -29,3 +29,4 @@ We commit to acknowledging your report within 48 hours and providing a remediati
 1. **Subprocess Isolation**: Commands are invoked directly via `std::process::Command` with typed arguments array. No invocation passes through `cmd.exe`, `powershell.exe`, or `/bin/sh` string evaluation, mitigating shell injection vulnerabilities.
 2. **Atomic Writes**: Configuration files are written to unique temporary files and synced before atomic rename, ensuring zero corruption during unexpected process termination.
 3. **Least Privilege**: AEK operates strictly within the invoking user's privilege boundary and does not require elevated permissions.
+

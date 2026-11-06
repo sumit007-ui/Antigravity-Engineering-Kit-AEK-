@@ -48,3 +48,4 @@ jobs:
 
       - name: Execute test suite
         run: cargo test --workspace --verbose
+
