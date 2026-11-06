@@ -327,4 +327,26 @@ impl AgentAdapter for AntigravityAdapter {
 
         output
     }
+
+    fn export_prompt_instruction(
+        &self,
+        prompt: &aek_prompt::model::PromptRecord,
+        target_dir: &Path,
+        dry_run: bool,
+    ) -> Result<PathBuf, AgentError> {
+        let dest = target_dir.join(format!("{}.md", prompt.id));
+        if dry_run {
+            return Ok(dest);
+        }
+
+        std::fs::create_dir_all(target_dir)?;
+        let mut content = format!(
+            "<!-- Exported by AEK (Antigravity Engineering Kit) -->\n<!-- Prompt: {} (v{}) -->\n\n",
+            prompt.name, prompt.version
+        );
+        content.push_str(prompt.active_content());
+
+        std::fs::write(&dest, content)?;
+        Ok(dest)
+    }
 }

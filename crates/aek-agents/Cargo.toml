@@ -16,6 +16,7 @@ aek-skills = { workspace = true }
 aek-mcp = { workspace = true }
 aek-languages = { workspace = true }
 aek-validation = { workspace = true }
+aek-prompt = { workspace = true }
 thiserror.workspace = true
 serde = { workspace = true }
 serde_json.workspace = true

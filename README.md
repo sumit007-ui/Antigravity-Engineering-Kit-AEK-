@@ -40,6 +40,8 @@ The workspace is organized into modular Rust crates:
 - [`crates/aek-mcp-integrations`](crates/aek-mcp-integrations): Official MCP server configuration adapters (Context7, GitHub, Playwright, Sequential Thinking, Filesystem).
 - [`crates/aek-languages`](crates/aek-languages): Language provider interface, toolchain registry, project detection, and diagnostics.
 - [`crates/aek-validation`](crates/aek-validation): 8-stage verification pipeline, execution sandbox, and structured reporting.
+- [`crates/aek-prompt`](crates/aek-prompt): Prompt data structures, template engine, atomic version control, metric calculators, and injection defense.
+- [`crates/aek-prompt-adapters`](crates/aek-prompt-adapters): Pluggable adapters for Prompt Optimizer, Stanford DSPy (Python bridge), and Promptfoo CLI.
 - [`crates/aek-cli`](crates/aek-cli): User-facing command-line interface (`aek`).
 
 ---
@@ -106,6 +108,22 @@ aek doctor
 aek profile list
 aek profile apply engineering
 
+# Language Toolchains & Multi-Project Validation
+aek language detect
+aek language doctor rust
+aek validate --dry-run
+aek validate
+
+# AI Prompt Optimization & Evaluation
+aek prompt list
+aek prompt show rust-lru
+aek prompt optimize rust-lru --adapter prompt-optimizer --dry-run
+aek prompt evaluate rust-lru --dataset datasets/examples/rust.jsonl
+aek prompt versions rust-lru
+aek prompt export rust-lru --dry-run
+aek prompt doctor
+aek prompt adapters
+
 # Configuration & Backups
 aek config show
 aek config validate
@@ -125,6 +143,13 @@ aek backup list
 - [Engineering Rules Overview](docs/rules.md)
 - [Specialized Agent Skills](docs/skills.md)
 - [Skill Authoring Guide](docs/skill-authoring.md)
+- [Language Toolchain Architecture](docs/languages.md)
+- [Multi-Project Validation Pipeline](docs/validation.md)
+- [Prompt Engine Architecture](docs/prompt-engine.md)
+- [Prompt Optimization & Adapters](docs/prompt-optimization.md)
+- [Prompt Evaluation & Benchmarking](docs/prompt-evaluation.md)
+- [Prompt Security & Injection Defense](docs/prompt-security.md)
+- [Prompt Versioning & Rollback](docs/prompt-versioning.md)
 - [CLI Reference Manual](docs/cli-reference.md)
 - [Security Architecture & Invariants](docs/security.md)
 

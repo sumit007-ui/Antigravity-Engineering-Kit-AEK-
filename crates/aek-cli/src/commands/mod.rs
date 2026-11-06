@@ -8,6 +8,7 @@ pub mod init;
 pub mod language;
 pub mod mcp;
 pub mod profile;
+pub mod prompt;
 pub mod restore;
 pub mod rules;
 pub mod skills;

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PromptRecord",
+  "description": "Schema for versioned prompt artifacts in AEK",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "description",
+    "version",
+    "original_content",
+    "status",
+    "created_at",
+    "content_hash"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "version": { "type": "string" },
+    "original_content": { "type": "string" },
+    "optimized_content": { "type": ["string", "null"] },
+    "template_variables": { "type": "array", "items": { "type": "string" } },
+    "constraints": { "type": "array", "items": { "type": "string" } },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "optimized", "evaluated", "approved", "deprecated"]
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "content_hash": { "type": "string" },
+    "provenance": { "type": "string" }
+  }
+}

@@ -1,0 +1,20 @@
+description: "AEK Automated Prompt Evaluation Suite"
+
+prompts:
+  - "file://prompts/templates/engineering_default.txt"
+
+providers:
+  - "echo"
+
+defaultTest:
+  options:
+    temperature: 0.1
+
+tests:
+  - description: "Verify constraint adherence and JSON schema validity"
+    vars:
+      query: "Generate a thread-safe connection pool in Rust."
+    assert:
+      - type: icontains
+        value: "pool"
+      - type: is-json

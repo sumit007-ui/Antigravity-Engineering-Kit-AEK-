@@ -130,4 +130,12 @@ pub trait AgentAdapter: Send + Sync {
 
     /// Generates structured validation guidance and commands for the workspace.
     fn generate_validation_guidance(&self, workspace: &Path) -> String;
+
+    /// Exports an optimized prompt into the agent's instructions directory.
+    fn export_prompt_instruction(
+        &self,
+        prompt: &aek_prompt::model::PromptRecord,
+        target_dir: &Path,
+        dry_run: bool,
+    ) -> Result<PathBuf, AgentError>;
 }

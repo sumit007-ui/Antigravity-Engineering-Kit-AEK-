@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EvaluationReport",
+  "description": "Schema for prompt evaluation execution reports in AEK",
+  "type": "object",
+  "required": [
+    "prompt_id",
+    "dataset_name",
+    "total_cases",
+    "passed_cases",
+    "constraint_satisfaction_rate",
+    "schema_validity_rate"
+  ],
+  "properties": {
+    "prompt_id": { "type": "string" },
+    "dataset_name": { "type": "string" },
+    "total_cases": { "type": "integer" },
+    "passed_cases": { "type": "integer" },
+    "constraint_satisfaction_rate": { "type": "number" },
+    "schema_validity_rate": { "type": "number" },
+    "duration_ms": { "type": "integer" }
+  }
+}

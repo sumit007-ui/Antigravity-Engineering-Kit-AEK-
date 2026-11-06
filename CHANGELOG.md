@@ -5,6 +5,33 @@ All notable changes to the Antigravity Engineering Kit (AEK) will be documented 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-11-06
+
+### Added
+- Phase 6 AI Prompt Optimization & Evaluation Engine:
+  - New `aek-prompt` crate:
+    - Data models for versioned prompts (`PromptRecord`), lifecycle states (`PromptStatus`: Draft, Optimized, Evaluated, Approved, Deprecated), and cryptographic provenance tracking via SHA-256 (`compute_sha256`).
+    - Deterministic template engine (`PromptTemplate`) supporting variable extraction and safe template substitution (`{{variable}}`).
+    - Version manager (`PromptVersionManager`) with atomic persistence (write-to-temp-and-rename), directory listing, diffing (`PromptComparison`), and instant rollback.
+    - Bounded thread-safe in-memory cache (`PromptCache`) with LRU eviction.
+    - Dataset manager (`DatasetManager`) supporting JSON and JSONL datasets, duplicate ID validation, and deterministic (train, val, test) splitting.
+    - Deterministic evaluation metric calculator (`EvaluationMetricCalculator`) computing constraint satisfaction scores, penalizing negative constraint violations, and verifying output schema compliance (JSON and Markdown).
+    - Context engineering pipeline (`ContextAssembler`) extracting intent, negative constraints, and assembling guidelines.
+    - Adversarial security scanner (`detect_injection_risk`) catching prompt injections and delimiter breakout attacks with template variable sanitization (`sanitize_template_variable`).
+  - New `aek-prompt-adapters` crate:
+    - `PromptOptimizerAdapter`: Native Rust structured prompt optimization engine implementing identity, domain profile, ruthless precision engineering invariants, step-by-step workflow, and deterministic output schema based on `linshenkx/prompt-optimizer`.
+    - `DspyAdapter`: Subprocess bridge to Stanford DSPy (`BootstrapFewShot` teleprompter) via JSON stdin/file IPC, featuring an automated internal deterministic compiler fallback mode when Python or DSPy is offline.
+    - `PromptfooAdapter`: Evaluation and red-teaming bridge generating `promptfooconfig.yaml` and orchestrating `promptfoo eval` / `npx promptfoo eval`.
+  - CLI Command Suite under `aek prompt`:
+    - `list`, `show`, `create`, `versions`, `diff`, `rollback`, `optimize`, `evaluate`, `benchmark`, `compare`, `export`, `doctor`, and `adapters`.
+  - Reference Datasets & Schemas:
+    - 10 domain evaluation datasets under `datasets/examples/`: `rust.jsonl`, `go.jsonl`, `cpp.jsonl`, `zig.jsonl`, `python.jsonl`, `flutter.jsonl`, `ros2.jsonl`, `security.jsonl`, `review.jsonl`, `prompt_engineering.jsonl`.
+    - JSON schemas: `schemas/prompt.schema.json`, `schemas/dataset.schema.json`, `schemas/evaluation.schema.json`.
+    - Example prompt templates in `prompts/examples/rust_lru.json` and `prompts/templates/engineering_default.txt`.
+  - Google Antigravity Integration:
+    - Extended `AgentAdapter` with `export_prompt_instruction` method to export versioned prompt instructions into Antigravity instruction trees.
+  - Comprehensive unit, integration, and CLI tests (119 workspace tests passing).
+
 ## [0.5.0] - 2026-11-06
 
 ### Added

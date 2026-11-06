@@ -10,6 +10,8 @@ members = [
     "crates/aek-mcp-integrations",
     "crates/aek-languages",
     "crates/aek-validation",
+    "crates/aek-prompt",
+    "crates/aek-prompt-adapters",
     "crates/aek-cli",
 ]
 resolver = "2"
@@ -35,6 +37,8 @@ aek-mcp = { path = "crates/aek-mcp", version = "0.1.0" }
 aek-mcp-integrations = { path = "crates/aek-mcp-integrations", version = "0.1.0" }
 aek-languages = { path = "crates/aek-languages", version = "0.1.0" }
 aek-validation = { path = "crates/aek-validation", version = "0.1.0" }
+aek-prompt = { path = "crates/aek-prompt", version = "0.1.0" }
+aek-prompt-adapters = { path = "crates/aek-prompt-adapters", version = "0.1.0" }
 
 # Error handling
 thiserror = "2.0.11"
@@ -65,6 +69,7 @@ tracing-subscriber = { version = "0.3.19", features = ["env-filter", "fmt"] }
 tempfile = "3.16.0"
 directories = "6.0.0"
 semver = { version = "1.0.25", features = ["serde"] }
+sha2 = "0.10.8"
 
 [profile.release]
 opt-level = 3

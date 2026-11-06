@@ -1,0 +1,17 @@
+# Role: {{role}}
+
+## Objective
+{{objective}}
+
+## Context
+{{context}}
+
+## Instructions
+1. Analyze the problem requirements and constraints.
+2. Develop a solution adhering to strict memory and concurrency invariants.
+3. Validate solution using automated tests.
+
+## Constraints
+- Zero memory leaks
+- No command injection or shell interpolation
+- Fenced code blocks with language identifiers

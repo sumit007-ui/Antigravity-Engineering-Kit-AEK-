@@ -223,3 +223,48 @@ aek validate --full
 # Output structured JSON validation report
 aek validate --json
 ```
+
+---
+
+## 9. Prompt Optimization & Evaluation (`aek prompt`)
+
+```bash
+# List all registered prompt templates and records
+aek prompt list [--json]
+
+# Show details, metadata, and active content of a prompt record
+aek prompt show <ID> [--json]
+
+# Create and register a new prompt record
+aek prompt create <ID> [--name <TITLE>] [--description <DESC>] [--file <PATH>]
+
+# List historical versions for a prompt
+aek prompt versions <ID> [--json]
+
+# Compare content diff between prompt versions
+aek prompt diff <ID> [--ver-a <V1>] [--ver-b <V2>]
+
+# Roll back a prompt to a previous version
+aek prompt rollback <ID> <VERSION>
+
+# Optimize a prompt using prompt-optimizer, dspy, or generic adapter
+aek prompt optimize <ID> [--adapter <NAME>] [--dry-run] [--no-cache] [--json]
+
+# Evaluate a prompt against an evaluation dataset
+aek prompt evaluate <ID> [--dataset <PATH>] [--json]
+
+# Run benchmark comparison for a prompt
+aek prompt benchmark <ID> [--dataset <PATH>]
+
+# Compare evaluation results between two prompt versions
+aek prompt compare <ID> <VERSION_A> <VERSION_B>
+
+# Export a prompt into AI coding agent instruction directory
+aek prompt export <ID> [--agent <NAME>] [--target <DIR>] [--dry-run]
+
+# Audit prompt optimization and evaluation toolchain environment
+aek prompt doctor
+
+# List available prompt optimization adapters and statuses
+aek prompt adapters
+```

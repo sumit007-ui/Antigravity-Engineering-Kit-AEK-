@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EvaluationCase",
+  "description": "Schema for individual prompt evaluation cases in AEK",
+  "type": "object",
+  "required": [
+    "id",
+    "input_prompt",
+    "expected_properties",
+    "constraints",
+    "evaluation_criteria"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "input_prompt": { "type": "string" },
+    "context": { "type": ["string", "null"] },
+    "expected_properties": { "type": "array", "items": { "type": "string" } },
+    "constraints": { "type": "array", "items": { "type": "string" } },
+    "evaluation_criteria": { "type": "string" },
+    "reference_output": { "type": ["string", "null"] },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  }
+}

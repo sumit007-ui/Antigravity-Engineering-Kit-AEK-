@@ -61,6 +61,9 @@ pub enum Commands {
     /// Project-aware validation pipeline execution across detected language projects.
     Validate(ValidateArgs),
 
+    /// AI prompt optimization, evaluation, dataset benchmarking, and versioning.
+    Prompt(PromptArgs),
+
     /// Create or list verified configuration backups.
     Backup(BackupArgs),
 
@@ -641,4 +644,193 @@ pub struct ValidateArgs {
     /// Emit machine-readable JSON output.
     #[arg(long)]
     pub json: bool,
+}
+
+/// Arguments for `aek prompt`.
+#[derive(Args, Debug, Clone)]
+pub struct PromptArgs {
+    #[command(subcommand)]
+    pub command: PromptSubcommand,
+}
+
+/// Subcommands under `aek prompt`.
+#[derive(Subcommand, Debug, Clone)]
+pub enum PromptSubcommand {
+    /// List all registered prompt templates and versioned prompts.
+    List {
+        /// Emit machine-readable JSON output.
+        #[arg(long)]
+        json: bool,
+    },
+
+    /// Show details, metadata, and content of a prompt record.
+    Show {
+        /// Unique prompt identifier.
+        id: String,
+
+        /// Emit machine-readable JSON output.
+        #[arg(long)]
+        json: bool,
+    },
+
+    /// Create and register a new prompt record.
+    Create(PromptCreateArgs),
+
+    /// List all historical versions for a prompt.
+    Versions {
+        /// Unique prompt identifier.
+        id: String,
+
+        /// Emit machine-readable JSON output.
+        #[arg(long)]
+        json: bool,
+    },
+
+    /// Compare content diff between prompt versions.
+    Diff {
+        /// Unique prompt identifier.
+        id: String,
+
+        /// First version (defaults to earlier version).
+        #[arg(long)]
+        ver_a: Option<String>,
+
+        /// Second version (defaults to latest version).
+        #[arg(long)]
+        ver_b: Option<String>,
+    },
+
+    /// Roll back a prompt to a previous version.
+    Rollback {
+        /// Unique prompt identifier.
+        id: String,
+
+        /// Target version to restore.
+        version: String,
+    },
+
+    /// Optimize a prompt using the configured prompt optimization adapter.
+    Optimize(PromptOptimizeArgs),
+
+    /// Evaluate a prompt against an evaluation dataset.
+    Evaluate(PromptEvaluateArgs),
+
+    /// Run benchmark comparison for a prompt.
+    Benchmark(PromptBenchmarkArgs),
+
+    /// Compare evaluation results between two prompt versions.
+    Compare(PromptCompareArgs),
+
+    /// Export a prompt into an AI coding agent instruction directory.
+    Export(PromptExportArgs),
+
+    /// Audit prompt optimization and evaluation toolchain environment.
+    Doctor,
+
+    /// List available prompt optimization adapters and their operational statuses.
+    Adapters,
+}
+
+/// Arguments for `aek prompt create`.
+#[derive(Args, Debug, Clone)]
+pub struct PromptCreateArgs {
+    /// Unique prompt identifier.
+    pub id: String,
+
+    /// Human-readable title.
+    #[arg(short, long)]
+    pub name: Option<String>,
+
+    /// Description of task purpose.
+    #[arg(short, long)]
+    pub description: Option<String>,
+
+    /// Path to file containing prompt text (reads from stdin if omitted).
+    #[arg(short, long)]
+    pub file: Option<PathBuf>,
+}
+
+/// Arguments for `aek prompt optimize`.
+#[derive(Args, Debug, Clone)]
+pub struct PromptOptimizeArgs {
+    /// Prompt identifier to optimize.
+    pub id: Option<String>,
+
+    /// Optional raw input file to optimize directly.
+    #[arg(short, long)]
+    pub input: Option<PathBuf>,
+
+    /// Optimization adapter (prompt-optimizer, dspy, or generic).
+    #[arg(short, long, default_value = "prompt-optimizer")]
+    pub adapter: String,
+
+    /// Preview optimized output without updating version record.
+    #[arg(long)]
+    pub dry_run: bool,
+
+    /// Bypass memory optimization cache.
+    #[arg(long)]
+    pub no_cache: bool,
+
+    /// Emit machine-readable JSON output.
+    #[arg(long)]
+    pub json: bool,
+}
+
+/// Arguments for `aek prompt evaluate`.
+#[derive(Args, Debug, Clone)]
+pub struct PromptEvaluateArgs {
+    /// Prompt identifier to evaluate.
+    pub id: Option<String>,
+
+    /// Path to evaluation dataset (JSON or JSONL).
+    #[arg(short, long)]
+    pub dataset: Option<PathBuf>,
+
+    /// Emit machine-readable JSON output.
+    #[arg(long)]
+    pub json: bool,
+}
+
+/// Arguments for `aek prompt benchmark`.
+#[derive(Args, Debug, Clone)]
+pub struct PromptBenchmarkArgs {
+    /// Prompt identifier to benchmark.
+    pub id: String,
+
+    /// Dataset path to benchmark against.
+    #[arg(short, long)]
+    pub dataset: Option<PathBuf>,
+}
+
+/// Arguments for `aek prompt compare`.
+#[derive(Args, Debug, Clone)]
+pub struct PromptCompareArgs {
+    /// Prompt identifier.
+    pub id: String,
+
+    /// First version.
+    pub version_a: String,
+
+    /// Second version.
+    pub version_b: String,
+}
+
+/// Arguments for `aek prompt export`.
+#[derive(Args, Debug, Clone)]
+pub struct PromptExportArgs {
+    /// Prompt identifier to export.
+    pub id: String,
+
+    /// Target agent identifier (default: antigravity).
+    #[arg(short, long, default_value = "antigravity")]
+    pub agent: String,
+
+    /// Target output directory.
+    #[arg(short, long)]
+    pub target: Option<PathBuf>,
+
+    /// Preview export destination without writing to disk.
+    #[arg(long)]
+    pub dry_run: bool,
 }
