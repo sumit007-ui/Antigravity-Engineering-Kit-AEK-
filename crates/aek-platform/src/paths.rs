@@ -24,25 +24,33 @@ impl PlatformPaths {
     /// Resolves standard directories using the host platform conventions without hardcoding.
     #[must_use]
     pub fn resolve() -> Self {
-        let proj_dirs = ProjectDirs::from("com", "antigravity", "aek");
-        let base_dirs = BaseDirs::new();
-
-        let (config_dir, data_dir, cache_dir) = match proj_dirs {
-            Some(dirs) => (
-                dirs.config_dir().to_path_buf(),
-                dirs.data_dir().to_path_buf(),
-                dirs.cache_dir().to_path_buf(),
-            ),
-            None => {
-                let fallback = PathBuf::from(".aek");
-                (
-                    fallback.join("config"),
-                    fallback.join("data"),
-                    fallback.join("cache"),
-                )
+        let (config_dir, data_dir, cache_dir) = if let Ok(custom) = std::env::var("AEK_CONFIG_DIR") {
+            let custom_p = PathBuf::from(custom);
+            (
+                custom_p.clone(),
+                custom_p.join("data"),
+                custom_p.join("cache"),
+            )
+        } else {
+            let proj_dirs = ProjectDirs::from("com", "antigravity", "aek");
+            match proj_dirs {
+                Some(dirs) => (
+                    dirs.config_dir().to_path_buf(),
+                    dirs.data_dir().to_path_buf(),
+                    dirs.cache_dir().to_path_buf(),
+                ),
+                None => {
+                    let fallback = PathBuf::from(".aek");
+                    (
+                        fallback.join("config"),
+                        fallback.join("data"),
+                        fallback.join("cache"),
+                    )
+                }
             }
         };
 
+        let base_dirs = BaseDirs::new();
         let config_file = config_dir.join("config.toml");
         let backup_dir = data_dir.join("backups");
 

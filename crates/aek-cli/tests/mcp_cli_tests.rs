@@ -1,8 +1,11 @@
 // Integration tests for `aek mcp` CLI subcommands
+use tempfile::tempdir;
 
 #[test]
 fn test_cli_mcp_list() {
+    let tmp = tempdir().expect("tempdir");
     let output = std::process::Command::new(env!("CARGO_BIN_EXE_aek"))
+        .env("AEK_CONFIG_DIR", tmp.path())
         .args(["mcp", "list"])
         .output()
         .expect("failed to run aek mcp list");
@@ -17,7 +20,9 @@ fn test_cli_mcp_list() {
 
 #[test]
 fn test_cli_mcp_list_json() {
+    let tmp = tempdir().expect("tempdir");
     let output = std::process::Command::new(env!("CARGO_BIN_EXE_aek"))
+        .env("AEK_CONFIG_DIR", tmp.path())
         .args(["mcp", "list", "--json"])
         .output()
         .expect("failed to run aek mcp list --json");
@@ -31,7 +36,9 @@ fn test_cli_mcp_list_json() {
 
 #[test]
 fn test_cli_mcp_show() {
+    let tmp = tempdir().expect("tempdir");
     let output = std::process::Command::new(env!("CARGO_BIN_EXE_aek"))
+        .env("AEK_CONFIG_DIR", tmp.path())
         .args(["mcp", "show", "context7"])
         .output()
         .expect("failed to run aek mcp show context7");
@@ -44,7 +51,9 @@ fn test_cli_mcp_show() {
 
 #[test]
 fn test_cli_mcp_doctor() {
+    let tmp = tempdir().expect("tempdir");
     let output = std::process::Command::new(env!("CARGO_BIN_EXE_aek"))
+        .env("AEK_CONFIG_DIR", tmp.path())
         .args(["mcp", "doctor"])
         .output()
         .expect("failed to run aek mcp doctor");
@@ -57,7 +66,9 @@ fn test_cli_mcp_doctor() {
 
 #[test]
 fn test_cli_mcp_export_antigravity_dry_run() {
+    let tmp = tempdir().expect("tempdir");
     let output = std::process::Command::new(env!("CARGO_BIN_EXE_aek"))
+        .env("AEK_CONFIG_DIR", tmp.path())
         .args(["mcp", "export", "--agent", "antigravity", "--dry-run"])
         .output()
         .expect("failed to run aek mcp export --dry-run");
@@ -69,13 +80,16 @@ fn test_cli_mcp_export_antigravity_dry_run() {
 
 #[test]
 fn test_cli_mcp_enable_disable() {
+    let tmp = tempdir().expect("tempdir");
     let output1 = std::process::Command::new(env!("CARGO_BIN_EXE_aek"))
+        .env("AEK_CONFIG_DIR", tmp.path())
         .args(["mcp", "disable", "context7"])
         .output()
         .expect("failed to run aek mcp disable");
     assert!(output1.status.success());
 
     let output2 = std::process::Command::new(env!("CARGO_BIN_EXE_aek"))
+        .env("AEK_CONFIG_DIR", tmp.path())
         .args(["mcp", "enable", "context7"])
         .output()
         .expect("failed to run aek mcp enable");
