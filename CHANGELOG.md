@@ -5,6 +5,27 @@ All notable changes to the Antigravity Engineering Kit (AEK) will be documented 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-11-06
+
+### Added
+- Phase 5 Advanced Language Toolchain & Project Validation Engine:
+  - New `aek-languages` crate:
+    - Provider architecture supporting 8 language ecosystems: Rust, Go, C/C++, Zig, Python, JavaScript/TypeScript, Flutter/Dart, and ROS 2.
+    - Automatic recursive, bounded-depth project detection (`ProjectDetector`) with symlink cycle protection, ignored build directories, monorepo detection, and ROS 2 manifest verification.
+    - Asynchronous tool discovery engine (`ToolchainDiscovery`) with executable resolution on system PATH, safe version extraction, and thread-safe caching.
+    - Centralized `ToolchainRegistry` with default definitions for compilers, SDKs, linters, and language servers, plus declarative TOML loading.
+    - Ecosystem `CompatibilityEngine` evaluating compiler version constraints and operating system boundaries.
+    - `LanguageDoctor` diagnostic suite auditing toolchain readiness and generating safe installation plans.
+  - New `aek-validation` crate:
+    - Standardized 8-stage validation pipeline (`ValidationPipeline`): Environment, Formatting, Static Analysis, Type Checking, Compilation, Unit Testing, Integration Testing, Build Verification.
+    - Subprocess execution engine (`ValidationExecutor`) with argument arrays, bounded timeouts, exit code capture, and dry-run preview.
+    - Structured JSON report generator (`ValidationReport`) classifying outcomes as Pass, Fail, Skip, Warn, and Error.
+  - Declarative Toolchain Configurations:
+    - `languages/rust.toml`, `languages/go.toml`, `languages/cpp.toml`, `languages/zig.toml`, `languages/python.toml`, `languages/typescript.toml`, `languages/flutter.toml`, `languages/ros2.toml`.
+    - `schemas/language-toolchain.schema.json`.
+  - CLI commands under `aek language` (list, detect, doctor, tools, compatibility, setup, validate) and `aek validate`.
+  - Google Antigravity Adapter enhancements: project language detection, skill recommendations, and validation guidance export.
+
 ## [0.4.0] - 2026-11-06
 
 ### Added

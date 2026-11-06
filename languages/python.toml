@@ -1,0 +1,11 @@
+id = "python-runtime"
+name = "Python Runtime"
+language = "python"
+binary = "python"
+version_args = ["--version"]
+supported_os = ["windows", "linux", "macos"]
+requirement = "required"
+category = "compiler"
+doc_url = "https://docs.python.org/3/"
+install_guidance = "Install Python 3 from https://www.python.org/"
+

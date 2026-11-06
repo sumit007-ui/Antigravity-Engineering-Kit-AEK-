@@ -279,4 +279,52 @@ impl AgentAdapter for AntigravityAdapter {
             dry_run,
         })
     }
+
+    fn recommend_skills_for_path(&self, workspace: &Path) -> Vec<String> {
+        let detector = aek_languages::detection::ProjectDetector::new();
+        let projects = detector.detect(workspace).unwrap_or_default();
+        let mut skills = std::collections::BTreeSet::new();
+
+        for project in &projects {
+            if let Some(provider) = aek_languages::providers::find_provider(&project.language) {
+                for skill in provider.recommended_skills() {
+                    skills.insert(skill.to_string());
+                }
+            }
+        }
+
+        skills.into_iter().collect()
+    }
+
+    fn generate_validation_guidance(&self, workspace: &Path) -> String {
+        let detector = aek_languages::detection::ProjectDetector::new();
+        let projects = detector.detect(workspace).unwrap_or_default();
+
+        if projects.is_empty() {
+            return "No recognizable language projects detected in workspace.".to_string();
+        }
+
+        let mut output = String::from("# Google Antigravity Validation Guidance\n\n");
+        for project in &projects {
+            let pipeline = aek_validation::pipeline::ValidationPipeline::for_project(project);
+            output.push_str(&format!(
+                "## Project: {} ({})\n",
+                project.name, project.language
+            ));
+            output.push_str(&format!("Directory: `{}`\n\n", project.path.display()));
+            output.push_str("Recommended verification commands:\n");
+            for step in &pipeline.steps {
+                output.push_str(&format!(
+                    "- **{}** ({}): `{} {}`\n",
+                    step.name,
+                    step.stage,
+                    step.program,
+                    step.args.join(" ")
+                ));
+            }
+            output.push('\n');
+        }
+
+        output
+    }
 }

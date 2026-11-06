@@ -1,0 +1,11 @@
+id = "go-compiler"
+name = "Go Compiler & Toolchain"
+language = "go"
+binary = "go"
+version_args = ["version"]
+supported_os = ["windows", "linux", "macos"]
+requirement = "required"
+category = "compiler"
+doc_url = "https://go.dev/doc/"
+install_guidance = "Install from https://go.dev/dl/"
+

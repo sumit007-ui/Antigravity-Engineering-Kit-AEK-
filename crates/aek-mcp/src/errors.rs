@@ -56,4 +56,3 @@ pub enum McpError {
     #[error("JSON-RPC serialization/deserialization error: {0}")]
     Json(#[from] serde_json::Error),
 }
-

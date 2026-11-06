@@ -37,6 +37,8 @@ fn main() -> ExitCode {
         Some(Commands::Skills(args)) => commands::skills::execute_skills(&args.action),
         Some(Commands::Agent(args)) => commands::agent::execute_agent(&args.action),
         Some(Commands::Mcp(args)) => commands::mcp::execute_mcp(&args.action),
+        Some(Commands::Language(args)) => commands::language::execute_language(args),
+        Some(Commands::Validate(args)) => commands::validate::execute_validate(args),
         Some(Commands::Backup(args)) => commands::backup::execute_backup(args),
         Some(Commands::Restore(args)) => commands::restore::execute_restore(args),
         None => {

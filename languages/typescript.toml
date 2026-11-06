@@ -1,0 +1,11 @@
+id = "js-node"
+name = "Node.js Runtime"
+language = "javascript"
+binary = "node"
+version_args = ["--version"]
+supported_os = ["windows", "linux", "macos"]
+requirement = "required"
+category = "compiler"
+doc_url = "https://nodejs.org/en/docs"
+install_guidance = "Install Node.js LTS from https://nodejs.org/"
+

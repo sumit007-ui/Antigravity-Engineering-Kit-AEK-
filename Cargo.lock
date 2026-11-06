@@ -8,10 +8,12 @@ version = "0.1.0"
 dependencies = [
  "aek-config",
  "aek-core",
+ "aek-languages",
  "aek-mcp",
  "aek-platform",
  "aek-rules",
  "aek-skills",
+ "aek-validation",
  "serde",
  "serde_json",
  "tempfile",
@@ -26,11 +28,13 @@ dependencies = [
  "aek-agents",
  "aek-config",
  "aek-core",
+ "aek-languages",
  "aek-mcp",
  "aek-mcp-integrations",
  "aek-platform",
  "aek-rules",
  "aek-skills",
+ "aek-validation",
  "anyhow",
  "clap",
  "serde",
@@ -73,6 +77,24 @@ dependencies = [
  "tempfile",
  "thiserror",
  "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "aek-languages"
+version = "0.1.0"
+dependencies = [
+ "aek-core",
+ "aek-platform",
+ "aek-skills",
+ "anyhow",
+ "semver",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror",
+ "tokio",
+ "toml",
  "tracing",
 ]
 
@@ -143,6 +165,24 @@ dependencies = [
  "serde_json",
  "tempfile",
  "thiserror",
+ "tracing",
+]
+
+[[package]]
+name = "aek-validation"
+version = "0.1.0"
+dependencies = [
+ "aek-core",
+ "aek-languages",
+ "aek-platform",
+ "anyhow",
+ "chrono",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror",
+ "tokio",
+ "toml",
  "tracing",
 ]
 

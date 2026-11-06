@@ -1,0 +1,11 @@
+id = "flutter-sdk"
+name = "Flutter SDK"
+language = "flutter"
+binary = "flutter"
+version_args = ["--version"]
+supported_os = ["windows", "linux", "macos"]
+requirement = "required"
+category = "sdk"
+doc_url = "https://docs.flutter.dev/"
+install_guidance = "Install Flutter from https://docs.flutter.dev/get-started/install"
+

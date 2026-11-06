@@ -1,0 +1,11 @@
+id = "ros2-colcon"
+name = "Colcon Build Tool"
+language = "ros2"
+binary = "colcon"
+version_args = ["--version"]
+supported_os = ["windows", "linux"]
+requirement = "required"
+category = "build_system"
+doc_url = "https://colcon.readthedocs.io/"
+install_guidance = "Install via 'pip install colcon-common-extensions'"
+

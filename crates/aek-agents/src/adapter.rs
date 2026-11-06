@@ -124,4 +124,10 @@ pub trait AgentAdapter: Send + Sync {
         target_dir: &Path,
         dry_run: bool,
     ) -> Result<InstallReport, AgentError>;
+
+    /// Analyzes the workspace for languages and recommends relevant skills.
+    fn recommend_skills_for_path(&self, workspace: &Path) -> Vec<String>;
+
+    /// Generates structured validation guidance and commands for the workspace.
+    fn generate_validation_guidance(&self, workspace: &Path) -> String;
 }

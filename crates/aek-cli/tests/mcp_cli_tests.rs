@@ -81,4 +81,3 @@ fn test_cli_mcp_enable_disable() {
         .expect("failed to run aek mcp enable");
     assert!(output2.status.success());
 }
-

@@ -1,0 +1,11 @@
+id = "rust-cargo"
+name = "Cargo"
+language = "rust"
+binary = "cargo"
+version_args = ["--version"]
+supported_os = ["windows", "linux", "macos"]
+requirement = "required"
+category = "package_manager"
+doc_url = "https://doc.rust-lang.org/cargo/"
+install_guidance = "Install via rustup from https://rustup.rs/"
+

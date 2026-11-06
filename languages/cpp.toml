@@ -1,0 +1,11 @@
+id = "cpp-cmake"
+name = "CMake Build System"
+language = "cpp"
+binary = "cmake"
+version_args = ["--version"]
+supported_os = ["windows", "linux", "macos"]
+requirement = "required"
+category = "build_system"
+doc_url = "https://cmake.org/documentation/"
+install_guidance = "Install CMake from https://cmake.org/download/"
+

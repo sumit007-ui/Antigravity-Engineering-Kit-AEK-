@@ -1,0 +1,11 @@
+id = "zig-compiler"
+name = "Zig Compiler & Build Tool"
+language = "zig"
+binary = "zig"
+version_args = ["version"]
+supported_os = ["windows", "linux", "macos"]
+requirement = "required"
+category = "compiler"
+doc_url = "https://ziglang.org/documentation/"
+install_guidance = "Download from https://ziglang.org/download/"
+

@@ -55,6 +55,12 @@ pub enum Commands {
     /// Model Context Protocol (MCP) server lifecycle, discovery, and tool management.
     Mcp(McpArgs),
 
+    /// Language toolchain management, project detection, and diagnostics.
+    Language(LanguageArgs),
+
+    /// Project-aware validation pipeline execution across detected language projects.
+    Validate(ValidateArgs),
+
     /// Create or list verified configuration backups.
     Backup(BackupArgs),
 
@@ -512,4 +518,127 @@ pub struct RestoreArgs {
     /// Directory containing backups.
     #[arg(short, long)]
     pub backup_dir: Option<PathBuf>,
+}
+
+/// Arguments for `aek language`.
+#[derive(Args, Debug, Clone)]
+pub struct LanguageArgs {
+    #[command(subcommand)]
+    pub command: LanguageSubcommand,
+}
+
+/// Subcommands under `aek language`.
+#[derive(Subcommand, Debug, Clone)]
+pub enum LanguageSubcommand {
+    /// List all supported language ecosystems.
+    List,
+
+    /// Detect language projects in current or specified workspace.
+    Detect(LanguageDetectArgs),
+
+    /// Audit language toolchains and environment health.
+    Doctor(LanguageDoctorArgs),
+
+    /// Inspect standard tools registered for a specific language.
+    Tools(LanguageToolsArgs),
+
+    /// Check toolchain and project compatibility for a language.
+    Compatibility(LanguageCompatibilityArgs),
+
+    /// Generate or inspect safe installation plan for missing tools.
+    Setup(LanguageSetupArgs),
+
+    /// Execute validation commands for a specific language.
+    Validate(LanguageValidateArgs),
+}
+
+/// Arguments for `aek language detect`.
+#[derive(Args, Debug, Clone)]
+pub struct LanguageDetectArgs {
+    /// Directory path to scan (defaults to current working directory).
+    #[arg(short, long)]
+    pub path: Option<PathBuf>,
+
+    /// Emit machine-readable JSON output.
+    #[arg(long)]
+    pub json: bool,
+}
+
+/// Arguments for `aek language doctor`.
+#[derive(Args, Debug, Clone)]
+pub struct LanguageDoctorArgs {
+    /// Specific language to audit (e.g. rust, go, cpp, zig, python, typescript, flutter, ros2).
+    pub language: Option<String>,
+
+    /// Emit machine-readable JSON output.
+    #[arg(long)]
+    pub json: bool,
+}
+
+/// Arguments for `aek language tools`.
+#[derive(Args, Debug, Clone)]
+pub struct LanguageToolsArgs {
+    /// Language identifier (e.g. rust, go, cpp, zig, python, typescript, flutter, ros2).
+    pub language: String,
+}
+
+/// Arguments for `aek language compatibility`.
+#[derive(Args, Debug, Clone)]
+pub struct LanguageCompatibilityArgs {
+    /// Language identifier to evaluate.
+    pub language: String,
+
+    /// Path to project root (defaults to current working directory).
+    #[arg(short, long)]
+    pub path: Option<PathBuf>,
+}
+
+/// Arguments for `aek language setup`.
+#[derive(Args, Debug, Clone)]
+pub struct LanguageSetupArgs {
+    /// Language identifier (e.g. rust, go, cpp, zig, python, typescript, flutter, ros2).
+    pub language: String,
+
+    /// Preview planned installation commands without executing.
+    #[arg(long)]
+    pub dry_run: bool,
+}
+
+/// Arguments for `aek language validate`.
+#[derive(Args, Debug, Clone)]
+pub struct LanguageValidateArgs {
+    /// Language identifier to validate.
+    pub language: String,
+
+    /// Path to project root (defaults to current working directory).
+    #[arg(short, long)]
+    pub path: Option<PathBuf>,
+
+    /// Preview commands without executing.
+    #[arg(long)]
+    pub dry_run: bool,
+
+    /// Emit machine-readable JSON output.
+    #[arg(long)]
+    pub json: bool,
+}
+
+/// Arguments for `aek validate`.
+#[derive(Args, Debug, Clone)]
+pub struct ValidateArgs {
+    /// Target project directory (defaults to current working directory).
+    #[arg(short, long)]
+    pub path: Option<PathBuf>,
+
+    /// Run full validation including extended stages.
+    #[arg(long)]
+    pub full: bool,
+
+    /// Preview validation commands without execution.
+    #[arg(long)]
+    pub dry_run: bool,
+
+    /// Emit machine-readable JSON output.
+    #[arg(long)]
+    pub json: bool,
 }

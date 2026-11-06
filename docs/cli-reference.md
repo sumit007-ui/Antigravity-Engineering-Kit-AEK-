@@ -178,3 +178,48 @@ aek backup list
 # Restore configuration from a verified backup
 aek restore <BACKUP_ID> [--dry-run]
 ```
+
+---
+
+## 7. Language Toolchain Management (`aek language`)
+
+```bash
+# List all supported programming language ecosystems
+aek language list
+
+# Detect language projects in current or specified workspace
+aek language detect [--path <DIR>] [--json]
+
+# Audit language toolchains and environment health
+aek language doctor [LANGUAGE] [--json]
+
+# Inspect standard tools registered for a specific language
+aek language tools <LANGUAGE>
+
+# Check toolchain and project compatibility
+aek language compatibility <LANGUAGE> [--path <DIR>]
+
+# Generate safe installation plan for missing tools
+aek language setup <LANGUAGE> [--dry-run]
+
+# Execute validation commands for a specific language
+aek language validate <LANGUAGE> [--path <DIR>] [--dry-run] [--json]
+```
+
+---
+
+## 8. Project-Aware Validation (`aek validate`)
+
+```bash
+# Validate all projects detected in workspace
+aek validate [--path <DIR>]
+
+# Preview validation pipeline steps without execution
+aek validate --dry-run
+
+# Run full validation including extended stages
+aek validate --full
+
+# Output structured JSON validation report
+aek validate --json
+```

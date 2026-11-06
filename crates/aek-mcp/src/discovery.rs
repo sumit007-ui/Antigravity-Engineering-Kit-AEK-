@@ -85,4 +85,3 @@ pub struct McpPrompt {
     #[serde(default)]
     pub arguments: Vec<McpPromptArgument>,
 }
-

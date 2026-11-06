@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LanguageToolchain",
+  "description": "Schema for AEK language toolchain definitions",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "language",
+    "binary",
+    "requirement",
+    "category"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this tool"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the tool"
+    },
+    "language": {
+      "type": "string",
+      "description": "Programming language ecosystem identifier"
+    },
+    "binary": {
+      "type": "string",
+      "description": "Executable name on system PATH"
+    },
+    "version_args": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Arguments to query version (e.g. ['--version'])"
+    },
+    "supported_os": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["windows", "linux", "macos"] },
+      "description": "Operating systems where this tool is supported"
+    },
+    "requirement": {
+      "type": "string",
+      "enum": ["required", "optional", "recommended"]
+    },
+    "category": {
+      "type": "string",
+      "enum": ["compiler", "package_manager", "linter", "formatter", "language_server", "debugger", "build_system", "sdk", "other"]
+    },
+    "doc_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "install_guidance": {
+      "type": "string"
+    }
+  }
+}
+

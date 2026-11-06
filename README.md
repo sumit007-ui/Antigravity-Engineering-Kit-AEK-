@@ -11,6 +11,8 @@
 ## Key Features
 
 - **Rust-First Architecture**: Built for memory efficiency (<50 MB idle footprint), deterministic behavior, and zero shell-injection risks.
+- **Language Toolchain Engine (`aek language`)**: Compilers, SDKs, linters, and language servers across 8 major ecosystems (Rust, Go, C/C++, Zig, Python, TypeScript, Flutter, ROS 2).
+- **Project-Aware Validation Engine (`aek validate`)**: Standardized 8-stage verification pipeline (Formatting, Linting, Type Checking, Compilation, Testing) with dry-run support and structured JSON reporting.
 - **Model Context Protocol Engine (`aek mcp`)**: Complete JSON-RPC 2.0 client engine with Stdio and Streamable HTTP transports, dynamic tool discovery, permission classification, and lifecycle supervision.
 - **5 Verified MCP Integrations**: Presets and verified configurations for Context7, GitHub, Playwright, Sequential Thinking, and Filesystem.
 - **Global & Project Engineering Rules (`aek rules`)**: Tiered precedence system (Global -> Workspace -> Project) with size validation (<=24 KB) and token budgeting.
@@ -36,6 +38,8 @@ The workspace is organized into modular Rust crates:
 - [`crates/aek-agents`](crates/aek-agents): Extensible agent adapter trait, Antigravity integration, and native MCP config exporter.
 - [`crates/aek-mcp`](crates/aek-mcp): Reusable MCP client engine, Stdio/HTTP transports, lifecycle state machine, and security policy.
 - [`crates/aek-mcp-integrations`](crates/aek-mcp-integrations): Official MCP server configuration adapters (Context7, GitHub, Playwright, Sequential Thinking, Filesystem).
+- [`crates/aek-languages`](crates/aek-languages): Language provider interface, toolchain registry, project detection, and diagnostics.
+- [`crates/aek-validation`](crates/aek-validation): 8-stage verification pipeline, execution sandbox, and structured reporting.
 - [`crates/aek-cli`](crates/aek-cli): User-facing command-line interface (`aek`).
 
 ---
