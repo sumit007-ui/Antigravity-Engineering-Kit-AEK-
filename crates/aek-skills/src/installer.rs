@@ -112,4 +112,3 @@ pub fn remove_skill(
         dry_run: false,
     })
 }
-

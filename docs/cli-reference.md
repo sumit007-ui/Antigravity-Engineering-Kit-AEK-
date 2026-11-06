@@ -81,7 +81,56 @@ aek agent doctor
 
 ---
 
-## 4. System & Diagnostics
+## 4. Model Context Protocol (`aek mcp`)
+
+```bash
+# List all registered and discovered MCP servers
+aek mcp list [--json]
+
+# Show detailed configuration and transport settings for a server
+aek mcp show <SERVER_ID>
+
+# Register a new MCP server from a TOML configuration file
+aek mcp register <CONFIG_PATH>
+
+# Remove an MCP server from the registry
+aek mcp remove <SERVER_ID>
+
+# Enable or disable an MCP server
+aek mcp enable <SERVER_ID>
+aek mcp disable <SERVER_ID>
+
+# Establish connection and perform handshake with a server
+aek mcp connect <SERVER_ID>
+
+# Disconnect a running server session
+aek mcp disconnect <SERVER_ID>
+
+# Run diagnostics and dependency check on MCP servers
+aek mcp doctor [--server <SERVER_ID>] [--json]
+
+# Query declared capabilities for an MCP server
+aek mcp capabilities <SERVER_ID>
+
+# Discover and list tools offered by an MCP server
+aek mcp tools <SERVER_ID> [--json]
+
+# Install an MCP server into target agent environment
+aek mcp install <SERVER_ID> [--dry-run]
+
+# Uninstall an MCP server package
+aek mcp uninstall <SERVER_ID> [--dry-run]
+
+# Export MCP server configurations to agent format (e.g. Google Antigravity)
+aek mcp export --agent antigravity [--target <PATH>] [--dry-run]
+
+# Invoke an MCP tool with JSON arguments
+aek mcp call <SERVER_ID> <TOOL_NAME> [--input <JSON_ARGS>]
+```
+
+---
+
+## 5. System & Diagnostics
 
 ```bash
 # Initialize AEK environment and configuration

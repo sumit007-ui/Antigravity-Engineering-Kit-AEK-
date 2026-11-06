@@ -1,0 +1,21 @@
+id = "sequential-thinking"
+name = "Sequential Thinking Reasoning Server"
+description = "Dynamic multi-step structured reasoning and hypothesis validation"
+enabled = true
+timeout_seconds = 30
+requires_auth = false
+auth_env_vars = []
+required_dependencies = ["npx", "node"]
+version = "1.0.0"
+
+[transport]
+type = "stdio"
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+
+[permissions]
+allow_read_only = true
+allow_filesystem_write = false
+allow_network_write = false
+allow_sensitive = false
+allowed_paths = []

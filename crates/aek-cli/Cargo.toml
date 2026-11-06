@@ -18,6 +18,9 @@ aek-platform = { workspace = true }
 aek-rules = { workspace = true }
 aek-skills = { workspace = true }
 aek-agents = { workspace = true }
+aek-mcp = { workspace = true }
+aek-mcp-integrations = { workspace = true }
+toml = { workspace = true }
 clap = { workspace = true }
 tokio = { workspace = true }
 thiserror.workspace = true

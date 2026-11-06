@@ -1,0 +1,20 @@
+id = "context7"
+name = "Context7 Library Documentation"
+description = "Fetch up-to-date documentation for open-source frameworks and libraries"
+enabled = true
+timeout_seconds = 20
+requires_auth = false
+auth_env_vars = []
+required_dependencies = []
+version = "1.0.0"
+
+[transport]
+type = "http"
+url = "https://mcp.context7.com/mcp"
+
+[permissions]
+allow_read_only = true
+allow_filesystem_write = false
+allow_network_write = false
+allow_sensitive = false
+allowed_paths = []

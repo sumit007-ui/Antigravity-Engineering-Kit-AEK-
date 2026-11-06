@@ -37,6 +37,25 @@ Based on inspection of the official Antigravity customization guides, built-in s
   - `description` (string, required): Third-person description specifying **what** the skill does and **when** it activates.
 - **Progressive Disclosure**: Only skill names and descriptions are injected into the agent system prompt. The full `SKILL.md` body is loaded on-demand when the skill is activated.
 
+### 1.4 Model Context Protocol (MCP) Configuration
+- **Native Configuration Format**: JSON file `mcp_config.json` placed at `~/.gemini/config/mcp_config.json` or `<workspace>/.gemini/mcp_config.json`.
+- **Structure**:
+  ```json
+  {
+    "mcpServers": {
+      "<server-id>": {
+        "command": "npx",
+        "args": ["-y", "..."],
+        "env": { "KEY": "VAL" }
+      },
+      "<http-server-id>": {
+        "url": "https://..."
+      }
+    }
+  }
+  ```
+- **AEK Integration**: AEK's `AntigravityAdapter` safely merges registered MCP servers into `mcpServers` without clobbering existing user configurations, generating pre-write timestamped backups for rollback safety.
+
 ---
 
 ## 2. Unsupported Features & AEK-Managed Equivalents

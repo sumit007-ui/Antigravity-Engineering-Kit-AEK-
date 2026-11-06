@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AekMcpServerConfig",
+  "description": "Schema definition for an Antigravity Engineering Kit (AEK) MCP Server configuration",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Unique lowercase alphanumeric identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable display name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of server capabilities"
+    },
+    "transport": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["stdio", "http"]
+        },
+        "command": { "type": "string" },
+        "args": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "env": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "url": { "type": "string" },
+        "headers": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "required": ["type"]
+    },
+    "enabled": { "type": "boolean" },
+    "timeout_seconds": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "requires_auth": { "type": "boolean" },
+    "auth_env_vars": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "required_dependencies": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "allow_read_only": { "type": "boolean" },
+        "allow_filesystem_write": { "type": "boolean" },
+        "allow_network_write": { "type": "boolean" },
+        "allow_sensitive": { "type": "boolean" },
+        "allowed_paths": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "version": { "type": "string" }
+  },
+  "required": ["id", "name", "description", "transport"]
+}

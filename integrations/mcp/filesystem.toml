@@ -1,0 +1,21 @@
+id = "filesystem"
+name = "Restricted Filesystem MCP"
+description = "Controlled read and write access strictly limited to designated workspace directories"
+enabled = true
+timeout_seconds = 30
+requires_auth = false
+auth_env_vars = []
+required_dependencies = ["npx", "node"]
+version = "1.0.0"
+
+[transport]
+type = "stdio"
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-filesystem", "./scratch"]
+
+[permissions]
+allow_read_only = true
+allow_filesystem_write = true
+allow_network_write = false
+allow_sensitive = false
+allowed_paths = ["./scratch"]

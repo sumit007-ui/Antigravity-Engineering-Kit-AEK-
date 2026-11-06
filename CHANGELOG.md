@@ -5,6 +5,47 @@ All notable changes to the Antigravity Engineering Kit (AEK) will be documented 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2026-11-06
+
+### Added
+- Phase 4 Rust MCP Integration Framework:
+  - New `aek-mcp` crate:
+    - Reusable asynchronous `McpClient` implementing JSON-RPC 2.0 handshake (`protocolVersion: 2024-11-05`), capability negotiation (`tools`, `resources`, `prompts`), dynamic tool listing, and tool invocation.
+    - `McpTransport` trait supporting `StdioTransport` (Tokio child process, non-blocking stderr capture, process supervision, timeouts) and `HttpTransport` (Reqwest, verified Rustls TLS, timeouts).
+    - `ServerLifecycle` state machine (`DISCONNECTED`, `CONNECTING`, `INITIALIZING`, `READY`, `DEGRADED`, `FAILED`, `STOPPING`) with transition validation.
+    - Typed `McpServerRegistry` with TOML configuration persistence, dynamic directory loading, validation, and enable/disable states.
+    - Security engine: tool risk classification (`READ_ONLY`, `FILESYSTEM_WRITE`, `NETWORK_WRITE`, `SENSITIVE`, `UNKNOWN`), secret credential redaction (bearer tokens, GitHub PATs, passwords), and path containment verification.
+    - `McpDoctor` diagnostic engine auditing executable presence on PATH, authentication environment variables, and secure endpoints.
+  - New `aek-mcp-integrations` crate:
+    - Built-in configuration adapters and presets for 5 standard MCP servers:
+      - Context7 (`upstash/context7`)
+      - GitHub (`@modelcontextprotocol/server-github`)
+      - Playwright (`@playwright/mcp@latest`)
+      - Sequential Thinking (`@modelcontextprotocol/server-sequential-thinking`)
+      - Restricted Filesystem (`@modelcontextprotocol/server-filesystem`)
+  - Integration Configurations & Schemas:
+    - `integrations/mcp/registry.toml`, `context7.toml`, `github.toml`, `playwright.toml`, `sequential-thinking.toml`, `filesystem.toml`.
+    - `schemas/mcp-server.schema.json`.
+  - Google Antigravity MCP Adapter:
+    - Extended `AntigravityAdapter` in `aek-agents` with `export_mcp_config`, `merge_mcp_config`, conflict detection, dry-run previews, and automatic safety backups of `mcp_config.json`.
+  - CLI Subcommands under `aek mcp`:
+    - `aek mcp list [--json]`
+    - `aek mcp show <server>`
+    - `aek mcp register <config>`
+    - `aek mcp remove <server>`
+    - `aek mcp enable <server>` / `disable <server>`
+    - `aek mcp connect <server>` / `disconnect <server>`
+    - `aek mcp doctor [--server <server>] [--json]`
+    - `aek mcp capabilities <server>`
+    - `aek mcp tools <server> [--json]`
+    - `aek mcp install <server> [--dry-run]` / `uninstall <server> [--dry-run]`
+    - `aek mcp export --agent antigravity [--target <path>] [--dry-run]`
+    - `aek mcp call <server> <tool> [--input <json>]`
+  - Documentation Suite:
+    - `docs/mcp-architecture.md`, `docs/mcp-security.md`, `docs/mcp-integrations.md`, `docs/mcp-troubleshooting.md`, updated `docs/cli-reference.md` and `docs/compatibility/antigravity.md`.
+  - Comprehensive Unit and Integration Test Suites:
+    - `mcp_cli_tests.rs`, `mcp_client_tests.rs`, `registry_tests.rs`, `security_tests.rs`, `integrations_tests.rs`, `antigravity_mcp_tests.rs` (72 total tests passing).
+
 ## [0.3.0] - 2026-11-06
 
 ### Added

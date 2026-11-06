@@ -52,6 +52,9 @@ pub enum Commands {
     /// Antigravity and AI agent integration, capability discovery, and installation.
     Agent(AgentArgs),
 
+    /// Model Context Protocol (MCP) server lifecycle, discovery, and tool management.
+    Mcp(McpArgs),
+
     /// Create or list verified configuration backups.
     Backup(BackupArgs),
 
@@ -326,6 +329,141 @@ pub enum AgentSubcommand {
 
     /// Inspect agent integration health and configuration validity.
     Doctor,
+}
+
+/// Arguments for `aek mcp`.
+#[derive(Args, Debug)]
+pub struct McpArgs {
+    #[command(subcommand)]
+    pub action: McpSubcommand,
+}
+
+/// Subcommands under `aek mcp`.
+#[derive(Subcommand, Debug)]
+pub enum McpSubcommand {
+    /// List all registered and discovered MCP servers.
+    List {
+        /// Format output as JSON.
+        #[arg(long)]
+        json: bool,
+    },
+
+    /// Show detailed configuration and transport settings for a server.
+    Show {
+        /// Unique server identifier.
+        name: String,
+    },
+
+    /// Register a new MCP server from a configuration TOML file.
+    Register {
+        /// Path to the server TOML configuration file.
+        config: PathBuf,
+    },
+
+    /// Remove an MCP server from the registry.
+    Remove {
+        /// Server identifier to remove.
+        name: String,
+    },
+
+    /// Enable a registered MCP server.
+    Enable {
+        /// Server identifier to enable.
+        name: String,
+    },
+
+    /// Disable an MCP server without removing its configuration.
+    Disable {
+        /// Server identifier to disable.
+        name: String,
+    },
+
+    /// Establish connection and perform handshake with an MCP server.
+    Connect {
+        /// Server identifier to connect.
+        name: String,
+    },
+
+    /// Disconnect and terminate a running MCP server session.
+    Disconnect {
+        /// Server identifier to disconnect.
+        name: String,
+    },
+
+    /// Inspect toolchain dependencies, credentials, and health for MCP servers.
+    Doctor {
+        /// Optional specific server identifier to audit.
+        #[arg(short, long)]
+        server: Option<String>,
+
+        /// Format diagnostic output as JSON.
+        #[arg(long)]
+        json: bool,
+    },
+
+    /// Discover and display declared protocol capabilities for a server.
+    Capabilities {
+        /// Server identifier to query.
+        name: String,
+    },
+
+    /// List all discovered tools offered by an MCP server.
+    Tools {
+        /// Server identifier to query.
+        name: String,
+
+        /// Format output as JSON.
+        #[arg(long)]
+        json: bool,
+    },
+
+    /// Install an MCP server package into target agent or platform environment.
+    Install {
+        /// Server identifier to install.
+        name: String,
+
+        /// Preview installation without modifying filesystem.
+        #[arg(long)]
+        dry_run: bool,
+    },
+
+    /// Uninstall or unregister an MCP server package.
+    Uninstall {
+        /// Server identifier to uninstall.
+        name: String,
+
+        /// Preview removal without modifying filesystem.
+        #[arg(long)]
+        dry_run: bool,
+    },
+
+    /// Export MCP server definitions to agent configuration format (e.g. Google Antigravity).
+    Export {
+        /// Target agent platform identifier (e.g. `antigravity`).
+        #[arg(short, long)]
+        agent: String,
+
+        /// Destination path for exported configuration (defaults to agent's native path).
+        #[arg(short, long)]
+        target: Option<PathBuf>,
+
+        /// Preview exported configuration without writing to disk.
+        #[arg(long)]
+        dry_run: bool,
+    },
+
+    /// Invoke a specific MCP tool with JSON arguments.
+    Call {
+        /// Server providing the tool.
+        server: String,
+
+        /// Name of tool to execute.
+        tool: String,
+
+        /// JSON argument string (e.g. '{"query": "rust"}').
+        #[arg(short, long)]
+        input: Option<String>,
+    },
 }
 
 /// Arguments for `aek backup`.

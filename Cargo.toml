@@ -6,6 +6,8 @@ members = [
     "crates/aek-rules",
     "crates/aek-skills",
     "crates/aek-agents",
+    "crates/aek-mcp",
+    "crates/aek-mcp-integrations",
     "crates/aek-cli",
 ]
 resolver = "2"
@@ -27,13 +29,18 @@ aek-platform = { path = "crates/aek-platform", version = "0.1.0" }
 aek-rules = { path = "crates/aek-rules", version = "0.1.0" }
 aek-skills = { path = "crates/aek-skills", version = "0.1.0" }
 aek-agents = { path = "crates/aek-agents", version = "0.1.0" }
+aek-mcp = { path = "crates/aek-mcp", version = "0.1.0" }
+aek-mcp-integrations = { path = "crates/aek-mcp-integrations", version = "0.1.0" }
 
 # Error handling
 thiserror = "2.0.11"
 anyhow = "1.0.95"
 
 # Async runtime
-tokio = { version = "1.43.0", features = ["macros", "rt-multi-thread", "process", "time"] }
+tokio = { version = "1.43.0", features = ["macros", "rt-multi-thread", "process", "time", "io-util"] }
+
+# HTTP client
+reqwest = { version = "0.12.12", default-features = false, features = ["rustls-tls", "json"] }
 
 # CLI parsing
 clap = { version = "4.5.31", features = ["derive", "cargo", "env"] }

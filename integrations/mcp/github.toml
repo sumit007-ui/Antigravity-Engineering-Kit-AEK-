@@ -1,0 +1,24 @@
+id = "github"
+name = "GitHub MCP Server"
+description = "Access GitHub repositories, issues, pull requests, and code searches"
+enabled = true
+timeout_seconds = 30
+requires_auth = true
+auth_env_vars = ["GITHUB_TOKEN"]
+required_dependencies = ["npx", "node"]
+version = "1.0.0"
+
+[transport]
+type = "stdio"
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-github"]
+
+[transport.env]
+GITHUB_PERSONAL_ACCESS_TOKEN = "${GITHUB_TOKEN}"
+
+[permissions]
+allow_read_only = true
+allow_filesystem_write = false
+allow_network_write = false
+allow_sensitive = false
+allowed_paths = []

@@ -1,0 +1,21 @@
+id = "playwright"
+name = "Playwright Browser Automation"
+description = "Automate browser interactions, take screenshots, and inspect DOM structures"
+enabled = true
+timeout_seconds = 45
+requires_auth = false
+auth_env_vars = []
+required_dependencies = ["npx", "node"]
+version = "1.0.0"
+
+[transport]
+type = "stdio"
+command = "npx"
+args = ["-y", "@playwright/mcp@latest", "--headless"]
+
+[permissions]
+allow_read_only = true
+allow_filesystem_write = false
+allow_network_write = false
+allow_sensitive = false
+allowed_paths = []

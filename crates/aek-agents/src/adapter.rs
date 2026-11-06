@@ -1,6 +1,7 @@
 //! Extensible agent adapter trait and common report types.
 
 use crate::capabilities::AgentCapabilities;
+use aek_mcp::config::McpServerConfig;
 use aek_rules::model::Rule;
 use aek_skills::model::SkillBundle;
 use serde::{Deserialize, Serialize};
@@ -18,6 +19,12 @@ pub enum AgentError {
 
     #[error("Skill installation error: {0}")]
     SkillInstall(#[from] aek_skills::installer::SkillInstallError),
+
+    #[error("MCP configuration error: {0}")]
+    Mcp(#[from] aek_mcp::errors::McpError),
+
+    #[error("JSON serialization error: {0}")]
+    Json(#[from] serde_json::Error),
 
     #[error("Target agent '{0}' is not installed or detectable")]
     AgentNotDetected(String),
@@ -48,6 +55,23 @@ pub struct InstallReport {
     pub dry_run: bool,
 }
 
+/// Summary report for MCP server configuration merge.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct McpMergeReport {
+    /// Total servers active in target configuration after merge.
+    pub total_servers: usize,
+    /// Number of new or updated servers added.
+    pub merged_count: usize,
+    /// Conflicts detected where existing server had identical key.
+    pub conflicts_detected: Vec<String>,
+    /// Path to target configuration file.
+    pub target_file: PathBuf,
+    /// Path to backup file created prior to modification.
+    pub backup_file: Option<PathBuf>,
+    /// Whether operation executed in dry-run mode.
+    pub dry_run: bool,
+}
+
 /// Extensible interface representing an AI coding agent integration.
 pub trait AgentAdapter: Send + Sync {
     /// Human-readable agent name.
@@ -71,6 +95,20 @@ pub trait AgentAdapter: Send + Sync {
     /// Target directory for workspace skills.
     fn workspace_skills_dir(&self, workspace: &Path) -> PathBuf;
 
+    /// Platform path for agent's native MCP configuration file.
+    fn mcp_config_path(&self) -> Option<PathBuf>;
+
+    /// Converts AEK MCP server definitions into the agent's native JSON configuration format.
+    fn export_mcp_config(&self, servers: &[McpServerConfig]) -> serde_json::Value;
+
+    /// Safely merges MCP server entries into agent configuration file with backup.
+    fn merge_mcp_config(
+        &self,
+        servers: &[McpServerConfig],
+        target_file: Option<&Path>,
+        dry_run: bool,
+    ) -> Result<McpMergeReport, AgentError>;
+
     /// Installs a set of rules into the specified target directory.
     fn install_rules(
         &self,
@@ -87,4 +125,3 @@ pub trait AgentAdapter: Send + Sync {
         dry_run: bool,
     ) -> Result<InstallReport, AgentError>;
 }
-

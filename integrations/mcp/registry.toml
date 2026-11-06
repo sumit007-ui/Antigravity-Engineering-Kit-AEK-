@@ -1,0 +1,150 @@
+[servers.filesystem]
+id = "filesystem"
+name = "Restricted Filesystem MCP"
+description = "Controlled read and write access strictly limited to designated workspace directories"
+enabled = true
+timeout_seconds = 30
+requires_auth = false
+auth_env_vars = []
+required_dependencies = [
+    "npx",
+    "node",
+]
+version = "1.0.0"
+
+[servers.filesystem.transport]
+type = "stdio"
+command = "npx"
+args = [
+    "-y",
+    "@modelcontextprotocol/server-filesystem",
+    "./scratch",
+]
+
+[servers.filesystem.transport.env]
+
+[servers.filesystem.permissions]
+allow_read_only = true
+allow_filesystem_write = true
+allow_network_write = false
+allow_sensitive = false
+allowed_paths = ["./scratch"]
+
+[servers.sequential-thinking]
+id = "sequential-thinking"
+name = "Sequential Thinking Reasoning Server"
+description = "Dynamic multi-step structured reasoning and hypothesis validation"
+enabled = true
+timeout_seconds = 30
+requires_auth = false
+auth_env_vars = []
+required_dependencies = [
+    "npx",
+    "node",
+]
+version = "1.0.0"
+
+[servers.sequential-thinking.transport]
+type = "stdio"
+command = "npx"
+args = [
+    "-y",
+    "@modelcontextprotocol/server-sequential-thinking",
+]
+
+[servers.sequential-thinking.transport.env]
+
+[servers.sequential-thinking.permissions]
+allow_read_only = true
+allow_filesystem_write = false
+allow_network_write = false
+allow_sensitive = false
+allowed_paths = []
+
+[servers.playwright]
+id = "playwright"
+name = "Playwright Browser Automation"
+description = "Automate browser interactions, take screenshots, and inspect DOM structures"
+enabled = true
+timeout_seconds = 45
+requires_auth = false
+auth_env_vars = []
+required_dependencies = [
+    "npx",
+    "node",
+]
+version = "1.0.0"
+
+[servers.playwright.transport]
+type = "stdio"
+command = "npx"
+args = [
+    "-y",
+    "@playwright/mcp@latest",
+    "--headless",
+]
+
+[servers.playwright.transport.env]
+
+[servers.playwright.permissions]
+allow_read_only = true
+allow_filesystem_write = false
+allow_network_write = false
+allow_sensitive = false
+allowed_paths = []
+
+[servers.context7]
+id = "context7"
+name = "Context7 Library Documentation"
+description = "Fetch up-to-date documentation for open-source frameworks and libraries"
+enabled = true
+timeout_seconds = 20
+requires_auth = false
+auth_env_vars = []
+required_dependencies = []
+version = "1.0.0"
+
+[servers.context7.transport]
+type = "http"
+url = "https://mcp.context7.com/mcp"
+
+[servers.context7.transport.headers]
+
+[servers.context7.permissions]
+allow_read_only = true
+allow_filesystem_write = false
+allow_network_write = false
+allow_sensitive = false
+allowed_paths = []
+
+[servers.github]
+id = "github"
+name = "GitHub MCP Server"
+description = "Access GitHub repositories, issues, pull requests, and code searches"
+enabled = true
+timeout_seconds = 30
+requires_auth = true
+auth_env_vars = ["GITHUB_TOKEN"]
+required_dependencies = [
+    "npx",
+    "node",
+]
+version = "1.0.0"
+
+[servers.github.transport]
+type = "stdio"
+command = "npx"
+args = [
+    "-y",
+    "@modelcontextprotocol/server-github",
+]
+
+[servers.github.transport.env]
+GITHUB_PERSONAL_ACCESS_TOKEN = "${GITHUB_TOKEN}"
+
+[servers.github.permissions]
+allow_read_only = true
+allow_filesystem_write = false
+allow_network_write = false
+allow_sensitive = false
+allowed_paths = []

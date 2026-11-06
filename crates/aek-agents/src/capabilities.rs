@@ -18,4 +18,3 @@ pub struct AgentCapabilities {
     /// Aggregate token budget for always-on rules.
     pub rule_token_budget: usize,
 }
-
