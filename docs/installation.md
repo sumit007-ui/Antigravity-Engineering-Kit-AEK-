@@ -21,7 +21,7 @@ Run PowerShell (non-administrator) and execute:
 
 ```powershell
 # Default user installation to %LOCALAPPDATA%\Programs\aek\bin
-irm https://github.com/google-antigravity/aek/releases/latest/download/install.ps1 | iex
+irm https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/releases/latest/download/install.ps1 | iex
 ```
 
 ### Local / Offline Install
@@ -52,7 +52,7 @@ Run your standard shell:
 
 ```bash
 # Default user installation to ~/.local/bin
-curl -sSL https://github.com/google-antigravity/aek/releases/latest/download/install.sh | bash
+curl -sSL https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/releases/latest/download/install.sh | bash
 ```
 
 ### Local / Offline Install

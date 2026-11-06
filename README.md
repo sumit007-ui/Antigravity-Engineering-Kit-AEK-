@@ -1,6 +1,6 @@
 # Antigravity Engineering Kit (AEK)
 
-[![CI](https://github.com/google-antigravity/aek/actions/workflows/ci.yml/badge.svg)](https://github.com/google-antigravity/aek/actions/workflows/ci.yml)
+[![CI](https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/actions/workflows/ci.yml/badge.svg)](https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/actions/workflows/ci.yml)
 [![License: Apache-2.0 OR MIT](https://img.shields.io/badge/License-Apache--2.0%20OR%20MIT-blue.svg)](LICENSE)
 [![Rust 2024](https://img.shields.io/badge/rust-2024%20edition-orange.svg)](https://www.rust-lang.org)
 
@@ -67,7 +67,7 @@ The workspace is organized into modular Rust crates:
 
 ```bash
 # Clone the repository
-git clone https://github.com/google-antigravity/aek.git
+git clone https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-.git
 cd aek
 
 # Build release binary

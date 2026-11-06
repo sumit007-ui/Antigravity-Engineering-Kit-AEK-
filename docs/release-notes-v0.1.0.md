@@ -62,12 +62,12 @@ We are proud to announce the initial public release of **Antigravity Engineering
 
 ### Windows
 ```powershell
-irm https://raw.githubusercontent.com/google-antigravity/aek/main/installers/windows/install.ps1 | iex
+irm https://raw.githubusercontent.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/main/installers/windows/install.ps1 | iex
 ```
 
 ### Linux & macOS
 ```bash
-curl -fsSL https://raw.githubusercontent.com/google-antigravity/aek/main/installers/linux/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/main/installers/linux/install.sh | bash
 ```
 
 ---

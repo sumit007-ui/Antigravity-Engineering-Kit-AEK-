@@ -119,7 +119,7 @@ if [ -n "$LOCAL_ARTIFACT" ]; then
     fi
     cp "$LOCAL_ARTIFACT" "$TAR_PATH"
 else
-    RELEASE_BASE="https://github.com/google-antigravity/aek/releases"
+    RELEASE_BASE="https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/releases"
     if [ "$VERSION" = "latest" ]; then
         DOWNLOAD_URL="${RELEASE_BASE}/latest/download/aek-v0.1.0-linux-${TARGET_ARCH}.tar.gz"
     else

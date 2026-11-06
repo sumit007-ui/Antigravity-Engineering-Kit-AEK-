@@ -85,7 +85,7 @@ Every release attaches a machine-readable `release-manifest.json` conforming to 
       "arch": "x86_64",
       "size_bytes": 2544270,
       "sha256": "1cbdeecc34a813b46e600b7ec1e0f614904c1afa940802c274499d616aadb608",
-      "download_url": "https://github.com/google-antigravity/aek/releases/download/v0.8.0/aek-v0.8.0-windows-x86_64.zip"
+      "download_url": "https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/releases/download/v0.1.0/aek-v0.1.0-windows-x86_64.zip"
     }
   ]
 }

@@ -74,7 +74,7 @@ try {
         }
         Copy-Item -Path $LocalArtifact -Destination $ZipPath -Force
     } else {
-        $ReleaseBaseUrl = "https://github.com/google-antigravity/aek/releases"
+        $ReleaseBaseUrl = "https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/releases"
         $ArtifactName = if ($Version -eq "latest") {
             "aek-v0.1.0-windows-$Arch.zip"
         } else {

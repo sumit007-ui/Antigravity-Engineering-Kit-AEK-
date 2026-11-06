@@ -27,7 +27,7 @@ aek mcp doctor        # Model Context Protocol servers
 ## 2. Asking Questions & Discussions
 
 For general questions, architecture discussions, or best-practice questions:
-- Use [GitHub Discussions](https://github.com/google-antigravity/aek/discussions).
+- Use [GitHub Discussions](https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/discussions).
 - Check existing answered questions and RFC proposals.
 
 ---
@@ -35,7 +35,7 @@ For general questions, architecture discussions, or best-practice questions:
 ## 3. Reporting Bugs & Compatibility Issues
 
 If you encountered a reproducible bug or unsupported behavior:
-- File a bug report via [GitHub Issues](https://github.com/google-antigravity/aek/issues/new/choose).
+- File a bug report via [GitHub Issues](https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/issues/new/choose).
 - Please provide the output of `aek doctor --json` and the steps to reproduce the issue.
 
 ---

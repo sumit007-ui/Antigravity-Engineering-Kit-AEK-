@@ -44,7 +44,7 @@ aek install doctor
 ### Issue: Rollback failed: `No previous versions found in archive`
 **Cause**: AEK has not yet performed an automated upgrade on this machine, so no historical versions have been archived.
 **Solution**:
-- Download the desired older release from [GitHub Releases](https://github.com/google-antigravity/aek/releases) and use `aek update --version <VER> --force`.
+- Download the desired older release from [GitHub Releases](https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/releases) and use `aek update --version <VER> --force`.
 
 ### Issue: Configuration migration error
 **Cause**: The configuration file syntax was manually corrupted or has an invalid schema version.
