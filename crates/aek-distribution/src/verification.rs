@@ -59,4 +59,3 @@ impl InstallationVerifier {
         VerificationStatus::Verified
     }
 }
-

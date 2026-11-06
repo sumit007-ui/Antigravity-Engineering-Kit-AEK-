@@ -63,7 +63,11 @@ impl RollbackManager {
         for dir_entry in fs::read_dir(&versions_dir)? {
             let dir_entry = dir_entry?;
             let path = dir_entry.path();
-            if let Some(version) = path.file_name().and_then(|n| n.to_str()).filter(|_| path.is_dir()) {
+            if let Some(version) = path
+                .file_name()
+                .and_then(|n| n.to_str())
+                .filter(|_| path.is_dir())
+            {
                 let exe_name = if cfg!(target_os = "windows") {
                     "aek.exe"
                 } else {

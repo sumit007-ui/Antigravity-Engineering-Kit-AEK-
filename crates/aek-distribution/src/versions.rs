@@ -81,4 +81,3 @@ impl VersionManager {
         v.trim_start_matches('v')
     }
 }
-
