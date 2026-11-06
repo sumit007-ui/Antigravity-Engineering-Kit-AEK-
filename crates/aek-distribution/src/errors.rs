@@ -46,3 +46,4 @@ pub enum DistributionError {
     #[error("Network error querying release source: {0}")]
     Network(String),
 }
+

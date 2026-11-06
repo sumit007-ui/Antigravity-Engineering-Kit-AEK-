@@ -68,3 +68,4 @@ echo "Successfully packaged: ${TAR_PATH}"
 echo "  Size:   ${SIZE} bytes"
 echo "  SHA256: ${SHA256}"
 echo "  Hash File: ${TAR_PATH}.sha256"
+

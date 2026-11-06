@@ -146,3 +146,4 @@ impl ConfigMigrator {
         Ok(())
     }
 }
+

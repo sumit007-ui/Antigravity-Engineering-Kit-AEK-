@@ -105,3 +105,4 @@ pub struct InstallationManifest {
     pub previous_version: Option<String>,
     pub verification_status: VerificationStatus,
 }
+

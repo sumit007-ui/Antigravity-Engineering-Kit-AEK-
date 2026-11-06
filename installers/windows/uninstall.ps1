@@ -87,3 +87,4 @@ if ($Purge) {
 
 Write-Host "`nAEK uninstallation completed successfully." -ForegroundColor Green
 exit 0
+

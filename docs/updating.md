@@ -90,3 +90,4 @@ aek config migrate --dry-run
 # Execute configuration migration (creates automatic .bak backup)
 aek config migrate
 ```
+

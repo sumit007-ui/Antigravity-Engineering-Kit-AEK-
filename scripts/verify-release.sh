@@ -72,3 +72,4 @@ else
     echo "Error: Release verification failed." >&2
     exit 1
 fi
+

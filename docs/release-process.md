@@ -106,3 +106,4 @@ To verify downloaded artifacts against official checksums:
 # Linux
 ./scripts/verify-release.sh dist dist/release-manifest.json
 ```
+

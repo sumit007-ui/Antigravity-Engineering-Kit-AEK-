@@ -91,3 +91,4 @@ aek install doctor
 # Verify binary integrity against cryptographic checksums
 aek install verify
 ```
+

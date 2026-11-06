@@ -81,3 +81,4 @@ fi
 echo ""
 echo "[SUCCESS] Linux installer automated test suite passed!"
 exit 0
+

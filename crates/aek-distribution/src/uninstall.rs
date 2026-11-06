@@ -88,3 +88,4 @@ impl Uninstaller {
         Ok(())
     }
 }
+

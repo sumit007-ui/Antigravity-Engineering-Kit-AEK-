@@ -159,3 +159,4 @@ fn test_cli_config_migrate_check_and_dry_run() {
     let dry_run_stdout = String::from_utf8_lossy(&dry_run_output.stdout);
     assert!(dry_run_stdout.contains("[DRY RUN]"));
 }
+

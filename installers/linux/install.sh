@@ -248,3 +248,4 @@ echo "  Installation Complete!                                    "
 echo "  Binary Location: ${TARGET_EXE}                            "
 echo "============================================================"
 exit 0
+

@@ -68,3 +68,4 @@ You can also execute the uninstaller scripts directly if AEK is not on system `P
 # Full purge
 ./installers/linux/uninstall.sh --purge --force
 ```
+

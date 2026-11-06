@@ -98,3 +98,4 @@ fi
 echo ""
 echo "AEK uninstallation completed successfully."
 exit 0
+
