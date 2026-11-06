@@ -1,0 +1,27 @@
+# AEK Profile: ENGINEERING
+# Target: Standard developer workstations.
+# Features: Multi-language toolchains, Model Context Protocol (MCP) server management, automated validation.
+
+[general]
+name = "AEK-Engineering"
+config_version = 1
+profile = "engineering"
+
+[logging]
+level = "info"
+format = "text"
+
+[execution]
+dry_run = false
+max_concurrent_tasks = 4
+default_timeout_seconds = 60
+
+[security]
+allow_destructive_operations = false
+require_confirmation = true
+
+[integrations]
+mcp_enabled = true
+prompt_optimization_enabled = false
+security_scanning_enabled = false
+

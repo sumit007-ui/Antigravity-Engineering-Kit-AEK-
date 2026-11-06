@@ -1,0 +1,25 @@
+# Antigravity Engineering Kit (AEK) - Default Configuration
+
+[general]
+name = "AEK"
+config_version = 1
+profile = "light"
+
+[logging]
+level = "info"
+format = "text"
+
+[execution]
+dry_run = false
+max_concurrent_tasks = 2
+default_timeout_seconds = 30
+
+[security]
+allow_destructive_operations = false
+require_confirmation = true
+
+[integrations]
+mcp_enabled = false
+prompt_optimization_enabled = false
+security_scanning_enabled = false
+

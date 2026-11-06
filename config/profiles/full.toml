@@ -1,0 +1,27 @@
+# AEK Profile: FULL
+# Target: High-performance workstations (16 GB+ RAM).
+# Features: Full engineering toolchains, DSPy prompt optimization, Promptfoo evaluation, security scanning.
+
+[general]
+name = "AEK-Full"
+config_version = 1
+profile = "full"
+
+[logging]
+level = "info"
+format = "text"
+
+[execution]
+dry_run = false
+max_concurrent_tasks = 8
+default_timeout_seconds = 120
+
+[security]
+allow_destructive_operations = false
+require_confirmation = true
+
+[integrations]
+mcp_enabled = true
+prompt_optimization_enabled = true
+security_scanning_enabled = true
+

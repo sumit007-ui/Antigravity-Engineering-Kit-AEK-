@@ -1,16 +1,16 @@
 use aek_config::{AekConfig, ConfigError};
-use aek_core::ExecutionMode;
+use aek_core::ProfileKind;
 use std::fs;
 use tempfile::tempdir;
 
 #[test]
 fn test_default_config_is_valid() {
     let config = AekConfig::default();
-    assert_eq!(config.schema_version, "1.0.0");
-    assert_eq!(config.execution_mode, ExecutionMode::RuthlessPrecision);
-    assert_eq!(config.general.log_level, "info");
-    assert_eq!(config.general.timeout_seconds, 30);
-    assert!(config.antigravity.auto_sync_rules);
+    assert_eq!(config.general.config_version, 1);
+    assert_eq!(config.general.profile, ProfileKind::Light);
+    assert_eq!(config.logging.level, "info");
+    assert_eq!(config.execution.default_timeout_seconds, 30);
+    assert!(!config.integrations.mcp_enabled);
 
     // Validation should succeed
     assert!(config.validate().is_ok());
@@ -19,8 +19,8 @@ fn test_default_config_is_valid() {
 #[test]
 fn test_config_validation_rules() {
     let config_bad_timeout = AekConfig {
-        general: aek_config::GeneralConfig {
-            timeout_seconds: 0,
+        execution: aek_config::ExecutionConfig {
+            default_timeout_seconds: 0,
             ..Default::default()
         },
         ..Default::default()
@@ -29,8 +29,8 @@ fn test_config_validation_rules() {
     assert!(matches!(err, ConfigError::Validation(_)));
 
     let config_bad_log = AekConfig {
-        general: aek_config::GeneralConfig {
-            log_level: "super_verbose_unknown".to_string(),
+        logging: aek_config::LoggingConfig {
+            level: "super_verbose_unknown".to_string(),
             ..Default::default()
         },
         ..Default::default()
@@ -38,11 +38,14 @@ fn test_config_validation_rules() {
     let err = config_bad_log.validate().unwrap_err();
     assert!(matches!(err, ConfigError::Validation(_)));
 
-    let config_bad_schema = AekConfig {
-        schema_version: String::new(),
+    let config_bad_name = AekConfig {
+        general: aek_config::GeneralConfig {
+            name: String::new(),
+            ..Default::default()
+        },
         ..Default::default()
     };
-    let err = config_bad_schema.validate().unwrap_err();
+    let err = config_bad_name.validate().unwrap_err();
     assert!(matches!(err, ConfigError::Validation(_)));
 }
 
@@ -53,11 +56,11 @@ fn test_config_serialization_and_deserialization() {
 
     let loaded: AekConfig =
         toml::from_str(&toml_str).expect("failed to deserialize config from TOML");
-    assert_eq!(loaded.schema_version, config.schema_version);
-    assert_eq!(loaded.execution_mode, config.execution_mode);
+    assert_eq!(loaded.general.config_version, config.general.config_version);
+    assert_eq!(loaded.general.profile, config.general.profile);
     assert_eq!(
-        loaded.general.timeout_seconds,
-        config.general.timeout_seconds
+        loaded.execution.default_timeout_seconds,
+        config.execution.default_timeout_seconds
     );
 }
 
@@ -67,9 +70,12 @@ fn test_atomic_save_and_load() {
     let file_path = dir.path().join("aek.toml");
 
     let config = AekConfig {
-        general: aek_config::GeneralConfig {
-            timeout_seconds: 45,
-            log_level: "debug".to_string(),
+        execution: aek_config::ExecutionConfig {
+            default_timeout_seconds: 45,
+            ..Default::default()
+        },
+        logging: aek_config::LoggingConfig {
+            level: "debug".to_string(),
             ..Default::default()
         },
         ..Default::default()
@@ -83,18 +89,18 @@ fn test_atomic_save_and_load() {
 
     // Load back
     let loaded = AekConfig::load_from_file(&file_path).expect("failed to load saved config");
-    assert_eq!(loaded.general.timeout_seconds, 45);
-    assert_eq!(loaded.general.log_level, "debug");
+    assert_eq!(loaded.execution.default_timeout_seconds, 45);
+    assert_eq!(loaded.logging.level, "debug");
 
     // Overwrite atomically with new content
     let mut updated = loaded;
-    updated.general.timeout_seconds = 60;
+    updated.execution.default_timeout_seconds = 60;
     updated
         .save_to_file(&file_path)
         .expect("failed to overwrite config atomically");
 
     let reloaded = AekConfig::load_from_file(&file_path).expect("failed to reload updated config");
-    assert_eq!(reloaded.general.timeout_seconds, 60);
+    assert_eq!(reloaded.execution.default_timeout_seconds, 60);
 }
 
 #[test]

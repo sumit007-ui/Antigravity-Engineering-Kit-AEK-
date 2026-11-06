@@ -1,7 +1,7 @@
 // Integration tests for aek CLI binary
+
 #[test]
 fn test_cli_version_flag() {
-    // Assert that --version or -V is handled
     let output = std::process::Command::new(env!("CARGO_BIN_EXE_aek"))
         .arg("--version")
         .output()
@@ -20,9 +20,10 @@ fn test_cli_doctor_command() {
         .output()
         .expect("failed to run aek doctor");
 
+    assert!(output.status.success());
     let stdout = String::from_utf8_lossy(&output.stdout);
     assert!(stdout.contains("Antigravity Engineering Kit (AEK) Doctor"));
-    assert!(stdout.contains("Rust Toolchain") || stdout.contains("rustc"));
+    assert!(stdout.contains("Core Toolchain") || stdout.contains("rustc"));
 }
 
 #[test]
@@ -37,7 +38,7 @@ fn test_cli_doctor_json_output() {
     let parsed: serde_json::Value =
         serde_json::from_str(&stdout).expect("doctor --json must output valid JSON");
     assert!(parsed.get("checks").is_some());
-    assert!(parsed.get("platform").is_some());
+    assert!(parsed.get("os").is_some());
 }
 
 #[test]
@@ -47,25 +48,28 @@ fn test_cli_config_validate_command() {
         .output()
         .expect("failed to run aek config validate");
 
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    // Even if no config file is found, it informs the user cleanly
+    let combined = format!(
+        "{}{}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
     assert!(
         output.status.success()
-            || stdout.contains("No configuration file found")
-            || stdout.contains("Configuration")
+            || combined.contains("not found")
+            || combined.contains("Configuration")
     );
 }
 
 #[test]
-fn test_cli_config_init_and_validate_workflow() {
+fn test_cli_init_and_validate_workflow() {
     let temp_dir = tempfile::tempdir().expect("tempdir");
-    let config_path = temp_dir.path().join("aek.toml");
+    let config_path = temp_dir.path().join("config.toml");
 
     // Initialize config
     let init_output = std::process::Command::new(env!("CARGO_BIN_EXE_aek"))
-        .args(["config", "init", "--path", config_path.to_str().unwrap()])
+        .args(["init", "--path", config_path.to_str().unwrap()])
         .output()
-        .expect("failed to run aek config init");
+        .expect("failed to run aek init");
 
     assert!(init_output.status.success());
     assert!(config_path.exists());
@@ -83,6 +87,6 @@ fn test_cli_config_init_and_validate_workflow() {
 
     assert!(val_output.status.success());
     let stdout = String::from_utf8_lossy(&val_output.stdout);
-    assert!(stdout.contains("Configuration schema is valid"));
-    assert!(stdout.contains("ruthless_precision") || stdout.contains("RuthlessPrecision"));
+    assert!(stdout.contains("Configuration is valid"));
+    assert!(stdout.contains("light"));
 }

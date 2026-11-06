@@ -11,9 +11,12 @@
 ## Key Features
 
 - **Rust-First Architecture**: Built for memory efficiency (<50 MB idle footprint), deterministic behavior, and zero shell-injection risks.
-- **Environment Doctor (`aek doctor`)**: Inspects host toolchains (Rust, Git, Node.js, Python), platform specs, and Antigravity paths.
-- **Validated Configuration (`aek config`)**: TOML-backed configuration with strict schema validation and atomic writes.
-- **Agent Agnostic**: Seamless integration with Google Antigravity while maintaining architectural independence.
+- **Platform Foundation**: Standard cross-platform path resolution, directory traversal prevention, and OS/arch detection.
+- **Resource Profiles**: Three calibrated tiers: `LIGHT` (minimal, 8 GB laptops), `ENGINEERING` (MCP & compilers), and `FULL` (DSPy & security).
+- **Environment Doctor (`aek doctor`)**: Non-destructive diagnostic inspection of toolchains, runtimes, and Antigravity readiness.
+- **Validated Configuration (`aek config`)**: TOML-backed configuration with strict schema validation, unknown-field rejection, and atomic writes.
+- **Backup & Restore Engine (`aek backup`, `aek restore`)**: Unique-ID timestamped backups with safety copies prior to destructive modifications.
+- **Safe Subprocess Engine**: Direct argument-array process execution with timeout cleanup and secret credential redaction.
 
 ---
 
@@ -21,9 +24,10 @@
 
 The workspace is organized into modular Rust crates:
 
-- [`crates/aek-core`](crates/aek-core): Shared abstractions, system diagnostics, and execution policies.
-- [`crates/aek-config`](crates/aek-config): Schema validation, TOML persistence, and atomic writes.
-- [`crates/aek-cli`](crates/aek-cli): Command-line interface (`aek`).
+- [`crates/aek-platform`](crates/aek-platform): OS & arch detection, standard directory resolution, path traversal defense.
+- [`crates/aek-core`](crates/aek-core): Safe execution engine, diagnostics runner, and resource profile tiers.
+- [`crates/aek-config`](crates/aek-config): Schema validation, TOML persistence, atomic writes, and backup/restore engine.
+- [`crates/aek-cli`](crates/aek-cli): User-facing command-line interface (`aek`).
 
 ---
 
@@ -44,27 +48,42 @@ cd aek
 # Build release binary
 cargo build --release
 
+# Initialize AEK
+cargo run -- init
+
 # Run diagnostic check
 cargo run -- doctor
 ```
 
-### CLI Usage
+### CLI Command Highlights
 
 ```bash
-# Check version
-aek --version
+# Initialize AEK (idempotent, dry-run, or force with backup)
+aek init
+aek init --dry-run
+aek init --force
 
-# Run diagnostic environment check
+# Inspect environment
 aek doctor
-
-# Output diagnostic report in JSON
 aek doctor --json
+aek doctor --verbose
 
-# Initialize a new project configuration
-aek config init
-
-# Validate configuration
+# Manage configuration
+aek config show
 aek config validate
+aek config path
+
+# Resource profiles
+aek profile list
+aek profile show engineering
+aek profile apply engineering --dry-run
+aek profile apply engineering
+
+# Backups and restoration
+aek backup
+aek backup list
+aek restore <backup-id> --dry-run
+aek restore <backup-id>
 ```
 
 ---
@@ -82,12 +101,18 @@ cargo clippy --workspace --all-targets -- -D warnings
 
 # Execute test suite
 cargo test --workspace
+
+# Build release artifacts
+cargo build --workspace --release
 ```
 
 ---
 
 ## Documentation
 
+- [Architecture Guide](docs/architecture.md)
+- [Configuration Reference](docs/configuration.md)
+- [CLI Command Reference](docs/cli-reference.md)
 - [Architecture Decision Records (ADRs)](docs/adr/)
 - [Contributing Guide](CONTRIBUTING.md)
 - [Security Policy](SECURITY.md)
@@ -98,4 +123,3 @@ cargo test --workspace
 ## License
 
 Licensed under either of [Apache License, Version 2.0](LICENSE-APACHE) or [MIT License](LICENSE-MIT) at your option.
-

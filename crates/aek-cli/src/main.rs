@@ -1,11 +1,10 @@
 //! Antigravity Engineering Kit (AEK) - CLI entrypoint.
 
-mod args;
-mod config_cmd;
-mod doctor_cmd;
+mod cli;
+mod commands;
 
-use args::{Cli, Commands};
 use clap::{CommandFactory, Parser};
+use cli::{Cli, Commands};
 use std::process::ExitCode;
 use tracing_subscriber::{EnvFilter, fmt};
 
@@ -30,10 +29,13 @@ fn main() -> ExitCode {
     init_tracing(cli.verbose, cli.quiet);
 
     match &cli.command {
-        Some(Commands::Doctor(args)) => doctor_cmd::execute_doctor(args),
-        Some(Commands::Config(args)) => config_cmd::execute_config(&args.action),
+        Some(Commands::Init(args)) => commands::init::execute_init(args),
+        Some(Commands::Doctor(args)) => commands::doctor::execute_doctor(args, cli.verbose),
+        Some(Commands::Config(args)) => commands::config::execute_config(&args.action),
+        Some(Commands::Profile(args)) => commands::profile::execute_profile(&args.action),
+        Some(Commands::Backup(args)) => commands::backup::execute_backup(args),
+        Some(Commands::Restore(args)) => commands::restore::execute_restore(args),
         None => {
-            // When run without arguments, print helpful overview
             let mut cmd = Cli::command();
             let _ = cmd.print_help();
             println!();

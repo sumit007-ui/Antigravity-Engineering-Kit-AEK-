@@ -49,3 +49,6 @@ jobs:
       - name: Execute test suite
         run: cargo test --workspace --verbose
 
+      - name: Build release binaries
+        run: cargo build --workspace --release --verbose
+
