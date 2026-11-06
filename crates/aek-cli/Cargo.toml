@@ -1,0 +1,28 @@
+[package]
+name = "aek-cli"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "aek"
+path = "src/main.rs"
+
+[dependencies]
+aek-core = { workspace = true }
+aek-config = { workspace = true }
+clap = { workspace = true }
+tokio = { workspace = true }
+thiserror.workspace = true
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tracing.workspace = true
+tracing-subscriber = { workspace = true }
+
+[dev-dependencies]
+tempfile.workspace = true
+

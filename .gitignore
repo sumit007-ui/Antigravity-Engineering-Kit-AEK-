@@ -1,0 +1,37 @@
+# Rust target and build artifacts
+target/
+**/*.rs.bk
+*.pdb
+
+# Cargo lock files (keep Cargo.lock in version control for binary crates / CLI)
+# Cargo.lock
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# IDE and Editor Files
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# Temporary and Scratch Files
+*.tmp
+*.bak
+*.log
+scratch/
+tmp/
+
+# Graphify Output
+graphify-out/
+
