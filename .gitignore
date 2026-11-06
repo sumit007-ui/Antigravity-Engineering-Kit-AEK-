@@ -35,6 +35,16 @@ tmp/
 # Distribution and Packaging
 dist/
 
+# Node.js and Next.js Web App
+node_modules/
+.next/
+out/
+apps/web/node_modules/
+apps/web/.next/
+apps/web/out/
+*.tsbuildinfo
+next-env.d.ts
+
 # Graphify Output
 graphify-out/
 

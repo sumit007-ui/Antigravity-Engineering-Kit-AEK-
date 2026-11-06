@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="plumGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4E3A3C"/>
+      <stop offset="100%" stop-color="#241B1C"/>
+    </linearGradient>
+    <linearGradient id="popcornGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF3D1"/>
+      <stop offset="50%" stop-color="#F8D878"/>
+      <stop offset="100%" stop-color="#E5BE52"/>
+    </linearGradient>
+    <linearGradient id="ceruleanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C8D9EC"/>
+      <stop offset="100%" stop-color="#98B4D4"/>
+    </linearGradient>
+    <filter id="subtleGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#98B4D4" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="128" height="128" rx="28" fill="url(#plumGrad)"/>
+  <rect x="1" y="1" width="126" height="126" rx="27" fill="none" stroke="#4E3A3C" stroke-width="2"/>
+  <circle cx="64" cy="64" r="42" fill="none" stroke="url(#ceruleanGrad)" stroke-width="3" stroke-dasharray="6 4" opacity="0.85"/>
+  <polygon points="64,28 96,64 64,100 32,64" fill="url(#popcornGrad)" filter="url(#subtleGlow)"/>
+  <polygon points="64,42 82,64 64,86 46,64" fill="#241B1C"/>
+  <circle cx="64" cy="64" r="5" fill="#98B4D4"/>
+</svg>
