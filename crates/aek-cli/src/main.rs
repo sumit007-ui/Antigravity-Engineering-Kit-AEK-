@@ -45,6 +45,11 @@ fn main() -> ExitCode {
         Some(Commands::Prompt(args)) => commands::prompt::execute_prompt(args),
         Some(Commands::Backup(args)) => commands::backup::execute_backup(args),
         Some(Commands::Restore(args)) => commands::restore::execute_restore(args),
+        Some(Commands::Update(args)) => commands::distribution::execute_update(args),
+        Some(Commands::Rollback(args)) => commands::distribution::execute_rollback(args),
+        Some(Commands::Uninstall(args)) => commands::distribution::execute_uninstall(args),
+        Some(Commands::Install(args)) => commands::distribution::execute_install(args),
+        Some(Commands::Setup(args)) => commands::distribution::execute_setup(args),
         None => {
             let mut cmd = Cli::command();
             let _ = cmd.print_help();

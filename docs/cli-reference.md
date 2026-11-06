@@ -154,6 +154,9 @@ aek config validate [--path <PATH>]
 # Print path to configuration file
 aek config path
 
+# Check, preview, or apply configuration schema migrations
+aek config migrate [--check] [--dry-run] [--path <PATH>]
+
 # List resource profiles (LIGHT, ENGINEERING, FULL)
 aek profile list
 
@@ -324,4 +327,82 @@ aek ci generate github [--dry-run]
 
 # Audit existing CI workflows for least-privilege permissions
 aek ci validate [--path <DIR>]
+```
+
+---
+
+## 13. Installation Diagnostics & Verification (`aek install`)
+
+```bash
+# Display installation metadata, scope, and paths
+aek install info
+
+# Run diagnostics on binary location, PATH, and manifest
+aek install doctor
+
+# Verify binary integrity against cryptographic checksums
+aek install verify
+```
+
+---
+
+## 14. Update Management (`aek update`)
+
+```bash
+# Check if a newer version of AEK is available
+aek update check
+
+# Preview update actions without modifying installation
+aek update --dry-run
+
+# Update to latest stable release
+aek update
+
+# Update or downgrade to an explicit version
+aek update --version <VERSION> [--force]
+```
+
+---
+
+## 15. Version Rollback (`aek rollback`)
+
+```bash
+# List all archived previous versions
+aek rollback --list
+
+# Preview rollback restoration
+aek rollback --dry-run
+
+# Revert to the most recent previous version
+aek rollback
+
+# Revert to a specific archived version
+aek rollback --version <VERSION>
+```
+
+---
+
+## 16. Safe Uninstallation (`aek uninstall`)
+
+```bash
+# Preview uninstallation steps without deleting files
+aek uninstall --dry-run
+
+# Safe removal (preserves user configuration and custom prompt datasets)
+aek uninstall
+
+# Full purge removal (deletes binary and user configuration)
+aek uninstall --purge [--yes]
+```
+
+---
+
+## 17. Antigravity Environment Setup (`aek setup`)
+
+```bash
+# Preview setup steps for Google Antigravity
+aek setup antigravity --dry-run
+
+# Configure Antigravity with a specific resource profile
+aek setup antigravity [--profile <light|engineering|full>]
 ```

@@ -1,0 +1,178 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag name to release (e.g. v0.8.0)'
+        required: true
+        default: 'v0.8.0'
+
+permissions:
+  contents: write
+
+env:
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: "-D warnings"
+
+jobs:
+  verify:
+    name: Verify Release Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Check code formatting
+        run: cargo fmt --all -- --check
+
+      - name: Static analysis with Clippy
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: Run test suite
+        run: cargo test --workspace --verbose
+
+  build-windows:
+    name: Build & Package Windows (x86_64)
+    needs: verify
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build release binary
+        run: cargo build --workspace --release
+
+      - name: Run Windows installer test harness
+        shell: powershell
+        run: .\installers\windows\test-install.ps1
+
+      - name: Package Windows artifact
+        shell: powershell
+        run: |
+          $ver = "${{ github.ref_name }}".TrimStart("v")
+          if (-not $ver) { $ver = "0.8.0" }
+          .\packaging\package-windows.ps1 -Version $ver -BinaryPath target\release\aek.exe -OutputDir dist
+
+      - name: Upload Windows build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-artifacts
+          path: dist/
+          retention-days: 1
+
+  build-linux:
+    name: Build & Package Linux (x86_64)
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build release binary
+        run: cargo build --workspace --release
+
+      - name: Run Linux installer test harness
+        run: ./installers/linux/test-install.sh
+
+      - name: Package Linux artifact
+        run: |
+          ver="${{ github.ref_name }}"
+          ver="${ver#v}"
+          [ -z "$ver" ] && ver="0.8.0"
+          ./packaging/package-linux.sh "$ver" "x86_64-unknown-linux-gnu" target/release/aek dist
+
+      - name: Upload Linux build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-artifacts
+          path: dist/
+          retention-days: 1
+
+  publish-release:
+    name: Publish GitHub Release
+    needs: [build-windows, build-linux]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Windows artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-artifacts
+          path: dist/
+
+      - name: Download Linux artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-artifacts
+          path: dist/
+
+      - name: Generate Release Manifest & Verify Checksums
+        run: |
+          ver="${{ github.ref_name }}"
+          ver="${ver#v}"
+          [ -z "$ver" ] && ver="0.8.0"
+
+          win_zip=$(find dist -name "*windows-x86_64.zip" -exec basename {} \;)
+          win_sha=$(cat dist/${win_zip}.sha256 | awk '{print $1}')
+          win_size=$(stat -c%s "dist/${win_zip}")
+
+          lin_tar=$(find dist -name "*linux-x86_64.tar.gz" -exec basename {} \;)
+          lin_sha=$(cat dist/${lin_tar}.sha256 | awk '{print $1}')
+          lin_size=$(stat -c%s "dist/${lin_tar}")
+
+          cat <<EOF > dist/release-manifest.json
+          {
+            "schema_version": "1.0.0",
+            "version": "${ver}",
+            "release_channel": "stable",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "artifacts": [
+              {
+                "filename": "${win_zip}",
+                "target_triple": "x86_64-pc-windows-msvc",
+                "os": "windows",
+                "arch": "x86_64",
+                "size_bytes": ${win_size},
+                "sha256": "${win_sha}",
+                "download_url": "https://github.com/google-antigravity/aek/releases/download/${{ github.ref_name }}/${win_zip}"
+              },
+              {
+                "filename": "${lin_tar}",
+                "target_triple": "x86_64-unknown-linux-gnu",
+                "os": "linux",
+                "arch": "x86_64",
+                "size_bytes": ${lin_size},
+                "sha256": "${lin_sha}",
+                "download_url": "https://github.com/google-antigravity/aek/releases/download/${{ github.ref_name }}/${lin_tar}"
+              }
+            ]
+          }
+          EOF
+
+          ./scripts/verify-release.sh dist dist/release-manifest.json
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*
+          draft: false
+          prerelease: false
+          generate_release_notes: true

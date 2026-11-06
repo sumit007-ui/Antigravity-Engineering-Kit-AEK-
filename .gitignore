@@ -32,6 +32,9 @@ $RECYCLE.BIN/
 scratch/
 tmp/
 
+# Distribution and Packaging
+dist/
+
 # Graphify Output
 graphify-out/
 

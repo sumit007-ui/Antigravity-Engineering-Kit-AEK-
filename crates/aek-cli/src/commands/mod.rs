@@ -4,6 +4,7 @@ pub mod agent;
 pub mod backup;
 pub mod ci;
 pub mod config;
+pub mod distribution;
 pub mod doctor;
 pub mod init;
 pub mod language;

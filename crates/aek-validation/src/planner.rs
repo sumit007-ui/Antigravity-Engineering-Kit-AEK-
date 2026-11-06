@@ -30,9 +30,9 @@ impl ValidationPlanner {
             // Filter steps according to policy
             if !policy.full_validation {
                 // In non-full mode, filter out extended integration testing if marked optional
-                pipeline.steps.retain(|s| {
-                    !(s.stage == ValidationStage::IntegrationTesting && s.is_optional)
-                });
+                pipeline
+                    .steps
+                    .retain(|s| !(s.stage == ValidationStage::IntegrationTesting && s.is_optional));
             }
 
             // Adjust timeouts from policy

@@ -1,27 +1,3 @@
-[servers.context7]
-id = "context7"
-name = "Context7 Library Documentation"
-description = "Fetch up-to-date documentation for open-source frameworks and libraries"
-enabled = true
-timeout_seconds = 20
-requires_auth = false
-auth_env_vars = []
-required_dependencies = []
-version = "1.0.0"
-
-[servers.context7.transport]
-type = "http"
-url = "https://mcp.context7.com/mcp"
-
-[servers.context7.transport.headers]
-
-[servers.context7.permissions]
-allow_read_only = true
-allow_filesystem_write = false
-allow_network_write = false
-allow_sensitive = false
-allowed_paths = []
-
 [servers.sequential-thinking]
 id = "sequential-thinking"
 name = "Sequential Thinking Reasoning Server"
@@ -53,32 +29,32 @@ allow_network_write = false
 allow_sensitive = false
 allowed_paths = []
 
-[servers.github]
-id = "github"
-name = "GitHub MCP Server"
-description = "Access GitHub repositories, issues, pull requests, and code searches"
+[servers.playwright]
+id = "playwright"
+name = "Playwright Browser Automation"
+description = "Automate browser interactions, take screenshots, and inspect DOM structures"
 enabled = true
-timeout_seconds = 30
-requires_auth = true
-auth_env_vars = ["GITHUB_TOKEN"]
+timeout_seconds = 45
+requires_auth = false
+auth_env_vars = []
 required_dependencies = [
     "npx",
     "node",
 ]
 version = "1.0.0"
 
-[servers.github.transport]
+[servers.playwright.transport]
 type = "stdio"
 command = "npx"
 args = [
     "-y",
-    "@modelcontextprotocol/server-github",
+    "@playwright/mcp@latest",
+    "--headless",
 ]
 
-[servers.github.transport.env]
-GITHUB_PERSONAL_ACCESS_TOKEN = "${GITHUB_TOKEN}"
+[servers.playwright.transport.env]
 
-[servers.github.permissions]
+[servers.playwright.permissions]
 allow_read_only = true
 allow_filesystem_write = false
 allow_network_write = false
@@ -117,32 +93,56 @@ allow_network_write = false
 allow_sensitive = false
 allowed_paths = ["./scratch"]
 
-[servers.playwright]
-id = "playwright"
-name = "Playwright Browser Automation"
-description = "Automate browser interactions, take screenshots, and inspect DOM structures"
+[servers.github]
+id = "github"
+name = "GitHub MCP Server"
+description = "Access GitHub repositories, issues, pull requests, and code searches"
 enabled = true
-timeout_seconds = 45
-requires_auth = false
-auth_env_vars = []
+timeout_seconds = 30
+requires_auth = true
+auth_env_vars = ["GITHUB_TOKEN"]
 required_dependencies = [
     "npx",
     "node",
 ]
 version = "1.0.0"
 
-[servers.playwright.transport]
+[servers.github.transport]
 type = "stdio"
 command = "npx"
 args = [
     "-y",
-    "@playwright/mcp@latest",
-    "--headless",
+    "@modelcontextprotocol/server-github",
 ]
 
-[servers.playwright.transport.env]
+[servers.github.transport.env]
+GITHUB_PERSONAL_ACCESS_TOKEN = "${GITHUB_TOKEN}"
 
-[servers.playwright.permissions]
+[servers.github.permissions]
+allow_read_only = true
+allow_filesystem_write = false
+allow_network_write = false
+allow_sensitive = false
+allowed_paths = []
+
+[servers.context7]
+id = "context7"
+name = "Context7 Library Documentation"
+description = "Fetch up-to-date documentation for open-source frameworks and libraries"
+enabled = true
+timeout_seconds = 20
+requires_auth = false
+auth_env_vars = []
+required_dependencies = []
+version = "1.0.0"
+
+[servers.context7.transport]
+type = "http"
+url = "https://mcp.context7.com/mcp"
+
+[servers.context7.transport.headers]
+
+[servers.context7.permissions]
 allow_read_only = true
 allow_filesystem_write = false
 allow_network_write = false

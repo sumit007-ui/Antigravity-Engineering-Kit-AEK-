@@ -33,4 +33,3 @@ impl JsonReportGenerator {
         serde_json::to_string_pretty(&payload)
     }
 }
-

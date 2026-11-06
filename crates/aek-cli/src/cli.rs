@@ -78,6 +78,21 @@ pub enum Commands {
 
     /// Restore configuration from a verified backup identifier.
     Restore(RestoreArgs),
+
+    /// Check for and apply version updates to the AEK installation.
+    Update(UpdateArgs),
+
+    /// Revert AEK to a previously archived version.
+    Rollback(RollbackArgs),
+
+    /// Safe uninstallation of AEK-managed files and binaries.
+    Uninstall(UninstallArgs),
+
+    /// Installation status, diagnostics, and integrity verification.
+    Install(InstallArgs),
+
+    /// Configure and setup AI coding agent environments (e.g. Antigravity).
+    Setup(SetupArgs),
 }
 
 /// Arguments for `aek init`.
@@ -135,6 +150,21 @@ pub enum ConfigSubcommand {
     /// Print resolved configuration file path.
     Path {
         /// Optional explicit path to check.
+        #[arg(short, long)]
+        path: Option<PathBuf>,
+    },
+
+    /// Check, preview, and apply versioned configuration schema migrations.
+    Migrate {
+        /// Check if migrations are pending without applying.
+        #[arg(long)]
+        check: bool,
+
+        /// Preview migration steps without modifying configuration.
+        #[arg(long)]
+        dry_run: bool,
+
+        /// Optional path to configuration file.
         #[arg(short, long)]
         path: Option<PathBuf>,
     },
@@ -995,4 +1025,102 @@ pub struct PromptExportArgs {
     /// Preview export destination without writing to disk.
     #[arg(long)]
     pub dry_run: bool,
+}
+
+/// Arguments for `aek update`.
+#[derive(Args, Debug, Clone)]
+pub struct UpdateArgs {
+    #[command(subcommand)]
+    pub action: Option<UpdateSubcommand>,
+
+    /// Preview update actions without modifying installation.
+    #[arg(long)]
+    pub dry_run: bool,
+
+    /// Target specific version to update or downgrade to.
+    #[arg(long)]
+    pub version: Option<String>,
+
+    /// Force update even if target is a downgrade.
+    #[arg(long)]
+    pub force: bool,
+}
+
+/// Subcommands under `aek update`.
+#[derive(Subcommand, Debug, Clone)]
+pub enum UpdateSubcommand {
+    /// Check if a newer version is available from release source.
+    Check,
+}
+
+/// Arguments for `aek rollback`.
+#[derive(Args, Debug, Clone)]
+pub struct RollbackArgs {
+    /// List all previously archived versions available for rollback.
+    #[arg(long)]
+    pub list: bool,
+
+    /// Specific version to roll back to.
+    #[arg(long)]
+    pub version: Option<String>,
+
+    /// Preview rollback actions without modifying executable.
+    #[arg(long)]
+    pub dry_run: bool,
+}
+
+/// Arguments for `aek uninstall`.
+#[derive(Args, Debug, Clone)]
+pub struct UninstallArgs {
+    /// Preview files and directories that would be removed.
+    #[arg(long)]
+    pub dry_run: bool,
+
+    /// Purge mode: delete user configuration directory in addition to binary.
+    #[arg(long)]
+    pub purge: bool,
+
+    /// Bypass confirmation prompt (required for automated non-interactive purge).
+    #[arg(short, long)]
+    pub yes: bool,
+}
+
+/// Arguments for `aek install`.
+#[derive(Args, Debug, Clone)]
+pub struct InstallArgs {
+    #[command(subcommand)]
+    pub action: InstallSubcommand,
+}
+
+/// Subcommands under `aek install`.
+#[derive(Subcommand, Debug, Clone)]
+pub enum InstallSubcommand {
+    /// Display installation metadata, scope, and paths.
+    Info,
+    /// Inspect installation integrity, permissions, and PATH configuration.
+    Doctor,
+    /// Verify cryptographic checksums of installed managed files.
+    Verify,
+}
+
+/// Arguments for `aek setup`.
+#[derive(Args, Debug, Clone)]
+pub struct SetupArgs {
+    #[command(subcommand)]
+    pub action: SetupSubcommand,
+}
+
+/// Subcommands under `aek setup`.
+#[derive(Subcommand, Debug, Clone)]
+pub enum SetupSubcommand {
+    /// Configure Google Antigravity with AEK rules, skills, and MCP tools.
+    Antigravity {
+        /// Preview setup actions without writing to disk.
+        #[arg(long)]
+        dry_run: bool,
+
+        /// Resource profile tier to configure (light, engineering, full).
+        #[arg(long)]
+        profile: Option<String>,
+    },
 }

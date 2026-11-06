@@ -5,6 +5,38 @@ All notable changes to the Antigravity Engineering Kit (AEK) will be documented 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] - 2026-11-06
+
+### Added
+- Phase 8 Cross-Platform Installation, Packaging & Distribution:
+  - New `aek-distribution` crate:
+    - Typed `DistributionError` covering path traversal, checksum mismatches, incompatible platforms, rollback failures, and migration errors.
+    - Persistent `InstallationManifest` recording installed version, scope, executable path, timestamp, method, target platform, and managed files inventory.
+    - `DistributionPaths` resolving standard user installation paths (`%LOCALAPPDATA%\Programs\aek\bin` on Windows, `~/.local/bin` on Linux) with strict lexical containment and path traversal defenses.
+    - `ReleaseManifest` parser and artifact finder supporting target triples (`x86_64-pc-windows-msvc`, `x86_64-unknown-linux-gnu`) and OS/architecture fallbacks.
+    - `VersionManager` providing semantic version comparison, downgrade protection, and channel detection (`stable`, `beta`, `nightly`).
+    - Cryptographic verification engine (`compute_file_sha256`, `verify_file_checksum`) and `InstallationVerifier` auditing managed files on disk.
+    - `UpdateChecker` generating deterministic `UpdatePlan` records with downgrade guards and atomic staging workflows.
+    - `RollbackManager` archiving replaced binaries into `<install_root>/versions/<version>/` and restoring archived versions.
+    - `ConfigMigrator` executing versioned configuration migrations with automated backup creation and atomic persistence.
+    - `Uninstaller` planning and executing safe uninstallation, preserving user configurations by default, with `--purge` confirmation support.
+  - Production Installers & Packaging:
+    - Windows PowerShell installer (`installers/windows/install.ps1`) with architecture detection, HTTPS download, SHA-256 verification, safe zip extraction, user PATH configuration, and automated test harness (`test-install.ps1`).
+    - Linux Bash installer (`installers/linux/install.sh`) with strict mode, curl/wget fallback, sha256sum verification, safe tarball extraction, executable permission configuration, and automated test harness (`test-install.sh`).
+    - Windows packaging script (`packaging/package-windows.ps1`) and Linux packaging script (`packaging/package-linux.sh`).
+    - JSON release manifest schema (`packaging/release-manifest.schema.json`).
+    - Multi-platform release verification scripts (`scripts/verify-release.ps1`, `scripts/verify-release.sh`).
+  - GitHub Actions Release Workflow:
+    - Automated release workflow (`.github/workflows/release.yml`) triggered by `v*.*.*` tags with least-privilege permissions, multi-platform build matrix, automated packaging, checksum generation, and GitHub Release publication.
+  - User-Facing CLI Suite:
+    - `aek install` (`info`, `doctor`, `verify`)
+    - `aek update` (`check`, `--dry-run`, `--version <VER>`, `--force`)
+    - `aek rollback` (`--list`, `--version <VER>`, `--dry-run`)
+    - `aek config migrate` (`--check`, `--dry-run`)
+    - `aek uninstall` (`--dry-run`, `--purge`, `--yes`)
+    - `aek setup antigravity` (`--dry-run`, `--profile <PROFILE>`)
+
+
 ## [0.7.0] - 2026-11-06
 
 ### Added

@@ -30,4 +30,3 @@ pub enum SecurityError {
     #[error("Security policy violation: {0}")]
     PolicyViolation(String),
 }
-

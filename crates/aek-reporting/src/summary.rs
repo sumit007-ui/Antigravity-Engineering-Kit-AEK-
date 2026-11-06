@@ -86,4 +86,3 @@ impl MarkdownSummaryGenerator {
         md
     }
 }
-

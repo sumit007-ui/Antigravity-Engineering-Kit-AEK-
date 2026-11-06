@@ -11,6 +11,7 @@
 ## Key Features
 
 - **Rust-First Architecture**: Built for memory efficiency (<50 MB idle footprint), deterministic behavior, and zero shell-injection risks.
+- **Cross-Platform Distribution & Lifecycle Engine (`aek install`, `aek update`, `aek rollback`, `aek uninstall`)**: User-level installation without admin/root privileges, cryptographic SHA-256 verification, safe updates, instant rollback archives, and configuration migration.
 - **Language Toolchain Engine (`aek language`)**: Compilers, SDKs, linters, and language servers across 8 major ecosystems (Rust, Go, C/C++, Zig, Python, TypeScript, Flutter, ROS 2).
 - **Project-Aware Validation Engine (`aek validate`)**: Standardized 8-stage verification pipeline (Formatting, Linting, Type Checking, Compilation, Testing) with dry-run support, incremental Git detection, and quality gates.
 - **Security Scanning & Auditing Engine (`aek security`)**: Multi-scanner orchestration (Semgrep SAST, Trivy vulnerability & misconfiguration scanning, ecosystem dependency auditors) with normalized severity scoring and doctor diagnostics.
@@ -45,6 +46,7 @@ The workspace is organized into modular Rust crates:
 - [`crates/aek-validation`](crates/aek-validation): 8-stage verification pipeline, execution DAG planner, incremental change detector, and quality gate engine.
 - [`crates/aek-security`](crates/aek-security): Security scanner orchestrator, Semgrep & Trivy adapters, dependency auditing, and security doctor.
 - [`crates/aek-reporting`](crates/aek-reporting): Structured terminal formatter, JSON report serializer, OASIS SARIF v2.1.0 generator, and Markdown summary generator.
+- [`crates/aek-distribution`](crates/aek-distribution): Installation path resolution, release manifest models, update manager, version rollback, and uninstallation.
 - [`crates/aek-prompt`](crates/aek-prompt): Prompt data structures, template engine, atomic version control, metric calculators, and injection defense.
 - [`crates/aek-prompt-adapters`](crates/aek-prompt-adapters): Pluggable adapters for Prompt Optimizer, Stanford DSPy (Python bridge), and Promptfoo CLI.
 - [`crates/aek-cli`](crates/aek-cli): User-facing command-line interface (`aek`).
@@ -145,6 +147,17 @@ aek prompt export rust-lru --dry-run
 aek prompt doctor
 aek prompt adapters
 
+# Installation Diagnostics & Lifecycle Management
+aek install info
+aek install doctor
+aek install verify
+aek update check
+aek update --dry-run
+aek rollback --list
+aek uninstall --dry-run
+aek setup antigravity --dry-run
+aek config migrate --check
+
 # Configuration & Backups
 aek config show
 aek config validate
@@ -156,6 +169,11 @@ aek backup list
 
 ## Documentation
 
+- [Cross-Platform Installation](docs/installation.md)
+- [Updating & Version Rollback](docs/updating.md)
+- [Safe Uninstallation](docs/uninstalling.md)
+- [Release Process & Artifact Security](docs/release-process.md)
+- [Troubleshooting Runbook](docs/troubleshooting.md)
 - [Google Antigravity Compatibility Guide](docs/compatibility/antigravity.md)
 - [MCP Architecture & Engine](docs/mcp-architecture.md)
 - [MCP Security & Permission Policies](docs/mcp-security.md)

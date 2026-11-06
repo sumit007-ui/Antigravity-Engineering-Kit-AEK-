@@ -121,4 +121,3 @@ pub struct SecurityFinding {
     pub confidence: Option<String>,
     pub metadata: HashMap<String, serde_json::Value>,
 }
-

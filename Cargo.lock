@@ -29,6 +29,7 @@ dependencies = [
  "aek-agents",
  "aek-config",
  "aek-core",
+ "aek-distribution",
  "aek-languages",
  "aek-mcp",
  "aek-mcp-integrations",
@@ -82,6 +83,26 @@ dependencies = [
  "tempfile",
  "thiserror",
  "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "aek-distribution"
+version = "0.1.0"
+dependencies = [
+ "aek-config",
+ "aek-core",
+ "aek-platform",
+ "anyhow",
+ "chrono",
+ "semver",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tempfile",
+ "thiserror",
+ "tokio",
+ "toml",
  "tracing",
 ]
 

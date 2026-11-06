@@ -20,4 +20,3 @@ pub use policy::SecurityPolicy;
 pub use scanner::{SecurityScanReport, SecurityScanner};
 pub use semgrep::SemgrepAdapter;
 pub use trivy::TrivyAdapter;
-

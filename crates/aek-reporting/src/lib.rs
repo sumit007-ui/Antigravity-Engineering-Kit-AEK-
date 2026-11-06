@@ -12,4 +12,3 @@ pub use json::JsonReportGenerator;
 pub use sarif::SarifReportGenerator;
 pub use summary::MarkdownSummaryGenerator;
 pub use terminal::TerminalReportGenerator;
-
