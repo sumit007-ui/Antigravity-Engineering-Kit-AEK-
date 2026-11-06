@@ -1,0 +1,11 @@
+# Ignore Rust workspace and non-web crates for Vercel
+crates/
+integrations/
+installers/
+scripts/
+tests/
+target/
+.github/
+.cargo/
+Cargo.toml
+Cargo.lock
