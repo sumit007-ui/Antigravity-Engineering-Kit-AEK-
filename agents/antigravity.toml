@@ -1,0 +1,28 @@
+# Antigravity Agent Configuration Definition
+id = "antigravity"
+name = "Gemini Antigravity"
+version = "2.0.0"
+documentation_url = "https://antigravity.google/docs"
+verified_date = "2026-11-06"
+
+[capabilities]
+supports_global_rules = true
+supports_workspace_rules = true
+supports_skills = true
+supports_mcp = true
+supports_hooks = true
+max_rule_bytes = 24000
+rule_token_budget = 20000
+
+[paths]
+global_rules = "~/.gemini/antigravity/rules"
+workspace_rules = ".gemini/rules"
+global_skills = "~/.gemini/antigravity/skills"
+workspace_skills = ".gemini/skills"
+global_mcp = "~/.gemini/antigravity/config/mcp_config.json"
+workspace_mcp = ".gemini/mcp_config.json"
+
+[translation]
+rule_format = "markdown"
+mcp_format = "mcpServers"
+

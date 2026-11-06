@@ -38,6 +38,10 @@ impl AgentAdapter for AntigravityAdapter {
         "Google Antigravity"
     }
 
+    fn agent_id(&self) -> crate::model::AgentId {
+        crate::model::AgentId::Antigravity
+    }
+
     fn detect(&self) -> AgentDetection {
         let mut evidence = Vec::new();
 
@@ -62,6 +66,13 @@ impl AgentAdapter for AntigravityAdapter {
             agent_name: self.name().to_string(),
             is_detected,
             evidence,
+            version: if is_detected {
+                Some("2.0.0".to_string())
+            } else {
+                None
+            },
+            executable_path: find_executable_in_path("agy"),
+            config_path: self.paths.antigravity_dir.clone(),
         }
     }
 
@@ -96,6 +107,10 @@ impl AgentAdapter for AntigravityAdapter {
 
     fn workspace_skills_dir(&self, workspace: &Path) -> PathBuf {
         workspace.join(".agents").join("skills")
+    }
+
+    fn workspace_mcp_path(&self, workspace: &Path) -> PathBuf {
+        workspace.join(".gemini").join("mcp_config.json")
     }
 
     fn mcp_config_path(&self) -> Option<PathBuf> {

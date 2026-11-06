@@ -1,0 +1,28 @@
+# Claude Code Agent Configuration Definition
+id = "claude-code"
+name = "Claude Code"
+version = "1.0.0"
+documentation_url = "https://code.claude.com/docs/"
+verified_date = "2026-11-06"
+
+[capabilities]
+supports_global_rules = true
+supports_workspace_rules = true
+supports_skills = true
+supports_mcp = true
+supports_hooks = false # Requires explicit user confirmation
+max_rule_bytes = 32000
+rule_token_budget = 25000
+
+[paths]
+global_instructions = "~/.claude/CLAUDE.md"
+workspace_instructions = "CLAUDE.md"
+global_skills = "~/.claude/skills"
+workspace_skills = ".claude/skills"
+global_mcp = "~/.claude/mcp.json"
+workspace_mcp = ".claude/mcp.json"
+
+[translation]
+rule_format = "claude-md"
+mcp_format = "mcpServers"
+

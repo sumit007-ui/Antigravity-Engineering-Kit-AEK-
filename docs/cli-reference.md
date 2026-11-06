@@ -60,23 +60,46 @@ aek skills remove <SKILL_NAME> [--target <DIR>] [--dry-run]
 
 ---
 
-## 3. Agent Integration (`aek agent`)
+## 3. Universal Multi-Agent Integration (`aek agent`)
 
 ```bash
-# Detect active AI agent runtime and filesystem paths
+# List all supported AI coding agents (Antigravity, Claude Code, OpenCode, Cursor)
+aek agent list
+
+# Detect installed/configured coding agents across host and workspace
 aek agent detect
 
-# Display agent capabilities, limits, and scopes
-aek agent capabilities
+# Display agent capabilities and feature matrix
+aek agent capabilities [<AGENT>]
 
-# Install all bundled rules into the active agent
-aek agent install-rules [--dry-run]
-
-# Install all bundled skills into the active agent
-aek agent install-skills [--dry-run]
-
-# Perform a comprehensive agent integration diagnostics check
+# Multi-agent diagnostics doctor and health inspection
 aek agent doctor
+
+# Setup and configure a target agent
+aek agent setup <AGENT> [--profile <PROFILE>] [--dry-run]
+
+# Synchronize configurations across all agents with conflict defense
+aek agent sync [--all] [--agent <AGENT>] [--dry-run] [--conflict <keep-existing|replace-managed|skip|manual-resolution>]
+
+# Inspect, validate, or export translated configurations
+aek agent config show <AGENT>
+aek agent config validate <AGENT>
+aek agent config export <AGENT>
+
+# Manage and apply agent profiles
+aek agent profile list
+aek agent profile show <PROFILE>
+aek agent profile apply <PROFILE> [--dry-run]
+
+# Safe uninstallation of AEK-managed files
+aek agent uninstall <AGENT> [--dry-run]
+
+# Display granular capability and compatibility report
+aek agent compatibility [<AGENT>]
+
+# Legacy commands
+aek agent install-rules [--dry-run]
+aek agent install-skills [--dry-run]
 ```
 
 ---

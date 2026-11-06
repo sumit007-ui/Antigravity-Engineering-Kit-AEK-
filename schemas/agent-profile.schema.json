@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentProfile",
+  "description": "AEK agent engineering profile configuration schema",
+  "type": "object",
+  "required": ["id", "name", "kind", "target_agents", "enabled_rules", "enabled_skills"],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "antigravity-engineering",
+        "claude-code-engineering",
+        "opencode-engineering",
+        "cursor-engineering",
+        "multi-agent-engineering",
+        "custom"
+      ]
+    },
+    "description": {
+      "type": "string"
+    },
+    "target_agents": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["antigravity", "claude-code", "opencode", "cursor"]
+      }
+    },
+    "enabled_rules": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "enabled_skills": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "mcp_servers": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "validation_policy": {
+      "type": "string"
+    },
+    "permissions": {
+      "type": "object"
+    }
+  }
+}
+

@@ -10,6 +10,9 @@
 
 ## Key Features
 
+- **Universal Multi-Agent Compatibility (`aek agent`)**: Agent-agnostic core translating rules, skills, MCP servers, and prompt instructions natively into Google Gemini Antigravity, Anthropic Claude Code, OpenCode, and Cursor.
+- **Conflict-Safe Multi-Agent Synchronization (`aek agent sync`)**: Conflict resolution strategies (`KeepExisting`, `ReplaceManaged`, `Skip`, `ManualResolution`), SHA-256 ownership tracking (`.aek/managed-agents.toml`), and safe rollbacks.
+- **Agent Profiles & Capability Matrices (`aek agent profile`, `aek agent capabilities`)**: Ready-to-use profiles (Antigravity Engineering, Claude Code Engineering, Cursor Engineering, OpenCode Engineering, Multi-Agent Engineering) and typed capability discovery.
 - **Rust-First Architecture**: Built for memory efficiency (<50 MB idle footprint), deterministic behavior, and zero shell-injection risks.
 - **Cross-Platform Distribution & Lifecycle Engine (`aek install`, `aek update`, `aek rollback`, `aek uninstall`)**: User-level installation without admin/root privileges, cryptographic SHA-256 verification, safe updates, instant rollback archives, and configuration migration.
 - **Language Toolchain Engine (`aek language`)**: Compilers, SDKs, linters, and language servers across 8 major ecosystems (Rust, Go, C/C++, Zig, Python, TypeScript, Flutter, ROS 2).
@@ -39,7 +42,7 @@ The workspace is organized into modular Rust crates:
 - [`crates/aek-config`](crates/aek-config): Schema validation, TOML persistence, atomic writes, and backup/restore engine.
 - [`crates/aek-rules`](crates/aek-rules): Global and project rule models, registry, precedence resolution, validation, and safe installation.
 - [`crates/aek-skills`](crates/aek-skills): Skill models, frontmatter parsing, project-aware discovery, validation, and installation.
-- [`crates/aek-agents`](crates/aek-agents): Extensible agent adapter trait, Antigravity integration, and native MCP config exporter.
+- [`crates/aek-agents`](crates/aek-agents): Universal multi-agent adapter trait, capability registry, config translators, conflict-safe synchronization, and adapters for Antigravity, Claude Code, OpenCode, and Cursor.
 - [`crates/aek-mcp`](crates/aek-mcp): Reusable MCP client engine, Stdio/HTTP transports, lifecycle state machine, and security policy.
 - [`crates/aek-mcp-integrations`](crates/aek-mcp-integrations): Official MCP server configuration adapters (Context7, GitHub, Playwright, Sequential Thinking, Filesystem).
 - [`crates/aek-languages`](crates/aek-languages): Language provider interface, toolchain registry, project detection, and diagnostics.
@@ -147,6 +150,18 @@ aek prompt export rust-lru --dry-run
 aek prompt doctor
 aek prompt adapters
 
+# Universal Multi-Agent Operations
+aek agent list
+aek agent detect
+aek agent doctor
+aek agent capabilities claude-code
+aek agent sync --agents antigravity,claude-code,cursor --dry-run
+aek agent config show cursor
+aek agent profile list
+aek agent profile apply multi-agent-engineering --dry-run
+aek agent uninstall opencode --dry-run
+aek agent compatibility
+
 # Installation Diagnostics & Lifecycle Management
 aek install info
 aek install doctor
@@ -169,6 +184,11 @@ aek backup list
 
 ## Documentation
 
+- [Universal Multi-Agent Architecture](docs/multi-agent-architecture.md)
+- [Agent Compatibility Guide](docs/agent-compatibility.md)
+- [Agent Profiles & Presets](docs/agent-profiles.md)
+- [Multi-Agent Synchronization & Conflict Resolution](docs/agent-synchronization.md)
+- [Agent Troubleshooting](docs/agent-troubleshooting.md)
 - [Cross-Platform Installation](docs/installation.md)
 - [Updating & Version Rollback](docs/updating.md)
 - [Safe Uninstallation](docs/uninstalling.md)

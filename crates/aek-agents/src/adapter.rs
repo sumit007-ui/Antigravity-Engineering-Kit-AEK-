@@ -1,48 +1,14 @@
-//! Extensible agent adapter trait and common report types.
+//! Extensible universal agent adapter trait and common report types.
 
 use crate::capabilities::AgentCapabilities;
+pub use crate::errors::AgentError;
+pub use crate::model::AgentDetection;
+use crate::model::AgentId;
 use aek_mcp::config::McpServerConfig;
 use aek_rules::model::Rule;
 use aek_skills::model::SkillBundle;
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
-use thiserror::Error;
-
-/// Errors arising during agent adapter execution.
-#[derive(Error, Debug)]
-pub enum AgentError {
-    #[error("I/O error during agent operation: {0}")]
-    Io(#[from] std::io::Error),
-
-    #[error("Rule installation error: {0}")]
-    RuleInstall(#[from] aek_rules::installer::RuleInstallError),
-
-    #[error("Skill installation error: {0}")]
-    SkillInstall(#[from] aek_skills::installer::SkillInstallError),
-
-    #[error("MCP configuration error: {0}")]
-    Mcp(#[from] aek_mcp::errors::McpError),
-
-    #[error("JSON serialization error: {0}")]
-    Json(#[from] serde_json::Error),
-
-    #[error("Target agent '{0}' is not installed or detectable")]
-    AgentNotDetected(String),
-
-    #[error("Security violation: {0}")]
-    Security(String),
-}
-
-/// Agent installation detection status.
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AgentDetection {
-    /// Name of the agent.
-    pub agent_name: String,
-    /// Whether an active installation was reliably identified.
-    pub is_detected: bool,
-    /// Evidence or filesystem paths validating detection.
-    pub evidence: Vec<String>,
-}
 
 /// Summary report for rule or skill installation.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -77,6 +43,9 @@ pub trait AgentAdapter: Send + Sync {
     /// Human-readable agent name.
     fn name(&self) -> &'static str;
 
+    /// Canonical agent identifier.
+    fn agent_id(&self) -> AgentId;
+
     /// Checks if the agent is present on the host environment.
     fn detect(&self) -> AgentDetection;
 
@@ -108,6 +77,27 @@ pub trait AgentAdapter: Send + Sync {
         target_file: Option<&Path>,
         dry_run: bool,
     ) -> Result<McpMergeReport, AgentError>;
+
+    /// Installs MCP servers into the agent's workspace configuration.
+    fn install_mcp(
+        &self,
+        servers: &[McpServerConfig],
+        workspace: Option<&Path>,
+        dry_run: bool,
+    ) -> Result<McpMergeReport, AgentError> {
+        let path = match workspace {
+            Some(ws) => self.workspace_mcp_path(ws),
+            None => self
+                .mcp_config_path()
+                .unwrap_or_else(|| PathBuf::from("mcp.json")),
+        };
+        self.merge_mcp_config(servers, Some(&path), dry_run)
+    }
+
+    /// Target path for workspace MCP configuration.
+    fn workspace_mcp_path(&self, workspace: &Path) -> PathBuf {
+        workspace.join("mcp.json")
+    }
 
     /// Installs a set of rules into the specified target directory.
     fn install_rules(

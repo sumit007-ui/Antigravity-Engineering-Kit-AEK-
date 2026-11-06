@@ -1,0 +1,28 @@
+# OpenCode Agent Configuration Definition
+id = "opencode"
+name = "OpenCode"
+version = "1.0.0"
+documentation_url = "https://opencode.ai/docs/"
+verified_date = "2026-11-06"
+
+[capabilities]
+supports_global_rules = true
+supports_workspace_rules = true
+supports_skills = true
+supports_mcp = true
+supports_hooks = false
+max_rule_bytes = 32000
+rule_token_budget = 20000
+
+[paths]
+global_instructions = "~/.opencode/AGENTS.md"
+workspace_instructions = "AGENTS.md"
+global_skills = "~/.opencode/skills"
+workspace_skills = ".opencode/skills"
+global_mcp = "~/.opencode/config.json"
+workspace_mcp = ".opencode/config.json"
+
+[translation]
+rule_format = "agents-md"
+mcp_format = "mcp_servers"
+

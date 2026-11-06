@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentConfiguration",
+  "description": "AEK agent definition and capability specification schema",
+  "type": "object",
+  "required": ["id", "name", "version", "capabilities", "paths"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "enum": ["antigravity", "claude-code", "opencode", "cursor"]
+    },
+    "name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "documentation_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "verified_date": {
+      "type": "string"
+    },
+    "capabilities": {
+      "type": "object",
+      "required": ["supports_global_rules", "supports_workspace_rules", "supports_skills", "supports_mcp"],
+      "properties": {
+        "supports_global_rules": { "type": "boolean" },
+        "supports_workspace_rules": { "type": "boolean" },
+        "supports_skills": { "type": "boolean" },
+        "supports_mcp": { "type": "boolean" },
+        "supports_hooks": { "type": "boolean" },
+        "max_rule_bytes": { "type": "integer", "minimum": 1024 },
+        "rule_token_budget": { "type": "integer", "minimum": 1000 }
+      }
+    },
+    "paths": {
+      "type": "object"
+    }
+  }
+}
+

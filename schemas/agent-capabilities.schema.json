@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentCapabilityRecord",
+  "description": "AEK granular agent capability record specification schema",
+  "type": "object",
+  "required": ["agent_id", "feature_id", "category", "support_status", "supported_scope", "config_format"],
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "enum": ["antigravity", "claude-code", "opencode", "cursor"]
+    },
+    "feature_id": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "RULES",
+        "SKILLS",
+        "MCP",
+        "HOOKS",
+        "PROJECT_INSTRUCTIONS",
+        "GLOBAL_INSTRUCTIONS",
+        "PERMISSIONS",
+        "VALIDATION_WORKFLOWS",
+        "PROMPT_TEMPLATES"
+      ]
+    },
+    "support_status": {
+      "type": "string",
+      "enum": ["SUPPORTED", "PARTIAL", "UNSUPPORTED", "UNKNOWN"]
+    },
+    "supported_scope": {
+      "type": "string"
+    },
+    "required_version": {
+      "type": ["string", "null"]
+    },
+    "config_format": {
+      "type": "string"
+    },
+    "limitations": {
+      "type": ["string", "null"]
+    },
+    "doc_ref": {
+      "type": "string"
+    },
+    "verification_date": {
+      "type": "string"
+    }
+  }
+}
+

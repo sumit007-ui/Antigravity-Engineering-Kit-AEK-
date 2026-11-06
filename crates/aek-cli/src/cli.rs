@@ -355,11 +355,81 @@ pub struct AgentArgs {
 /// Subcommands under `aek agent`.
 #[derive(Subcommand, Debug)]
 pub enum AgentSubcommand {
+    /// List all supported AI coding agents.
+    List,
+
     /// Detect active AI agent environment and paths.
     Detect,
 
-    /// Display supported capabilities and limits for detected agent.
-    Capabilities,
+    /// Display supported capabilities and limits for detected or specified agent.
+    Capabilities {
+        /// Optional target agent name (e.g. antigravity, claude-code, opencode, cursor).
+        agent: Option<String>,
+    },
+
+    /// Inspect agent integration health and configuration validity.
+    Doctor,
+
+    /// Setup and configure a target agent.
+    Setup {
+        /// Target agent name (antigravity, claude-code, opencode, cursor).
+        agent: String,
+
+        /// Preview installation without writing files to disk.
+        #[arg(long)]
+        dry_run: bool,
+
+        /// Optional profile name to apply.
+        #[arg(long)]
+        profile: Option<String>,
+    },
+
+    /// Synchronize AEK rules, skills, and MCP configurations across agents.
+    Sync {
+        /// Synchronize all supported agents.
+        #[arg(long)]
+        all: bool,
+
+        /// Specific target agent to synchronize.
+        #[arg(long)]
+        agent: Option<String>,
+
+        /// Preview synchronization actions without modifying disk.
+        #[arg(long)]
+        dry_run: bool,
+
+        /// Conflict resolution strategy (keep-existing, replace-managed, skip, manual-resolution).
+        #[arg(long, default_value = "replace-managed")]
+        conflict: String,
+    },
+
+    /// Inspect, validate, or export agent native configurations.
+    Config {
+        #[command(subcommand)]
+        action: AgentConfigSubcommand,
+    },
+
+    /// Manage and apply multi-agent profiles.
+    Profile {
+        #[command(subcommand)]
+        action: AgentProfileSubcommand,
+    },
+
+    /// Safely uninstall AEK-managed files from an agent.
+    Uninstall {
+        /// Target agent name to remove managed files for.
+        agent: String,
+
+        /// Preview removal without deleting files.
+        #[arg(long)]
+        dry_run: bool,
+    },
+
+    /// Display multi-agent compatibility report and matrix.
+    Compatibility {
+        /// Optional target agent name to filter report.
+        agent: Option<String>,
+    },
 
     /// Install global engineering rules into agent configuration.
     InstallRules {
@@ -374,9 +444,46 @@ pub enum AgentSubcommand {
         #[arg(long)]
         dry_run: bool,
     },
+}
 
-    /// Inspect agent integration health and configuration validity.
-    Doctor,
+/// Subcommands for `aek agent config`.
+#[derive(Subcommand, Debug)]
+pub enum AgentConfigSubcommand {
+    /// Show current agent configuration files and locations.
+    Show {
+        /// Target agent name.
+        agent: String,
+    },
+    /// Validate current agent configuration syntax and presence.
+    Validate {
+        /// Target agent name.
+        agent: String,
+    },
+    /// Export translated agent native configuration files to standard output.
+    Export {
+        /// Target agent name.
+        agent: String,
+    },
+}
+
+/// Subcommands for `aek agent profile`.
+#[derive(Subcommand, Debug)]
+pub enum AgentProfileSubcommand {
+    /// List all available agent profiles.
+    List,
+    /// Show details for a specific profile.
+    Show {
+        /// Profile name or slug.
+        profile: String,
+    },
+    /// Apply an agent profile to active workspace.
+    Apply {
+        /// Profile name or slug.
+        profile: String,
+        /// Preview without modifying filesystem.
+        #[arg(long)]
+        dry_run: bool,
+    },
 }
 
 /// Arguments for `aek mcp`.

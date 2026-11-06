@@ -1,0 +1,29 @@
+# Cursor Agent Configuration Definition
+id = "cursor"
+name = "Cursor"
+version = "0.40.0"
+documentation_url = "https://cursor.com/docs"
+verified_date = "2026-11-06"
+
+[capabilities]
+supports_global_rules = true
+supports_workspace_rules = true
+supports_skills = true
+supports_mcp = true
+supports_hooks = false
+max_rule_bytes = 16000
+rule_token_budget = 15000
+
+[paths]
+global_rules = "~/.cursor/rules"
+workspace_rules = ".cursor/rules"
+legacy_workspace_rules = ".cursorrules"
+global_skills = "~/.cursor/skills"
+workspace_skills = ".cursor/skills"
+global_mcp = "~/.cursor/mcp.json"
+workspace_mcp = ".cursor/mcp.json"
+
+[translation]
+rule_format = "cursor-mdc"
+mcp_format = "mcpServers"
+

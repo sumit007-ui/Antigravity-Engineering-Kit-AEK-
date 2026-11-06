@@ -15,10 +15,13 @@ dependencies = [
  "aek-rules",
  "aek-skills",
  "aek-validation",
+ "chrono",
  "serde",
  "serde_json",
+ "sha2",
  "tempfile",
  "thiserror",
+ "toml",
  "tracing",
 ]
 

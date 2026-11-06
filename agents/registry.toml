@@ -1,0 +1,47 @@
+# AEK Multi-Agent Capability Registry
+schema_version = "1.0.0"
+
+[agents.antigravity]
+id = "antigravity"
+name = "Gemini Antigravity"
+description = "Antigravity developer IDE and sidecar execution framework"
+documentation_url = "https://antigravity.google/docs"
+verified_date = "2026-11-06"
+primary_rule_format = "markdown"
+rules_path = ".gemini/rules"
+skills_path = ".gemini/skills"
+mcp_path = ".gemini/mcp_config.json"
+
+[agents.claude-code]
+id = "claude-code"
+name = "Claude Code"
+description = "Anthropic Claude Code command-line developer agent"
+documentation_url = "https://code.claude.com/docs/"
+verified_date = "2026-11-06"
+primary_rule_format = "claude-md"
+rules_path = "CLAUDE.md"
+skills_path = ".claude/skills"
+mcp_path = ".claude/mcp.json"
+
+[agents.opencode]
+id = "opencode"
+name = "OpenCode"
+description = "OpenCode open-source terminal AI agent framework"
+documentation_url = "https://opencode.ai/docs/"
+verified_date = "2026-11-06"
+primary_rule_format = "agents-md"
+rules_path = "AGENTS.md"
+skills_path = ".opencode/skills"
+mcp_path = ".opencode/config.json"
+
+[agents.cursor]
+id = "cursor"
+name = "Cursor"
+description = "Cursor AI Code Editor"
+documentation_url = "https://cursor.com/docs"
+verified_date = "2026-11-06"
+primary_rule_format = "cursor-mdc"
+rules_path = ".cursor/rules"
+skills_path = ".cursor/skills"
+mcp_path = ".cursor/mcp.json"
+
