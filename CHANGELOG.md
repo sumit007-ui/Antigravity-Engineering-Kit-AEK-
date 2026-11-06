@@ -5,6 +5,41 @@ All notable changes to the Antigravity Engineering Kit (AEK) will be documented 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-11-06
+
+### Added
+- Phase 3 Global Rules & Specialized Agent Skills:
+  - New `aek-rules` crate:
+    - Rule models (`Rule`, `RuleScope` for Global, Workspace, Project).
+    - Rule registry discovering rules from directories.
+    - Rule validator enforcing Google Antigravity constraints (<=24 KB per file).
+    - Rule resolver implementing deterministic precedence resolution (Project > Workspace > Global).
+    - Rule consolidation and merger capping aggregate token budgets (~20k tokens) and demoting overflowing rules to file references.
+    - Rule installer supporting atomic installation, dry-run previews, and path containment validation.
+  - New `aek-skills` crate:
+    - Skill models (`SkillBundle`, `SkillMetadata`) with YAML frontmatter parsing (`parse_skill_markdown`).
+    - Skill registry and directory loader.
+    - Project-aware `SkillDiscoverer` automatically analyzing workspace roots for markers (`Cargo.toml`, `go.mod`, `CMakeLists.txt`, `build.zig`, `pyproject.toml`, `pubspec.yaml`, `package.json`, ROS 2 packages, SQL files) and recommending skills with confidence ratings.
+    - Skill installer supporting safe atomic directory installation, dry-run previews, and removal.
+  - New `aek-agents` crate:
+    - Extensible `AgentAdapter` trait defining detection, capability discovery, and rule/skill installation.
+    - Native `AntigravityAdapter` for Google Antigravity runtime, directories, and capabilities.
+  - 13 Precedence-Tiered Engineering Rules:
+    - Global: `engineering.md`, `security.md`, `documentation.md`, `testing.md`, `performance.md`.
+    - Project: `rust.md`, `go.md`, `cpp.md`, `zig.md`, `python.md`, `typescript.md`, `flutter.md`, `robotics.md`.
+  - 15 Specialized Agent Skills:
+    - `rust-systems-engineer`, `go-backend-engineer`, `cpp-systems-engineer`, `zig-engineer`, `python-engineer`, `flutter-engineer`, `ai-agent-engineer`, `robotics-ros2-engineer`, `operating-system-engineer`, `devops-engineer`, `security-auditor`, `database-architect`, `distributed-systems-engineer`, `prompt-engineering-specialist`, `production-code-reviewer`.
+  - Standard JSON schemas:
+    - `schemas/rule.schema.json`
+    - `schemas/skill.schema.json`
+  - CLI Subcommands:
+    - `aek rules list [--json]`, `aek rules show <rule>`, `aek rules validate`, `aek rules install <rule> [--dry-run]`, `aek rules remove <rule> [--dry-run]`, `aek rules enable/disable <rule>`.
+    - `aek skills list [--json]`, `aek skills show <skill>`, `aek skills validate`, `aek skills recommend [--path <dir>]`, `aek skills install <skill> [--dry-run]`, `aek skills remove <skill> [--dry-run]`.
+    - `aek agent detect`, `aek agent capabilities`, `aek agent doctor`, `aek agent install-rules [--dry-run]`, `aek agent install-skills [--dry-run]`.
+  - Comprehensive documentation:
+    - `docs/compatibility/antigravity.md`, `docs/rules.md`, `docs/skills.md`, `docs/skill-authoring.md`, `docs/security.md`, and updated `docs/cli-reference.md`.
+  - Comprehensive integration test suites (`rules_cli_tests.rs`, `skills_cli_tests.rs`, `agent_cli_tests.rs`, `rules_tests.rs`, `skills_tests.rs`, `agents_tests.rs`).
+
 ## [0.2.0] - 2026-11-06
 
 ### Added

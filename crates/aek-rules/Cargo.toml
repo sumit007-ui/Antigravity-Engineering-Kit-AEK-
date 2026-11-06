@@ -1,0 +1,21 @@
+[package]
+name = "aek-rules"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+aek-core = { workspace = true }
+aek-platform = { workspace = true }
+aek-config = { workspace = true }
+thiserror.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tracing.workspace = true
+tempfile.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

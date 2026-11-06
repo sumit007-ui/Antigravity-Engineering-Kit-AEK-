@@ -3,12 +3,31 @@
 version = 4
 
 [[package]]
-name = "aek-cli"
+name = "aek-agents"
 version = "0.1.0"
 dependencies = [
  "aek-config",
  "aek-core",
  "aek-platform",
+ "aek-rules",
+ "aek-skills",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror",
+ "tracing",
+]
+
+[[package]]
+name = "aek-cli"
+version = "0.1.0"
+dependencies = [
+ "aek-agents",
+ "aek-config",
+ "aek-core",
+ "aek-platform",
+ "aek-rules",
+ "aek-skills",
  "anyhow",
  "clap",
  "serde",
@@ -59,6 +78,34 @@ version = "0.1.0"
 dependencies = [
  "directories",
  "serde",
+ "tempfile",
+ "thiserror",
+ "tracing",
+]
+
+[[package]]
+name = "aek-rules"
+version = "0.1.0"
+dependencies = [
+ "aek-config",
+ "aek-core",
+ "aek-platform",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror",
+ "tracing",
+]
+
+[[package]]
+name = "aek-skills"
+version = "0.1.0"
+dependencies = [
+ "aek-config",
+ "aek-core",
+ "aek-platform",
+ "serde",
+ "serde_json",
  "tempfile",
  "thiserror",
  "tracing",

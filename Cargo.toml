@@ -3,6 +3,9 @@ members = [
     "crates/aek-core",
     "crates/aek-config",
     "crates/aek-platform",
+    "crates/aek-rules",
+    "crates/aek-skills",
+    "crates/aek-agents",
     "crates/aek-cli",
 ]
 resolver = "2"
@@ -21,6 +24,9 @@ rust-version = "1.85.0"
 aek-core = { path = "crates/aek-core", version = "0.1.0" }
 aek-config = { path = "crates/aek-config", version = "0.1.0" }
 aek-platform = { path = "crates/aek-platform", version = "0.1.0" }
+aek-rules = { path = "crates/aek-rules", version = "0.1.0" }
+aek-skills = { path = "crates/aek-skills", version = "0.1.0" }
+aek-agents = { path = "crates/aek-agents", version = "0.1.0" }
 
 # Error handling
 thiserror = "2.0.11"

@@ -1,104 +1,131 @@
-# AEK CLI Command Reference
+# AEK CLI Reference Manual
 
-## Global Options
+Comprehensive command-line reference for the **Antigravity Engineering Kit (`aek`)** CLI tool.
 
-- `--verbose`, `-v`: Enable debug tracing output.
-- `--quiet`, `-q`: Suppress non-essential output.
-- `--version`, `-V`: Display binary version.
-- `--help`, `-h`: Print help information.
+## Global Flags
+
+- `-v, --verbose`: Enable detailed debug tracing.
+- `-q, --quiet`: Suppress non-essential output.
+- `-h, --help`: Display help information.
+- `-V, --version`: Print version information (`aek 0.1.0`).
 
 ---
 
-## 1. `aek init`
-
-Initializes AEK standard directories and generates a default configuration file with the LIGHT profile.
+## 1. Rules Management (`aek rules`)
 
 ```bash
-# Standard initialization
-aek init
+# List available rules (global and project scopes)
+aek rules list [--json]
 
-# Dry-run preview
-aek init --dry-run
+# Show details and full Markdown content of a rule
+aek rules show <RULE_NAME>
 
-# Force reinitialization with automatic verified safety backup
-aek init --force
+# Validate all rules against size limits and schema
+aek rules validate [--path <DIR>]
 
-# Custom destination path
-aek init --path ./my-config.toml
+# Install a rule into the agent's rules directory
+aek rules install <RULE_NAME> [--target <DIR>] [--dry-run]
+
+# Enable or disable a rule
+aek rules enable <RULE_NAME>
+aek rules disable <RULE_NAME>
+
+# Remove an installed rule
+aek rules remove <RULE_NAME> [--target <DIR>] [--dry-run]
 ```
 
 ---
 
-## 2. `aek doctor`
-
-Performs non-destructive environment diagnostics. Evaluates host platform, core toolchains (Rust, Cargo, Git), optional runtimes (Node.js, Python), and Antigravity readiness.
+## 2. Skills Management (`aek skills`)
 
 ```bash
-# Human-readable diagnostics
-aek doctor
+# List all discovered and bundled skills
+aek skills list [--json]
 
-# Machine-readable JSON output
-aek doctor --json
+# Show metadata and full instructions for a skill
+aek skills show <SKILL_NAME>
 
-# Detailed diagnostics output
-aek doctor --verbose
+# Validate skills against YAML frontmatter and formatting standards
+aek skills validate [--path <DIR>]
+
+# Recommend relevant skills based on project files in a directory
+aek skills recommend [--path <PROJECT_DIR>]
+
+# Install a skill into the agent's skills directory
+aek skills install <SKILL_NAME> [--target <DIR>] [--dry-run]
+
+# Remove an installed skill
+aek skills remove <SKILL_NAME> [--target <DIR>] [--dry-run]
 ```
 
 ---
 
-## 3. `aek config`
+## 3. Agent Integration (`aek agent`)
 
-Manages and validates configuration files.
+```bash
+# Detect active AI agent runtime and filesystem paths
+aek agent detect
+
+# Display agent capabilities, limits, and scopes
+aek agent capabilities
+
+# Install all bundled rules into the active agent
+aek agent install-rules [--dry-run]
+
+# Install all bundled skills into the active agent
+aek agent install-skills [--dry-run]
+
+# Perform a comprehensive agent integration diagnostics check
+aek agent doctor
+```
+
+---
+
+## 4. System & Diagnostics
+
+```bash
+# Initialize AEK environment and configuration
+aek init [--path <PATH>] [--force] [--dry-run]
+
+# Run system doctor diagnostics
+aek doctor [--workspace <PATH>] [--json]
+```
+
+---
+
+## 5. Configuration & Profiles
 
 ```bash
 # View active configuration
-aek config show
+aek config show [--path <PATH>]
 
-# Validate configuration against schema and security constraints
-aek config validate
+# Validate configuration against schema and safety constraints
+aek config validate [--path <PATH>]
 
-# Print path to resolved active configuration file
+# Print path to configuration file
 aek config path
-```
 
----
-
-## 4. `aek profile`
-
-Inspects and applies resource profiles (`light`, `engineering`, `full`).
-
-```bash
-# List available profiles with active profile indicator
+# List resource profiles (LIGHT, ENGINEERING, FULL)
 aek profile list
 
-# Show metadata for a specific profile
-aek profile show engineering
-aek profile show full
+# Show metadata for a profile tier
+aek profile show <light|engineering|full>
 
-# Preview profile application without modifying files
-aek profile apply engineering --dry-run
-
-# Apply profile to active configuration (creates safety backup)
-aek profile apply engineering
+# Apply a resource profile
+aek profile apply <light|engineering|full> [--dry-run]
 ```
 
 ---
 
-## 5. `aek backup` & `aek restore`
-
-Creates and restores crash-resilient configuration backups.
+## 6. Backup & Restoration
 
 ```bash
-# Create an on-demand verified backup
-aek backup
+# Create a configuration backup
+aek backup create [--reason <NOTE>]
 
-# List all stored backups
+# List all configuration backups
 aek backup list
 
-# Preview backup restoration
-aek restore backup-20261106-123000-a1b2c3 --dry-run
-
-# Atomically restore backup (creates safety backup of existing file)
-aek restore backup-20261106-123000-a1b2c3
+# Restore configuration from a verified backup
+aek restore <BACKUP_ID> [--dry-run]
 ```
-

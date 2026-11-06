@@ -11,12 +11,14 @@
 ## Key Features
 
 - **Rust-First Architecture**: Built for memory efficiency (<50 MB idle footprint), deterministic behavior, and zero shell-injection risks.
-- **Platform Foundation**: Standard cross-platform path resolution, directory traversal prevention, and OS/arch detection.
-- **Resource Profiles**: Three calibrated tiers: `LIGHT` (minimal, 8 GB laptops), `ENGINEERING` (MCP & compilers), and `FULL` (DSPy & security).
+- **Global & Project Engineering Rules (`aek rules`)**: Tiered precedence system (Global -> Workspace -> Project) with size validation (<=24 KB) and token budgeting.
+- **15 Specialized Agent Skills (`aek skills`)**: Progressive-disclosure runbooks covering Rust, Go, C++, Zig, Python, Flutter, Robotics (ROS 2), OS Internals, DevOps, Security Auditing, Databases, Distributed Systems, and Prompt Engineering.
+- **Project-Aware Skill Discovery**: Automatic codebase inspection recommending targeted skills with confidence scoring based on repository manifests.
+- **Extensible Agent Adapters (`aek agent`)**: Native integration with Google Antigravity runtime, directories, and capabilities.
+- **Resource Profiles (`aek profile`)**: Three calibrated tiers: `LIGHT` (minimal, 8 GB laptops), `ENGINEERING` (MCP & compilers), and `FULL` (DSPy & security).
 - **Environment Doctor (`aek doctor`)**: Non-destructive diagnostic inspection of toolchains, runtimes, and Antigravity readiness.
 - **Validated Configuration (`aek config`)**: TOML-backed configuration with strict schema validation, unknown-field rejection, and atomic writes.
 - **Backup & Restore Engine (`aek backup`, `aek restore`)**: Unique-ID timestamped backups with safety copies prior to destructive modifications.
-- **Safe Subprocess Engine**: Direct argument-array process execution with timeout cleanup and secret credential redaction.
 
 ---
 
@@ -27,6 +29,9 @@ The workspace is organized into modular Rust crates:
 - [`crates/aek-platform`](crates/aek-platform): OS & arch detection, standard directory resolution, path traversal defense.
 - [`crates/aek-core`](crates/aek-core): Safe execution engine, diagnostics runner, and resource profile tiers.
 - [`crates/aek-config`](crates/aek-config): Schema validation, TOML persistence, atomic writes, and backup/restore engine.
+- [`crates/aek-rules`](crates/aek-rules): Global and project rule models, registry, precedence resolution, validation, and safe installation.
+- [`crates/aek-skills`](crates/aek-skills): Skill models, frontmatter parsing, project-aware discovery, validation, and installation.
+- [`crates/aek-agents`](crates/aek-agents): Extensible agent adapter trait and native Google Antigravity integration.
 - [`crates/aek-cli`](crates/aek-cli): User-facing command-line interface (`aek`).
 
 ---
@@ -58,33 +63,50 @@ cargo run -- doctor
 ### CLI Command Highlights
 
 ```bash
-# Initialize AEK (idempotent, dry-run, or force with backup)
-aek init
-aek init --dry-run
-aek init --force
+# Engineering Rules Management
+aek rules list
+aek rules show engineering
+aek rules validate
+aek rules install engineering --dry-run
+aek rules install engineering
 
-# Inspect environment
+# Specialized Agent Skills
+aek skills list
+aek skills show rust-systems-engineer
+aek skills validate
+aek skills recommend
+aek skills install rust-systems-engineer --dry-run
+aek skills install rust-systems-engineer
+
+# Agent Integration & Capabilities
+aek agent detect
+aek agent capabilities
+aek agent doctor
+aek agent install-rules --dry-run
+aek agent install-skills --dry-run
+
+# Environment & Resource Profiles
 aek doctor
-aek doctor --json
-aek doctor --verbose
-
-# Manage configuration
-aek config show
-aek config validate
-aek config path
-
-# Resource profiles
 aek profile list
-aek profile show engineering
-aek profile apply engineering --dry-run
 aek profile apply engineering
 
-# Backups and restoration
-aek backup
+# Configuration & Backups
+aek config show
+aek config validate
+aek backup create
 aek backup list
-aek restore <backup-id> --dry-run
-aek restore <backup-id>
 ```
+
+---
+
+## Documentation
+
+- [Google Antigravity Compatibility Guide](docs/compatibility/antigravity.md)
+- [Engineering Rules Overview](docs/rules.md)
+- [Specialized Agent Skills](docs/skills.md)
+- [Skill Authoring Guide](docs/skill-authoring.md)
+- [CLI Reference Manual](docs/cli-reference.md)
+- [Security Architecture & Invariants](docs/security.md)
 
 ---
 
@@ -99,24 +121,12 @@ cargo fmt --all -- --check
 # Strict linting (zero warnings permitted)
 cargo clippy --workspace --all-targets -- -D warnings
 
-# Execute test suite
+# Execute entire test suite
 cargo test --workspace
 
-# Build release artifacts
+# Build optimized release binary
 cargo build --workspace --release
 ```
-
----
-
-## Documentation
-
-- [Architecture Guide](docs/architecture.md)
-- [Configuration Reference](docs/configuration.md)
-- [CLI Command Reference](docs/cli-reference.md)
-- [Architecture Decision Records (ADRs)](docs/adr/)
-- [Contributing Guide](CONTRIBUTING.md)
-- [Security Policy](SECURITY.md)
-- [Changelog](CHANGELOG.md)
 
 ---
 

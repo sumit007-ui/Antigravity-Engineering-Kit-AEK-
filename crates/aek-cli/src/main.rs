@@ -33,6 +33,9 @@ fn main() -> ExitCode {
         Some(Commands::Doctor(args)) => commands::doctor::execute_doctor(args, cli.verbose),
         Some(Commands::Config(args)) => commands::config::execute_config(&args.action),
         Some(Commands::Profile(args)) => commands::profile::execute_profile(&args.action),
+        Some(Commands::Rules(args)) => commands::rules::execute_rules(&args.action),
+        Some(Commands::Skills(args)) => commands::skills::execute_skills(&args.action),
+        Some(Commands::Agent(args)) => commands::agent::execute_agent(&args.action),
         Some(Commands::Backup(args)) => commands::backup::execute_backup(args),
         Some(Commands::Restore(args)) => commands::restore::execute_restore(args),
         None => {

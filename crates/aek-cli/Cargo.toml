@@ -15,6 +15,9 @@ path = "src/main.rs"
 aek-core = { workspace = true }
 aek-config = { workspace = true }
 aek-platform = { workspace = true }
+aek-rules = { workspace = true }
+aek-skills = { workspace = true }
+aek-agents = { workspace = true }
 clap = { workspace = true }
 tokio = { workspace = true }
 thiserror.workspace = true
