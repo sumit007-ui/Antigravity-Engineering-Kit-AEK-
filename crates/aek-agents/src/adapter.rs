@@ -138,4 +138,15 @@ pub trait AgentAdapter: Send + Sync {
         target_dir: &Path,
         dry_run: bool,
     ) -> Result<PathBuf, AgentError>;
+
+    /// Generates structured security audit and scanner recommendations for the workspace.
+    fn generate_security_guidance(&self, workspace: &Path) -> String;
+
+    /// Exports a generated CI/CD workflow into the project workflow directory.
+    fn export_ci_workflow(
+        &self,
+        target_dir: &Path,
+        workflow_content: &str,
+        dry_run: bool,
+    ) -> Result<PathBuf, AgentError>;
 }

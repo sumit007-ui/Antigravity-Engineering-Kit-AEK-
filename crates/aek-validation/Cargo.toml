@@ -11,6 +11,7 @@ rust-version.workspace = true
 aek-core = { workspace = true }
 aek-platform = { workspace = true }
 aek-languages = { workspace = true }
+aek-security = { workspace = true }
 thiserror = { workspace = true }
 anyhow = { workspace = true }
 serde = { workspace = true }

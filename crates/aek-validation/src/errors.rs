@@ -14,6 +14,12 @@ pub enum ValidationError {
     #[error("Subprocess execution error: {0}")]
     Execution(#[from] aek_core::ExecutionError),
 
+    #[error("Command error: {0}")]
+    Command(String),
+
+    #[error("Policy configuration error: {0}")]
+    Policy(String),
+
     #[error("Validation failed at step '{0}': exit code {1:?}")]
     StepFailed(String, Option<i32>),
 

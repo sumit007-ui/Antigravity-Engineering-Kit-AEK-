@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/google-antigravity/aek/schemas/validation-report.schema.json",
+  "title": "AEK Unified Validation & Security Report",
+  "type": "object",
+  "required": [
+    "version",
+    "timestamp",
+    "project_name",
+    "language",
+    "overall_success",
+    "passed_count",
+    "failed_count",
+    "skipped_count",
+    "total_duration_ms",
+    "steps",
+    "security_findings"
+  ],
+  "properties": {
+    "version": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "project_name": { "type": "string" },
+    "language": { "type": "string" },
+    "dry_run": { "type": "boolean" },
+    "overall_success": { "type": "boolean" },
+    "passed_count": { "type": "integer", "minimum": 0 },
+    "failed_count": { "type": "integer", "minimum": 0 },
+    "skipped_count": { "type": "integer", "minimum": 0 },
+    "total_duration_ms": { "type": "integer", "minimum": 0 },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "stage", "status", "duration_ms"],
+        "properties": {
+          "name": { "type": "string" },
+          "stage": { "type": "string" },
+          "status": { "type": "string" },
+          "duration_ms": { "type": "integer" },
+          "exit_code": { "type": ["integer", "null"] },
+          "stdout": { "type": "string" },
+          "stderr": { "type": "string" }
+        }
+      }
+    },
+    "security_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "scanner", "rule_id", "severity", "category", "description"],
+        "properties": {
+          "id": { "type": "string" },
+          "scanner": { "type": "string" },
+          "rule_id": { "type": "string" },
+          "severity": { "type": "string" },
+          "category": { "type": "string" },
+          "description": { "type": "string" },
+          "file_path": { "type": ["string", "null"] },
+          "line_number": { "type": ["integer", "null"] },
+          "dependency": { "type": ["string", "null"] },
+          "advisory_id": { "type": ["string", "null"] },
+          "remediation": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}
+

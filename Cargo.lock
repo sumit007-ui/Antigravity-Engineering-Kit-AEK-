@@ -35,7 +35,9 @@ dependencies = [
  "aek-platform",
  "aek-prompt",
  "aek-prompt-adapters",
+ "aek-reporting",
  "aek-rules",
+ "aek-security",
  "aek-skills",
  "aek-validation",
  "anyhow",
@@ -183,6 +185,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "aek-reporting"
+version = "0.1.0"
+dependencies = [
+ "aek-core",
+ "aek-security",
+ "aek-validation",
+ "chrono",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror",
+]
+
+[[package]]
 name = "aek-rules"
 version = "0.1.0"
 dependencies = [
@@ -193,6 +209,21 @@ dependencies = [
  "serde_json",
  "tempfile",
  "thiserror",
+ "tracing",
+]
+
+[[package]]
+name = "aek-security"
+version = "0.1.0"
+dependencies = [
+ "aek-core",
+ "aek-platform",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror",
+ "tokio",
+ "toml",
  "tracing",
 ]
 
@@ -217,6 +248,7 @@ dependencies = [
  "aek-core",
  "aek-languages",
  "aek-platform",
+ "aek-security",
  "anyhow",
  "chrono",
  "serde",

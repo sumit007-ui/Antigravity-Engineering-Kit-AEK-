@@ -5,6 +5,45 @@ All notable changes to the Antigravity Engineering Kit (AEK) will be documented 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-11-06
+
+### Added
+- Phase 7 Automated Validation, Security Auditing & CI/CD Engine:
+  - New `aek-security` crate:
+    - Typed `SecurityError` hierarchy and normalized `Severity` scoring (`Critical`, `High`, `Medium`, `Low`, `Info`, `Unknown`).
+    - Unified `SecurityFinding` data model with scanner source, rule IDs, file locations, line spans, and remediation suggestions.
+    - Security policy engine (`SecurityPolicy`) supporting severity thresholds (`fail_on_critical`, `fail_on_high`, etc.) and glob exclusions.
+    - `SemgrepAdapter` SAST engine executing rules (`p/security-audit`, `p/secrets`) with JSON parsing and offline tolerance.
+    - `TrivyAdapter` vulnerability and misconfiguration scanner with JSON parsing and container/filesystem support.
+    - `DependencyAuditor` orchestrating native package auditors (`cargo audit`, `govulncheck`, `pip-audit`, `npm audit`).
+    - `SecurityScanner` orchestrator coordinating SAST, vulnerability scans, dependency audits, and policy enforcement.
+    - `SecurityDoctor` inspecting toolchain availability, versions, and installation guidance.
+  - New `aek-reporting` crate:
+    - Multi-format structured reporters:
+      - `TerminalReportGenerator`: High-density terminal status badges, step duration metrics, and finding summaries.
+      - `JsonReportGenerator`: Versioned, machine-readable validation and security JSON serializer.
+      - `SarifReportGenerator`: OASIS SARIF v2.1.0 generator for GitHub Code Scanning and IDE SARIF viewers.
+      - `MarkdownSummaryGenerator`: Step summaries formatted for GitHub Actions (`$GITHUB_STEP_SUMMARY`) and AI agent context injection.
+  - Enhanced `aek-validation` crate:
+    - `ValidationPlanner` constructing DAG execution pipelines across multi-language projects and monorepos.
+    - `GitChangeDetector` detecting local changes and base commit differences (`--changed`, `--base <REF>`) with conservative monorepo invalidation.
+    - `QualityGateEngine` enforcing policy-based pass/fail gates across compilation, unit tests, linters, and security findings.
+    - Configurable `ValidationPolicy` supporting TOML definitions, presets (`default`, `strict`, `ci`), timeouts, and concurrency bounds.
+  - Configuration Policies & Schemas:
+    - Validation policy presets: `config/validation/default.toml`, `config/validation/strict.toml`, `config/validation/ci.toml`.
+    - JSON schemas: `schemas/validation-policy.schema.json` and `schemas/validation-report.schema.json`.
+  - Continuous Integration (CI/CD) Engine:
+    - Least-privilege GitHub Actions workflow generator (`aek ci generate github`).
+    - Automated CI workflow auditor (`aek ci validate`) verifying explicit `permissions:` declarations and least-privilege security.
+  - Google Antigravity Integration:
+    - Extended `AgentAdapter` with `generate_security_guidance` and `export_ci_workflow`.
+  - User-Facing CLI Suite:
+    - `aek validate` enhanced with `--changed`, `--base`, `--policy`, and `aek validate policy` (`list`, `show`, `check`).
+    - `aek security scan` and `aek security doctor`.
+    - `aek report show` and `aek report export`.
+    - `aek ci generate` and `aek ci validate`.
+
+
 ## [0.6.0] - 2026-11-06
 
 ### Added

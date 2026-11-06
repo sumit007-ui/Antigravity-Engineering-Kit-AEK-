@@ -1,0 +1,22 @@
+# CI / Automated Pipeline AEK Validation & Security Policy
+
+default_timeout_secs = 300
+fail_fast = true
+dry_run = false
+full_validation = true
+fail_on_compile_error = true
+fail_on_test_failure = true
+fail_on_lint_error = true
+max_concurrent_tasks = 4
+
+[envs]
+CI = "true"
+
+[security]
+fail_on_critical = true
+fail_on_high = true
+fail_on_medium = false
+fail_on_low = false
+ignored_rules = []
+ignored_paths = []
+

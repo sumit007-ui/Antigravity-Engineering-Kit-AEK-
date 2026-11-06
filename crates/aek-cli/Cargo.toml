@@ -22,6 +22,8 @@ aek-mcp = { workspace = true }
 aek-mcp-integrations = { workspace = true }
 aek-languages = { workspace = true }
 aek-validation = { workspace = true }
+aek-security = { workspace = true }
+aek-reporting = { workspace = true }
 aek-prompt = { workspace = true }
 aek-prompt-adapters = { workspace = true }
 toml = { workspace = true }

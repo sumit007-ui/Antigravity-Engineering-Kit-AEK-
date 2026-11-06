@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/google-antigravity/aek/schemas/validation-policy.schema.json",
+  "title": "AEK Validation Policy Configuration",
+  "type": "object",
+  "required": [
+    "default_timeout_secs",
+    "fail_fast",
+    "dry_run",
+    "full_validation",
+    "fail_on_compile_error",
+    "fail_on_test_failure",
+    "fail_on_lint_error",
+    "max_concurrent_tasks",
+    "security"
+  ],
+  "properties": {
+    "default_timeout_secs": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 120
+    },
+    "fail_fast": {
+      "type": "boolean",
+      "default": false
+    },
+    "dry_run": {
+      "type": "boolean",
+      "default": false
+    },
+    "full_validation": {
+      "type": "boolean",
+      "default": false
+    },
+    "fail_on_compile_error": {
+      "type": "boolean",
+      "default": true
+    },
+    "fail_on_test_failure": {
+      "type": "boolean",
+      "default": true
+    },
+    "fail_on_lint_error": {
+      "type": "boolean",
+      "default": true
+    },
+    "max_concurrent_tasks": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 2
+    },
+    "envs": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "security": {
+      "type": "object",
+      "required": ["fail_on_critical", "fail_on_high", "fail_on_medium", "fail_on_low"],
+      "properties": {
+        "fail_on_critical": { "type": "boolean", "default": true },
+        "fail_on_high": { "type": "boolean", "default": true },
+        "fail_on_medium": { "type": "boolean", "default": false },
+        "fail_on_low": { "type": "boolean", "default": false },
+        "ignored_rules": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "ignored_paths": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}
+

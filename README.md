@@ -12,7 +12,10 @@
 
 - **Rust-First Architecture**: Built for memory efficiency (<50 MB idle footprint), deterministic behavior, and zero shell-injection risks.
 - **Language Toolchain Engine (`aek language`)**: Compilers, SDKs, linters, and language servers across 8 major ecosystems (Rust, Go, C/C++, Zig, Python, TypeScript, Flutter, ROS 2).
-- **Project-Aware Validation Engine (`aek validate`)**: Standardized 8-stage verification pipeline (Formatting, Linting, Type Checking, Compilation, Testing) with dry-run support and structured JSON reporting.
+- **Project-Aware Validation Engine (`aek validate`)**: Standardized 8-stage verification pipeline (Formatting, Linting, Type Checking, Compilation, Testing) with dry-run support, incremental Git detection, and quality gates.
+- **Security Scanning & Auditing Engine (`aek security`)**: Multi-scanner orchestration (Semgrep SAST, Trivy vulnerability & misconfiguration scanning, ecosystem dependency auditors) with normalized severity scoring and doctor diagnostics.
+- **Structured Multi-Format Reporting (`aek report`)**: Terminal diagnostic badges, versioned JSON, GitHub-compatible Markdown job summaries, and OASIS SARIF v2.1.0 output.
+- **Least-Privilege CI/CD Automation (`aek ci`)**: Automated GitHub Actions workflow generation and static validation for least-privilege permissions.
 - **Model Context Protocol Engine (`aek mcp`)**: Complete JSON-RPC 2.0 client engine with Stdio and Streamable HTTP transports, dynamic tool discovery, permission classification, and lifecycle supervision.
 - **5 Verified MCP Integrations**: Presets and verified configurations for Context7, GitHub, Playwright, Sequential Thinking, and Filesystem.
 - **Global & Project Engineering Rules (`aek rules`)**: Tiered precedence system (Global -> Workspace -> Project) with size validation (<=24 KB) and token budgeting.
@@ -39,7 +42,9 @@ The workspace is organized into modular Rust crates:
 - [`crates/aek-mcp`](crates/aek-mcp): Reusable MCP client engine, Stdio/HTTP transports, lifecycle state machine, and security policy.
 - [`crates/aek-mcp-integrations`](crates/aek-mcp-integrations): Official MCP server configuration adapters (Context7, GitHub, Playwright, Sequential Thinking, Filesystem).
 - [`crates/aek-languages`](crates/aek-languages): Language provider interface, toolchain registry, project detection, and diagnostics.
-- [`crates/aek-validation`](crates/aek-validation): 8-stage verification pipeline, execution sandbox, and structured reporting.
+- [`crates/aek-validation`](crates/aek-validation): 8-stage verification pipeline, execution DAG planner, incremental change detector, and quality gate engine.
+- [`crates/aek-security`](crates/aek-security): Security scanner orchestrator, Semgrep & Trivy adapters, dependency auditing, and security doctor.
+- [`crates/aek-reporting`](crates/aek-reporting): Structured terminal formatter, JSON report serializer, OASIS SARIF v2.1.0 generator, and Markdown summary generator.
 - [`crates/aek-prompt`](crates/aek-prompt): Prompt data structures, template engine, atomic version control, metric calculators, and injection defense.
 - [`crates/aek-prompt-adapters`](crates/aek-prompt-adapters): Pluggable adapters for Prompt Optimizer, Stanford DSPy (Python bridge), and Promptfoo CLI.
 - [`crates/aek-cli`](crates/aek-cli): User-facing command-line interface (`aek`).
@@ -112,7 +117,23 @@ aek profile apply engineering
 aek language detect
 aek language doctor rust
 aek validate --dry-run
-aek validate
+aek validate --changed
+aek validate --policy strict
+aek validate policy list
+
+# Security Auditing & Diagnostics
+aek security doctor
+aek security scan
+aek security scan --json
+aek security scan --sarif
+
+# CI/CD Workflows
+aek ci validate
+aek ci generate github --dry-run
+
+# Structured Reports
+aek report show --type validation
+aek report export --type security --format sarif
 
 # AI Prompt Optimization & Evaluation
 aek prompt list
@@ -143,8 +164,12 @@ aek backup list
 - [Engineering Rules Overview](docs/rules.md)
 - [Specialized Agent Skills](docs/skills.md)
 - [Skill Authoring Guide](docs/skill-authoring.md)
-- [Language Toolchain Architecture](docs/languages.md)
-- [Multi-Project Validation Pipeline](docs/validation.md)
+- [Language Toolchain Architecture](docs/language-toolchains.md)
+- [Validation Engine & Lifecycle](docs/validation-engine.md)
+- [Incremental Validation](docs/incremental-validation.md)
+- [Quality Gates & Policies](docs/quality-gates.md)
+- [Security Scanning & Adapters](docs/security-scanning.md)
+- [CI/CD Integration](docs/ci-integration.md)
 - [Prompt Engine Architecture](docs/prompt-engine.md)
 - [Prompt Optimization & Adapters](docs/prompt-optimization.md)
 - [Prompt Evaluation & Benchmarking](docs/prompt-evaluation.md)

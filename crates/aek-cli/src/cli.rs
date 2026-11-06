@@ -61,6 +61,15 @@ pub enum Commands {
     /// Project-aware validation pipeline execution across detected language projects.
     Validate(ValidateArgs),
 
+    /// Security vulnerability scanning, Semgrep SAST, and dependency auditing.
+    Security(SecurityArgs),
+
+    /// Inspect and export structured validation and security reports.
+    Report(ReportArgs),
+
+    /// Continuous Integration (CI/CD) workflow generation and security validation.
+    Ci(CiArgs),
+
     /// AI prompt optimization, evaluation, dataset benchmarking, and versioning.
     Prompt(PromptArgs),
 
@@ -629,6 +638,9 @@ pub struct LanguageValidateArgs {
 /// Arguments for `aek validate`.
 #[derive(Args, Debug, Clone)]
 pub struct ValidateArgs {
+    #[command(subcommand)]
+    pub action: Option<ValidateSubcommand>,
+
     /// Target project directory (defaults to current working directory).
     #[arg(short, long)]
     pub path: Option<PathBuf>,
@@ -637,6 +649,18 @@ pub struct ValidateArgs {
     #[arg(long)]
     pub full: bool,
 
+    /// Run incremental validation on git-modified files only.
+    #[arg(long)]
+    pub changed: bool,
+
+    /// Optional Git base reference for change comparison (e.g. main).
+    #[arg(long)]
+    pub base: Option<String>,
+
+    /// Validation policy to enforce (default, strict, ci, or path to TOML).
+    #[arg(long)]
+    pub policy: Option<String>,
+
     /// Preview validation commands without execution.
     #[arg(long)]
     pub dry_run: bool,
@@ -644,6 +668,144 @@ pub struct ValidateArgs {
     /// Emit machine-readable JSON output.
     #[arg(long)]
     pub json: bool,
+}
+
+/// Subcommands under `aek validate`.
+#[derive(Subcommand, Debug, Clone)]
+pub enum ValidateSubcommand {
+    /// Inspect or manage validation policies.
+    Policy {
+        #[command(subcommand)]
+        action: ValidatePolicySubcommand,
+    },
+}
+
+/// Subcommands under `aek validate policy`.
+#[derive(Subcommand, Debug, Clone)]
+pub enum ValidatePolicySubcommand {
+    /// List available built-in validation policies.
+    List,
+
+    /// Show TOML contents of a specific validation policy.
+    Show {
+        /// Policy name (default, strict, ci).
+        name: String,
+    },
+
+    /// Validate a policy TOML file against schema.
+    Check {
+        /// Path to policy file.
+        file: PathBuf,
+    },
+}
+
+/// Arguments for `aek security`.
+#[derive(Args, Debug, Clone)]
+pub struct SecurityArgs {
+    #[command(subcommand)]
+    pub action: SecuritySubcommand,
+}
+
+/// Subcommands under `aek security`.
+#[derive(Subcommand, Debug, Clone)]
+pub enum SecuritySubcommand {
+    /// Run security scans across the repository.
+    Scan(SecurityScanArgs),
+
+    /// Audit security toolchains and scanner availability on PATH.
+    Doctor,
+}
+
+/// Arguments for `aek security scan`.
+#[derive(Args, Debug, Clone)]
+pub struct SecurityScanArgs {
+    /// Target directory to scan (defaults to current directory).
+    #[arg(short, long)]
+    pub path: Option<PathBuf>,
+
+    /// Run Semgrep static analysis rules.
+    #[arg(long)]
+    pub semgrep: bool,
+
+    /// Run Trivy filesystem vulnerability scan.
+    #[arg(long)]
+    pub trivy: bool,
+
+    /// Run dependency vulnerability audit across detected lockfiles.
+    #[arg(long)]
+    pub dependencies: bool,
+
+    /// Output findings as machine-readable JSON.
+    #[arg(long)]
+    pub json: bool,
+
+    /// Output findings in OASIS SARIF v2.1.0 format.
+    #[arg(long)]
+    pub sarif: bool,
+}
+
+/// Arguments for `aek report`.
+#[derive(Args, Debug, Clone)]
+pub struct ReportArgs {
+    #[command(subcommand)]
+    pub action: ReportSubcommand,
+}
+
+/// Subcommands under `aek report`.
+#[derive(Subcommand, Debug, Clone)]
+pub enum ReportSubcommand {
+    /// Display a stored validation or security report in terminal.
+    Show {
+        /// Path to the report file (JSON).
+        report: PathBuf,
+    },
+
+    /// Export a report to a specified format (json, sarif, markdown).
+    Export {
+        /// Path to the report file (JSON).
+        report: PathBuf,
+
+        /// Format to export (json, sarif, markdown).
+        #[arg(short, long, default_value = "json")]
+        format: String,
+
+        /// Output file path (defaults to stdout if omitted).
+        #[arg(short, long)]
+        output: Option<PathBuf>,
+    },
+}
+
+/// Arguments for `aek ci`.
+#[derive(Args, Debug, Clone)]
+pub struct CiArgs {
+    #[command(subcommand)]
+    pub action: CiSubcommand,
+}
+
+/// Subcommands under `aek ci`.
+#[derive(Subcommand, Debug, Clone)]
+pub enum CiSubcommand {
+    /// Generate least-privilege CI workflow files for target platform (github).
+    Generate {
+        /// Target CI platform (default: github).
+        #[arg(default_value = "github")]
+        platform: String,
+
+        /// Target directory for generated workflows (defaults to .github/workflows).
+        #[arg(short, long)]
+        target: Option<PathBuf>,
+
+        /// Preview generated workflows without writing to disk.
+        #[arg(long)]
+        dry_run: bool,
+    },
+
+    /// Validate existing CI workflow files against least-privilege security standards.
+    Validate {
+        /// Target directory containing workflows (defaults to .github/workflows).
+        #[arg(short, long)]
+        target: Option<PathBuf>,
+    },
 }
 
 /// Arguments for `aek prompt`.

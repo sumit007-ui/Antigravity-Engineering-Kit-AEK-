@@ -220,8 +220,23 @@ aek validate --dry-run
 # Run full validation including extended stages
 aek validate --full
 
+# Run incremental validation on git-changed projects only
+aek validate --changed [--base <REF>]
+
+# Run validation under a specific policy preset or path
+aek validate --policy <NAME_OR_PATH>
+
 # Output structured JSON validation report
 aek validate --json
+
+# List available validation policies
+aek validate policy list
+
+# Display detailed configuration for a policy preset
+aek validate policy show <NAME>
+
+# Validate syntax and rules of a policy file
+aek validate policy check <PATH>
 ```
 
 ---
@@ -267,4 +282,46 @@ aek prompt doctor
 
 # List available prompt optimization adapters and statuses
 aek prompt adapters
+```
+
+---
+
+## 10. Security Scanning & Auditing (`aek security`)
+
+```bash
+# Run multi-engine security scan (Semgrep, Trivy, dependency auditors)
+aek security scan [--path <DIR>] [--policy <NAME_OR_PATH>]
+
+# Output normalized JSON security scan report
+aek security scan --json
+
+# Export OASIS SARIF v2.1.0 for GitHub Code Scanning
+aek security scan --sarif
+
+# Audit health and availability of security toolchains
+aek security doctor
+```
+
+---
+
+## 11. Structured Reporting (`aek report`)
+
+```bash
+# Display formatted report summary for validation or security
+aek report show [--type <validation|security>] [--file <PATH>]
+
+# Export report to specific formats (json, sarif, markdown)
+aek report export [--type <validation|security>] --format <json|sarif|markdown> [--out <PATH>]
+```
+
+---
+
+## 12. CI/CD Integration (`aek ci`)
+
+```bash
+# Generate least-privilege GitHub Actions workflows
+aek ci generate github [--dry-run]
+
+# Audit existing CI workflows for least-privilege permissions
+aek ci validate [--path <DIR>]
 ```

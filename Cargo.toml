@@ -10,6 +10,8 @@ members = [
     "crates/aek-mcp-integrations",
     "crates/aek-languages",
     "crates/aek-validation",
+    "crates/aek-security",
+    "crates/aek-reporting",
     "crates/aek-prompt",
     "crates/aek-prompt-adapters",
     "crates/aek-cli",
@@ -37,6 +39,8 @@ aek-mcp = { path = "crates/aek-mcp", version = "0.1.0" }
 aek-mcp-integrations = { path = "crates/aek-mcp-integrations", version = "0.1.0" }
 aek-languages = { path = "crates/aek-languages", version = "0.1.0" }
 aek-validation = { path = "crates/aek-validation", version = "0.1.0" }
+aek-security = { path = "crates/aek-security", version = "0.1.0" }
+aek-reporting = { path = "crates/aek-reporting", version = "0.1.0" }
 aek-prompt = { path = "crates/aek-prompt", version = "0.1.0" }
 aek-prompt-adapters = { path = "crates/aek-prompt-adapters", version = "0.1.0" }
 

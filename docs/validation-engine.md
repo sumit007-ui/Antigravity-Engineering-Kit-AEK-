@@ -1,6 +1,45 @@
 # AEK Project Validation Engine
 
-The AEK Validation Engine provides automated, project-aware, and reproducible validation pipelines across detected software projects.
+The AEK Validation Engine provides automated, project-aware, reproducible validation pipelines across detected software projects and monorepos.
+
+---
+
+## Architecture Overview
+
+```
+                      ┌────────────────────────────┐
+                      │    Validation Planner      │
+                      │  (Dependency Graph & DAG)  │
+                      └─────────────┬──────────────┘
+                                    │
+                                    ▼
+                      ┌────────────────────────────┐
+                      │   Validation Orchestrator  │
+                      │  (Concurrency-bounded Run) │
+                      └─────────────┬──────────────┘
+                                    │
+         ┌──────────────────────────┼──────────────────────────┐
+         ▼                          ▼                          ▼
+┌──────────────────┐       ┌──────────────────┐       ┌──────────────────┐
+│  Language Stage  │       │  Language Stage  │       │  Security Scan   │
+│  (fmt, clippy,   │       │  (test, build,   │       │  (Semgrep,       │
+│   check)         │       │   typecheck)     │       │   Trivy, audit)  │
+└────────┬─────────┘       └────────┬─────────┘       └────────┬─────────┘
+         │                          │                          │
+         └──────────────────────────┼──────────────────────────┘
+                                    │
+                                    ▼
+                      ┌────────────────────────────┐
+                      │    Quality Gate Engine     │
+                      │ (Policy Threshold Checks)  │
+                      └─────────────┬──────────────┘
+                                    │
+                                    ▼
+                      ┌────────────────────────────┐
+                      │  Multi-Format Reporters    │
+                      │ (Terminal, JSON, SARIF, MD)│
+                      └────────────────────────────┘
+```
 
 ---
 
@@ -12,18 +51,28 @@ The AEK Validation Engine provides automated, project-aware, and reproducible va
 4. **Type Checking**: Validates static type systems where applicable (`tsc --noEmit`, `pyright`).
 5. **Compilation / Check**: Validates that syntax and types compile without linking issues (`cargo check`, `go build`, `cmake --build`).
 6. **Unit Testing**: Runs test suites with timeouts and non-zero exit code capture (`cargo test`, `go test`, `pytest`, `flutter test`).
-7. **Integration Testing**: Extended integration test execution when `--full` flag is provided.
+7. **Integration Testing**: Extended integration test execution when `--full` flag or full validation policy is selected.
 8. **Build Verification**: Ensures final artifacts compile successfully.
+9. **Security Audit**: Scans dependencies and code via Semgrep, Trivy, and ecosystem native auditors.
 
 ---
 
-## Security & Execution Policies
+## Incremental Validation (Git-Aware)
 
-- **Argument Array Execution**: Commands are never passed to an intermediate shell interpreter (`sh -c` or `cmd.exe /c`), preventing command injection attacks.
-- **Enforced Timeouts**: Each step defaults to 120 seconds (configurable) to prevent hung processes or deadlocks.
-- **Dry Run Support**: The `--dry-run` flag parses manifests and prints planned execution pipelines without launching child processes.
-- **Fail-Fast Option**: Can abort remaining steps immediately on first failure.
-- **Untrusted Script Protection**: Does not execute arbitrary lifecycle scripts from repository manifests without explicit trusted policy.
+When running with `--changed` (or `--base <REF>`), the engine queries Git for modified, untracked, or committed differences:
+- Only projects containing modified files are included in the execution plan.
+- Conservative root fallbacks: If root build files (e.g. root `Cargo.toml`, root `package.json`) change, all workspace members are validated.
+- Non-git environments gracefully fall back to full repository validation.
+
+---
+
+## Policy & Quality Gates
+
+Validation execution is governed by TOML-based policies (`default.toml`, `strict.toml`, `ci.toml`):
+- **Fail Fast**: Abort remaining steps immediately upon encountering a failed step.
+- **Stage Filtering**: Selectively skip or include stages (e.g. skip integration tests in dev mode).
+- **Concurrency Control**: Bounded parallel project execution (`max_concurrency`).
+- **Security Thresholds**: Enforce zero-tolerance for critical or high severity vulnerabilities.
 
 ---
 
@@ -33,16 +82,20 @@ The AEK Validation Engine provides automated, project-aware, and reproducible va
 # Validate all projects detected in current directory
 aek validate
 
-# Validate in dry-run mode (previews pipeline commands)
+# Validate only changed projects compared to Git base
+aek validate --changed --base origin/main
+
+# Dry-run validation (inspect planned execution DAG without running)
 aek validate --dry-run
 
-# Run validation with machine-readable JSON output
-aek validate --json
+# Run with strict quality policy
+aek validate --policy strict
 
-# Run validation on a specific directory
-aek validate --path ./services/core --dry-run
+# Output versioned JSON or SARIF report
+aek validate --json > validation-report.json
 
-# Run language-specific validation pipeline
-aek language validate rust
+# Manage policies
+aek validate policy list
+aek validate policy show strict
+aek validate policy check config/validation/default.toml
 ```
-

@@ -349,4 +349,40 @@ impl AgentAdapter for AntigravityAdapter {
         std::fs::write(&dest, content)?;
         Ok(dest)
     }
+
+    fn generate_security_guidance(&self, workspace: &Path) -> String {
+        let mut output = String::from("# Google Antigravity Security Auditing Guidance\n\n");
+        output.push_str("Recommended security verification suite:\n");
+        output.push_str("- **Semgrep SAST**: `aek security scan --semgrep`\n");
+        output.push_str("- **Trivy Vulnerability Scan**: `aek security scan --trivy`\n");
+        output.push_str("- **Dependency Auditing**: `aek security scan --dependencies`\n\n");
+
+        if workspace.join("Cargo.lock").is_file() {
+            output.push_str("Detected Rust `Cargo.lock` — run `cargo audit`.\n");
+        }
+        if workspace.join("package-lock.json").is_file() {
+            output.push_str("Detected Node `package-lock.json` — run `npm audit`.\n");
+        }
+        if workspace.join("go.sum").is_file() {
+            output.push_str("Detected Go `go.sum` — run `govulncheck ./...`.\n");
+        }
+
+        output
+    }
+
+    fn export_ci_workflow(
+        &self,
+        target_dir: &Path,
+        workflow_content: &str,
+        dry_run: bool,
+    ) -> Result<PathBuf, AgentError> {
+        let dest = target_dir.join("aek-ci.yml");
+        if dry_run {
+            return Ok(dest);
+        }
+
+        std::fs::create_dir_all(target_dir)?;
+        std::fs::write(&dest, workflow_content)?;
+        Ok(dest)
+    }
 }

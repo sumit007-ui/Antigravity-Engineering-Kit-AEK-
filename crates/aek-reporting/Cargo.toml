@@ -1,0 +1,21 @@
+[package]
+name = "aek-reporting"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+aek-core = { workspace = true }
+aek-security = { workspace = true }
+aek-validation = { workspace = true }
+thiserror.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+chrono = { workspace = true }
+
+[dev-dependencies]
+tempfile.workspace = true
+

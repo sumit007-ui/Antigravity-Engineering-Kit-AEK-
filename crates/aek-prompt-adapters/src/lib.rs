@@ -10,4 +10,3 @@ pub mod promptfoo;
 pub use dspy::{DspyAdapter, DspyBridgePayload, DspyOptimizationResult};
 pub use prompt_optimizer::PromptOptimizerAdapter;
 pub use promptfoo::{PromptfooAdapter, PromptfooEvalResult};
-
