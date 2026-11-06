@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://sumit007-ui.github.io/Antigravity-Engineering-Kit-AEK-/sitemap.xml",
+    sitemap: "https://antigravity-engineering-kit-aek-taupe.vercel.app/sitemap.xml",
   };
 }
 

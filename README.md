@@ -1,10 +1,13 @@
 # Antigravity Engineering Kit (AEK)
 
 [![CI](https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/actions/workflows/ci.yml)
+[![Website](https://img.shields.io/badge/website-live-success.svg)](https://antigravity-engineering-kit-aek-taupe.vercel.app/)
 [![License: Apache-2.0 OR MIT](https://img.shields.io/badge/License-Apache--2.0%20OR%20MIT-blue.svg)](LICENSE)
 [![Rust 2024](https://img.shields.io/badge/rust-2024%20edition-orange.svg)](https://www.rust-lang.org)
 
-**Antigravity Engineering Kit (AEK)** is a high-performance, modular, cross-platform AI engineering toolkit written in Rust. AEK integrates with Google Antigravity and modern coding agents to provide global engineering rules, reusable agent skills, MCP server integration, prompt optimization, and automated validation with **ruthless precision**.
+**Antigravity Engineering Kit (AEK)** is a high-performance, modular, cross-platform AI engineering toolkit written in Rust. AEK integrates with Google Antigravity, Claude Code, Cursor, and OpenCode to provide global engineering rules, reusable agent skills, MCP server integration, prompt optimization, and automated validation with **ruthless precision**.
+
+🌐 **Official Website & Docs**: [https://antigravity-engineering-kit-aek-taupe.vercel.app](https://antigravity-engineering-kit-aek-taupe.vercel.app/)
 
 ---
 

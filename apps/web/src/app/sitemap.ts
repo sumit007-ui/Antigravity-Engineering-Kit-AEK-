@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://sumit007-ui.github.io/Antigravity-Engineering-Kit-AEK-";
+  const baseUrl = "https://antigravity-engineering-kit-aek-taupe.vercel.app";
 
   const routes = [
     "",
