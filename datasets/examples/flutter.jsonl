@@ -1,1 +1,2 @@
 {"id":"flutter-01","input_prompt":"Create a Flutter Riverpod AsyncNotifier for paginated list","context":"Cross-platform mobile client","expected_properties":["AsyncNotifier","build","state"],"constraints":["immutable state","handling error and loading states"],"evaluation_criteria":"Clean separation of UI and business logic","reference_output":"class PaginatedListNotifier extends AsyncNotifier<List<Item>> { ... }","tags":["flutter","riverpod"]}
+

@@ -21,3 +21,4 @@
     "tags": { "type": "array", "items": { "type": "string" } }
   }
 }
+

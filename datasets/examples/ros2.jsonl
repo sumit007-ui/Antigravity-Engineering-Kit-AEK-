@@ -1,1 +1,2 @@
 {"id":"ros2-01","input_prompt":"Write a ROS 2 lifecycle node in C++ for LiDAR sensor driver","context":"ROS 2 Humble robotics stack","expected_properties":["rclcpp_lifecycle","on_configure","on_activate"],"constraints":["managed node transitions","real-time safe callback"],"evaluation_criteria":"Adheres to ROS 2 lifecycle state machine","reference_output":"class LidarNode : public rclcpp_lifecycle::LifecycleNode { ... }","tags":["ros2","lifecycle"]}
+

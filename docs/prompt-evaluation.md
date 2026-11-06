@@ -62,3 +62,4 @@ AEK can orchestrate Promptfoo test suites via `PromptfooAdapter`:
 - Generates `promptfooconfig.yaml` with providers, prompts, and test assertions (`is-json`, `contains`, `similar`, `llm-rubric`).
 - Executes evaluations via `promptfoo eval` or `npx promptfoo eval`.
 - Parses test results and failure logs.
+

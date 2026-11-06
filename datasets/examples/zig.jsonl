@@ -1,1 +1,2 @@
 {"id":"zig-01","input_prompt":"Implement a generic ring buffer in Zig with explicit allocator","context":"Zig 0.13 systems library","expected_properties":["std.mem.Allocator","comptime","defer"],"constraints":["explicit allocator passing","zero hidden allocations"],"evaluation_criteria":"Memory leak free under GeneralPurposeAllocator","reference_output":"pub fn RingBuffer(comptime T: type) type { ... }","tags":["zig","memory"]}
+

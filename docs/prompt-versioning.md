@@ -65,3 +65,4 @@ aek prompt export rust-lru --dry-run
 aek prompt export rust-lru
 ```
 Generates `<antigravity_dir>/instructions/rust-lru.md` with headers and active prompt instructions.
+

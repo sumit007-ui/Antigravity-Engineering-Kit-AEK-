@@ -18,3 +18,4 @@ tests:
       - type: icontains
         value: "pool"
       - type: is-json
+

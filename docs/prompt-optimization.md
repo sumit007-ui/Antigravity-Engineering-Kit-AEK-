@@ -50,3 +50,4 @@ Enriches prompts by combining user text with repository context, language-specif
 ```bash
 aek prompt optimize rust-lru --adapter generic
 ```
+

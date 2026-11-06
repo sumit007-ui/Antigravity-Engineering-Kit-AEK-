@@ -42,3 +42,4 @@ All version management and storage operations strictly validate identifiers:
 - Reject empty strings.
 - Reject identifiers containing path traversal patterns (`..`, `/`, `\`).
 - Enforce strict confinement within the resolved prompt storage directory.
+

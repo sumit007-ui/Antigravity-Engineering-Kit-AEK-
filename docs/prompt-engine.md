@@ -78,3 +78,4 @@ prompts/
 ```
 
 All disk writes utilize atomic write-then-rename semantics to prevent corruption during unexpected shutdowns.
+

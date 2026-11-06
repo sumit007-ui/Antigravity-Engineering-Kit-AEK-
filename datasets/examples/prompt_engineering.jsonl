@@ -1,1 +1,2 @@
 {"id":"pe-01","input_prompt":"Refine raw prompt: 'make my python code faster'","context":"Scientific numpy computation","expected_properties":["Role:","Objective","Workflow","Constraints","Output Schema"],"constraints":["preserve variable placeholders","structured markdown sections"],"evaluation_criteria":"Converts vague query into structured, high-performance system prompt","reference_output":"# Role: High-Performance Python Engineer\n...","tags":["prompt-engineering","optimizer"]}
+

@@ -1,1 +1,2 @@
 {"id":"py-01","input_prompt":"Build a typed FastAPI streaming endpoint with Pydantic v2","context":"High-throughput asynchronous ML service","expected_properties":["StreamingResponse","BaseModel","async def"],"constraints":["strict type annotations","no blocking calls"],"evaluation_criteria":"Asynchronous streaming with validated schema","reference_output":"@app.get('/stream') async def stream() -> StreamingResponse: ...","tags":["python","fastapi"]}
+
