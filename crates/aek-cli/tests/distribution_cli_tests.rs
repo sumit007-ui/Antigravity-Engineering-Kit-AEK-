@@ -138,9 +138,19 @@ fn test_cli_setup_antigravity_dry_run() {
 
 #[test]
 fn test_cli_config_migrate_check_and_dry_run() {
+    let temp_dir = tempfile::tempdir().expect("tempdir");
+    let config_path = temp_dir.path().join("config.toml");
+    std::fs::write(&config_path, "schema_version = 1\n").expect("write test config");
+
     let output = Command::new(env!("CARGO_BIN_EXE_aek"))
         .current_dir(workspace_root())
-        .args(["config", "migrate", "--check"])
+        .args([
+            "config",
+            "migrate",
+            "--path",
+            config_path.to_str().unwrap(),
+            "--check",
+        ])
         .output()
         .expect("failed to run aek config migrate --check");
 
@@ -151,7 +161,13 @@ fn test_cli_config_migrate_check_and_dry_run() {
 
     let dry_run_output = Command::new(env!("CARGO_BIN_EXE_aek"))
         .current_dir(workspace_root())
-        .args(["config", "migrate", "--dry-run"])
+        .args([
+            "config",
+            "migrate",
+            "--path",
+            config_path.to_str().unwrap(),
+            "--dry-run",
+        ])
         .output()
         .expect("failed to run aek config migrate --dry-run");
 
