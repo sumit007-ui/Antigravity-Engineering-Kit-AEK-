@@ -113,20 +113,20 @@ export default function ScrollStorytelling() {
           </div>
 
           {/* Right Visual Stage - Classified Radar HUD */}
-          <div className="lg:col-span-7 h-[500px] sm:h-[540px] rounded-3xl bg-space-black border-2 border-primary-gold/40 relative p-6 sm:p-8 flex items-center justify-center overflow-hidden shadow-hard-lg">
-            {/* Fine coordinate markers */}
-            <div className="absolute top-4 left-5 font-mono text-[11px] text-primary-gold/80 flex items-center gap-1.5 z-10">
-              <span className="w-2 h-2 rounded-full bg-warm-orange animate-pulse" />
-              <span>SYS::SCENE_0{activeScene + 1}</span>
+          <div className="lg:col-span-7 h-[480px] sm:h-[540px] rounded-3xl bg-space-black border-2 border-primary-gold/40 relative p-4 sm:p-8 flex items-center justify-center overflow-hidden shadow-hard-lg">
+            {/* Top Coordinate Bar */}
+            <div className="absolute top-3 left-3 sm:left-5 right-3 sm:right-5 flex items-center justify-between font-mono text-[10px] sm:text-[11px] text-primary-gold/80 z-10 pointer-events-none">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-warm-orange animate-pulse" />
+                <span>SYS::SCENE_0{activeScene + 1}</span>
+              </div>
+              <span className="font-bold">ORCHESTRATION_CORE</span>
             </div>
-            <div className="absolute top-4 right-5 font-mono text-[11px] text-primary-gold/80 z-10">
-              ORCHESTRATION_CORE
-            </div>
-            <div className="absolute bottom-4 left-5 font-mono text-[11px] text-sand/60 z-10">
-              RUST_2024::SAFE_SUBPROCESS
-            </div>
-            <div className="absolute bottom-4 right-5 font-mono text-[11px] text-sand/60 z-10">
-              SHA256_INTEGRITY::LOCKED
+
+            {/* Bottom Coordinate Bar */}
+            <div className="absolute bottom-3 left-3 sm:left-5 right-3 sm:right-5 flex items-center justify-between font-mono text-[9px] sm:text-[11px] text-sand/60 z-10 pointer-events-none gap-2">
+              <span className="truncate">RUST_2024::SAFE_SUBPROCESS</span>
+              <span className="truncate">SHA256_INTEGRITY::LOCKED</span>
             </div>
 
             {/* Tactical Grid Background */}
@@ -142,25 +142,25 @@ export default function ScrollStorytelling() {
                   transition={{ duration: 0.3 }}
                   className="w-full h-full relative flex items-center justify-center"
                 >
-                  {/* Warning Callouts - Well positioned without collisions */}
-                  <div className="absolute top-10 left-2 sm:left-4 p-2.5 px-3 rounded-xl bg-space-surface/95 border-2 border-red-500/50 text-[11px] text-red-300 font-mono shadow-hard-sm flex items-center gap-2 z-20">
-                    <AlertTriangle className="w-3.5 h-3.5 text-red-400 shrink-0" />
-                    <span>Conflicting .cursorrules</span>
+                  {/* Warning Callouts - Guaranteed Zero Collision */}
+                  <div className="absolute top-9 left-2 sm:left-4 max-w-[47%] sm:max-w-none p-1.5 sm:p-2.5 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-space-surface/95 border-2 border-red-500/50 text-[9px] sm:text-[11px] text-red-300 font-mono shadow-hard-sm flex items-center gap-1.5 sm:gap-2 z-20">
+                    <AlertTriangle className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-red-400 shrink-0" />
+                    <span className="truncate">Conflicting .cursorrules</span>
                   </div>
 
-                  <div className="absolute top-10 right-2 sm:right-4 p-2.5 px-3 rounded-xl bg-space-surface/95 border-2 border-amber-500/50 text-[11px] text-amber-300 font-mono shadow-hard-sm flex items-center gap-2 z-20">
-                    <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                    <span>Ad-hoc MCP scripts</span>
+                  <div className="absolute top-9 right-2 sm:right-4 max-w-[47%] sm:max-w-none p-1.5 sm:p-2.5 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-space-surface/95 border-2 border-amber-500/50 text-[9px] sm:text-[11px] text-amber-300 font-mono shadow-hard-sm flex items-center gap-1.5 sm:gap-2 z-20">
+                    <AlertTriangle className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400 shrink-0" />
+                    <span className="truncate">Ad-hoc MCP scripts</span>
                   </div>
 
-                  <div className="absolute bottom-12 left-2 sm:left-4 p-2.5 px-3 rounded-xl bg-space-surface/95 border-2 border-red-500/50 text-[11px] text-red-300 font-mono shadow-hard-sm flex items-center gap-2 z-20">
-                    <AlertTriangle className="w-3.5 h-3.5 text-red-400 shrink-0" />
-                    <span>Unchecked prompt drift</span>
+                  <div className="absolute bottom-10 left-2 sm:left-4 max-w-[47%] sm:max-w-none p-1.5 sm:p-2.5 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-space-surface/95 border-2 border-red-500/50 text-[9px] sm:text-[11px] text-red-300 font-mono shadow-hard-sm flex items-center gap-1.5 sm:gap-2 z-20">
+                    <AlertTriangle className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-red-400 shrink-0" />
+                    <span className="truncate">Unchecked prompt drift</span>
                   </div>
 
-                  <div className="absolute bottom-12 right-2 sm:right-4 p-2.5 px-3 rounded-xl bg-space-surface/95 border-2 border-amber-500/50 text-[11px] text-amber-300 font-mono shadow-hard-sm flex items-center gap-2 z-20">
-                    <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                    <span>Broken shell escapes</span>
+                  <div className="absolute bottom-10 right-2 sm:right-4 max-w-[47%] sm:max-w-none p-1.5 sm:p-2.5 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-space-surface/95 border-2 border-amber-500/50 text-[9px] sm:text-[11px] text-amber-300 font-mono shadow-hard-sm flex items-center gap-1.5 sm:gap-2 z-20">
+                    <AlertTriangle className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400 shrink-0" />
+                    <span className="truncate">Broken shell escapes</span>
                   </div>
 
                   {/* Central 2x2 Official AI Agent Grid */}

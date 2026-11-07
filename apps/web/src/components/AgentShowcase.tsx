@@ -99,7 +99,7 @@ export default function AgentShowcase() {
   const active = AGENTS.find((a) => a.id === selectedAgent) || AGENTS[0];
 
   return (
-    <section className="py-28 px-4 sm:px-6 lg:px-8 bg-space-deep border-t border-space-border relative">
+    <section className="py-20 sm:py-28 px-3.5 sm:px-6 lg:px-8 bg-space-deep border-t border-space-border relative overflow-hidden">
       <div className="max-w-content mx-auto">
         <SectionHeader
           sectionNum="05"
@@ -110,14 +110,14 @@ export default function AgentShowcase() {
         />
 
         {/* 4 Agent Selection Cards with Official Logos */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 mt-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8 mt-10 sm:mt-12">
           {AGENTS.map((agent) => {
             const isSelected = selectedAgent === agent.id;
             return (
               <button
                 key={agent.id}
                 onClick={() => setSelectedAgent(agent.id)}
-                className={`p-5 rounded-2xl text-left transition-all border-2 group cursor-pointer ${
+                className={`p-4 sm:p-5 rounded-2xl text-left transition-all border-2 group cursor-pointer ${
                   isSelected
                     ? "bg-space-surface border-warm-orange shadow-hard-md"
                     : "bg-space-black/80 border-space-border/80 hover:border-primary-gold/60 shadow-hard-sm"
@@ -135,7 +135,7 @@ export default function AgentShowcase() {
                     <span className="w-2 h-2 rounded-full bg-space-border group-hover:bg-warm-orange transition-colors" />
                   )}
                 </div>
-                <h3 className="font-editorial text-lg text-paper-beige mb-0.5 font-bold">{agent.name}</h3>
+                <h3 className="font-editorial text-base sm:text-lg text-paper-beige mb-0.5 font-bold">{agent.name}</h3>
                 <p className="text-[11px] font-mono text-sand/70 mb-2">{agent.provider}</p>
                 <div className="text-[11px] font-mono text-emerald-400 flex items-center gap-1">
                   <ShieldCheck className="w-3.5 h-3.5" />
@@ -147,16 +147,16 @@ export default function AgentShowcase() {
         </div>
 
         {/* Detailed Inspector Card */}
-        <div className="rounded-3xl border-2 border-primary-gold/40 bg-space-black p-4 sm:p-6 lg:p-8 shadow-hard-md grid grid-cols-1 lg:grid-cols-12 gap-8 items-center overflow-hidden">
+        <div className="rounded-2xl sm:rounded-3xl border-2 border-primary-gold/40 bg-space-black p-4 sm:p-6 lg:p-8 shadow-hard-md grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center overflow-hidden">
           {/* Left Details */}
-          <div className="lg:col-span-6 space-y-6 overflow-hidden">
+          <div className="lg:col-span-6 space-y-5 sm:space-y-6 overflow-hidden">
             <div>
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-primary-gold">
                 ✦ NATIVE TRANSLATION MATRIX
               </span>
-              <div className="flex items-center gap-3 mt-2 mb-2">
-                <div className="w-10 h-10 rounded-xl bg-space-surface border border-space-border flex items-center justify-center shrink-0">
-                  <AgentLogo agent={active.id as AgentId} size={24} />
+              <div className="flex items-center gap-2.5 sm:gap-3 mt-2 mb-2">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-space-surface border border-space-border flex items-center justify-center shrink-0">
+                  <AgentLogo agent={active.id as AgentId} size={22} />
                 </div>
                 <h3 className="font-editorial text-2xl sm:text-3xl text-paper-beige font-bold truncate">
                   {active.name}
@@ -165,18 +165,18 @@ export default function AgentShowcase() {
               <p className="text-xs font-mono text-warm-orange font-semibold">{active.provider}</p>
             </div>
 
-            <div className="space-y-3 text-xs">
-              <div className="p-3.5 rounded-xl bg-space-surface border border-space-border overflow-hidden">
-                <span className="font-mono text-primary-gold block mb-1">RULES CONFIGURATION:</span>
-                <span className="font-mono text-sand text-[11px] sm:text-xs break-all block">{active.rulesConfig}</span>
+            <div className="space-y-2.5 sm:space-y-3 text-xs">
+              <div className="p-3 sm:p-3.5 rounded-xl bg-space-surface border border-space-border overflow-hidden">
+                <span className="font-mono text-primary-gold text-[11px] sm:text-xs font-bold block mb-1">RULES CONFIGURATION:</span>
+                <span className="font-mono text-sand text-[11px] sm:text-xs break-all block leading-relaxed">{active.rulesConfig}</span>
               </div>
-              <div className="p-3.5 rounded-xl bg-space-surface border border-space-border overflow-hidden">
-                <span className="font-mono text-primary-gold block mb-1">MCP INTEGRATION PATH:</span>
-                <span className="font-mono text-sand text-[11px] sm:text-xs break-all block">{active.mcpConfig}</span>
+              <div className="p-3 sm:p-3.5 rounded-xl bg-space-surface border border-space-border overflow-hidden">
+                <span className="font-mono text-primary-gold text-[11px] sm:text-xs font-bold block mb-1">MCP INTEGRATION PATH:</span>
+                <span className="font-mono text-sand text-[11px] sm:text-xs break-all block leading-relaxed">{active.mcpConfig}</span>
               </div>
-              <div className="p-3.5 rounded-xl bg-space-surface border border-space-border overflow-hidden">
-                <span className="font-mono text-primary-gold block mb-1">SKILLS RUNBOOKS:</span>
-                <span className="font-mono text-sand text-[11px] sm:text-xs break-all block">{active.skillsConfig}</span>
+              <div className="p-3 sm:p-3.5 rounded-xl bg-space-surface border border-space-border overflow-hidden">
+                <span className="font-mono text-primary-gold text-[11px] sm:text-xs font-bold block mb-1">SKILLS RUNBOOKS:</span>
+                <span className="font-mono text-sand text-[11px] sm:text-xs break-all block leading-relaxed">{active.skillsConfig}</span>
               </div>
             </div>
 
