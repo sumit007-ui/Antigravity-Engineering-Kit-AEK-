@@ -10,7 +10,7 @@ fn test_cli_version_flag() {
     assert!(output.status.success());
     let stdout = String::from_utf8_lossy(&output.stdout);
     assert!(stdout.contains("aek"));
-    assert!(stdout.contains("0.1.0"));
+    assert!(stdout.contains(env!("CARGO_PKG_VERSION")));
 }
 
 #[test]

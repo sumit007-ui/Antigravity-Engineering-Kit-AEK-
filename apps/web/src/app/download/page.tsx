@@ -7,6 +7,7 @@ import TiltCard from "@/components/motion/TiltCard";
 
 const WINDOWS_HASH = "666d59ca589ed821022c072ff937591b3ece50332152bbf6354d1959948452f4";
 const LINUX_HASH = "Verified via release-manifest.json in GitHub Releases";
+const MACOS_HASH = "Verified via release-manifest.json in GitHub Releases";
 
 export default function DownloadPage() {
   const [copiedHash, setCopiedHash] = useState<string | null>(null);
@@ -24,6 +25,7 @@ export default function DownloadPage() {
   };
 
   const winCmd = "irm https://raw.githubusercontent.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/main/installers/windows/install.ps1 | iex";
+  const macCmd = "curl -fsSL https://raw.githubusercontent.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/main/installers/linux/install.sh | bash";
   const linuxCmd = "curl -fsSL https://raw.githubusercontent.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/main/installers/linux/install.sh | bash";
 
   return (
@@ -38,12 +40,12 @@ export default function DownloadPage() {
           <span className="italic text-gradient-editorial">elevated.</span>
         </h1>
         <p className="text-secondary-text text-base sm:text-lg">
-          Fast, user-level installation without administrator or root permissions. Pre-compiled standalone binaries for Windows and Linux x86_64.
+          Fast, user-level installation without administrator or root permissions. Pre-compiled standalone binaries for Windows, macOS, and Linux.
         </p>
       </div>
 
-      {/* Two Platform Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
+      {/* Three Platform Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-16">
         {/* Windows Card */}
         <TiltCard glowColor="custard" className="flex flex-col justify-between">
           <div>
@@ -51,17 +53,17 @@ export default function DownloadPage() {
               <span className="font-mono text-xs text-custard px-2.5 py-1 rounded bg-brandy/50 border border-brandy-light">
                 WINDOWS x86_64
               </span>
-              <span className="text-xs font-mono text-emerald-400">Release v{LATEST_VERSION}</span>
+              <span className="text-xs font-mono text-emerald-400">v{LATEST_VERSION}</span>
             </div>
 
-            <h3 className="font-editorial text-3xl text-ivory mb-2">Windows 10 / 11</h3>
+            <h3 className="font-editorial text-2xl sm:text-3xl text-ivory mb-2">Windows 10 / 11</h3>
             <p className="text-xs text-sand/80 mb-6">
               Installs binary to <code className="text-custard">%LOCALAPPDATA%\Programs\aek\bin</code> and registers standard user PATH.
             </p>
 
             <div className="space-y-4 mb-6">
               <div>
-                <span className="text-[11px] font-mono text-sand/70 block mb-1">One-line PowerShell Installer:</span>
+                <span className="text-[11px] font-mono text-sand/70 block mb-1">PowerShell Installer:</span>
                 <div className="flex items-center justify-between p-3 rounded-xl bg-espresso-deep border border-espresso-border font-mono text-xs">
                   <span className="text-custard truncate mr-2">{winCmd}</span>
                   <button
@@ -95,7 +97,55 @@ export default function DownloadPage() {
             className="w-full py-3.5 rounded-xl bg-brandy hover:bg-brandy-hover border border-flamingo/40 text-ivory text-xs font-semibold font-mono tracking-wide flex items-center justify-center gap-2 shadow-tactile transition-all"
           >
             <Download className="w-4 h-4 text-custard" />
-            <span>Download aek-v{LATEST_VERSION}-windows-x86_64.zip</span>
+            <span>Download Windows .zip</span>
+          </a>
+        </TiltCard>
+
+        {/* macOS Card */}
+        <TiltCard glowColor="custard" className="flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <span className="font-mono text-xs text-primary-gold px-2.5 py-1 rounded bg-brandy/50 border border-primary-gold/40">
+                macOS UNIVERSAL
+              </span>
+              <span className="text-xs font-mono text-emerald-400">v{LATEST_VERSION}</span>
+            </div>
+
+            <h3 className="font-editorial text-2xl sm:text-3xl text-ivory mb-2">Apple Silicon & Intel</h3>
+            <p className="text-xs text-sand/80 mb-6">
+              Installs binary to <code className="text-custard">~/.local/bin/aek</code> with native arm64 / x86_64 performance.
+            </p>
+
+            <div className="space-y-4 mb-6">
+              <div>
+                <span className="text-[11px] font-mono text-sand/70 block mb-1">Terminal Installer:</span>
+                <div className="flex items-center justify-between p-3 rounded-xl bg-espresso-deep border border-espresso-border font-mono text-xs">
+                  <span className="text-custard truncate mr-2">{macCmd}</span>
+                  <button
+                    onClick={() => copyToClipboard(macCmd, "cmd")}
+                    className="p-1 hover:text-flamingo text-muted-text"
+                    aria-label="Copy command"
+                  >
+                    {copiedCmd === macCmd ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <span className="text-[11px] font-mono text-sand/70 block mb-1">SHA-256 Checksum:</span>
+                <div className="p-2.5 rounded-xl bg-espresso-deep border border-espresso-border font-mono text-[11px] text-sand/80 truncate">
+                  {MACOS_HASH}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a
+            href={`${GITHUB_REPO_URL}/releases/download/v${LATEST_VERSION}/aek-v${LATEST_VERSION}-macos-aarch64.tar.gz`}
+            className="w-full py-3.5 rounded-xl bg-espresso-surface hover:bg-espresso-elevated border border-primary-gold/40 text-primary-gold text-xs font-semibold font-mono tracking-wide flex items-center justify-center gap-2 shadow-tactile transition-all"
+          >
+            <Download className="w-4 h-4 text-primary-gold" />
+            <span>Download macOS .tar.gz</span>
           </a>
         </TiltCard>
 
@@ -106,10 +156,10 @@ export default function DownloadPage() {
               <span className="font-mono text-xs text-flamingo px-2.5 py-1 rounded bg-brandy/50 border border-brandy-light">
                 LINUX x86_64
               </span>
-              <span className="text-xs font-mono text-emerald-400">Release v{LATEST_VERSION}</span>
+              <span className="text-xs font-mono text-emerald-400">v{LATEST_VERSION}</span>
             </div>
 
-            <h3 className="font-editorial text-3xl text-ivory mb-2">Linux (glibc / musl)</h3>
+            <h3 className="font-editorial text-2xl sm:text-3xl text-ivory mb-2">Linux (glibc / musl)</h3>
             <p className="text-xs text-sand/80 mb-6">
               Installs binary to <code className="text-custard">~/.local/bin/aek</code> adhering strictly to XDG Base Directory conventions.
             </p>
@@ -143,7 +193,7 @@ export default function DownloadPage() {
             className="w-full py-3.5 rounded-xl bg-espresso-surface hover:bg-espresso-elevated border border-espresso-border text-custard text-xs font-semibold font-mono tracking-wide flex items-center justify-center gap-2 shadow-tactile transition-all"
           >
             <Download className="w-4 h-4 text-flamingo" />
-            <span>Download aek-v{LATEST_VERSION}-linux-x86_64.tar.gz</span>
+            <span>Download Linux .tar.gz</span>
           </a>
         </TiltCard>
       </div>
