@@ -31,8 +31,8 @@ export default function MobileBotSideWalker() {
     const botGraphic = botGraphicRef.current;
     if (!posWrapper) return;
 
-    let posY = 140;
-    let targetY = 140;
+    let posY = 130;
+    let targetY = 130;
     let lastScrollY = window.scrollY;
     let walkPhase = 0;
     let isFlipping = false;
@@ -46,9 +46,9 @@ export default function MobileBotSideWalker() {
       const docHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
       const scrollFraction = Math.min(1, Math.max(0, scrollY / docHeight));
 
-      // Calculate vertical screen position between 15% and 82% of screen height
-      const minScreenY = 90;
-      const maxScreenY = Math.max(minScreenY + 120, window.innerHeight - 110);
+      // Calculate vertical screen position between 12% and 82% of screen height
+      const minScreenY = 85;
+      const maxScreenY = Math.max(minScreenY + 100, window.innerHeight - 105);
       targetY = minScreenY + scrollFraction * (maxScreenY - minScreenY);
 
       if (scrollY > lastScrollY + 2 && currentDir !== "down") {
@@ -71,8 +71,8 @@ export default function MobileBotSideWalker() {
     const tickerCallback = (_time: number, deltaTime: number) => {
       const dt = Math.min(deltaTime / 1000, 0.1);
 
-      // Smooth lerp towards scroll position with subtle idle wander
-      const idleSway = Math.sin(Date.now() * 0.002) * 10;
+      // Smooth lerp towards scroll position with gentle idle wander
+      const idleSway = Math.sin(Date.now() * 0.002) * 8;
       const effectiveTargetY = targetY + idleSway;
       const diff = effectiveTargetY - posY;
       const speed = Math.abs(diff);
@@ -143,10 +143,10 @@ export default function MobileBotSideWalker() {
       });
 
     // Calculate vertical coordinate for score tag
-    let currentTop = 150;
+    let currentTop = 140;
     if (posWrapper) {
       const rect = posWrapper.getBoundingClientRect();
-      currentTop = Math.max(80, rect.top);
+      currentTop = Math.max(70, rect.top);
     }
 
     const id = Date.now() + Math.random();
@@ -162,47 +162,44 @@ export default function MobileBotSideWalker() {
     <aside
       ref={containerRef}
       data-testid="mobile-bot-walker"
-      className="md:hidden fixed inset-y-0 right-0 w-11 pointer-events-none z-45 select-none overflow-visible"
+      className="md:hidden fixed inset-y-0 right-0 w-8 pointer-events-none z-45 select-none overflow-visible"
       aria-label="Mobile Cyber-Bot Defense Companion"
     >
-      {/* Vertical Tactical Energy Guide Rail */}
-      <div className="absolute top-16 bottom-16 right-5 w-px border-r border-dashed border-[#FFD36B]/20 pointer-events-none" />
-
       {/* Floating score notices popping off the robot */}
       {scores.map((score) => (
         <div
           key={score.id}
           data-testid="mobile-bot-score"
-          className="absolute right-12 whitespace-nowrap px-2 py-0.5 rounded bg-space-black/95 border border-[#FFD36B] text-[10px] font-mono font-black text-[#FFD36B] shadow-hard-sm pointer-events-none animate-bounce"
+          className="absolute right-9 whitespace-nowrap px-2 py-0.5 rounded bg-space-black/95 border border-[#FFD36B] text-[10px] font-mono font-black text-[#FFD36B] shadow-hard-sm pointer-events-none animate-bounce"
           style={{ top: score.topPx }}
         >
           {score.text}
         </div>
       ))}
 
-      {/* Position Wrapper (Strictly driven by GSAP, no React inline style conflict) */}
+      {/* Position Wrapper: Strictly hugged to the extreme right edge, zero layout/card intrusion */}
       <div
         ref={positionWrapperRef}
-        className="absolute right-1 w-10 h-10 pointer-events-none flex items-center justify-center"
+        className="absolute right-0.5 w-7 h-7 pointer-events-none flex items-center justify-center"
       >
         {/* Interactive Cyber-Bot Unit */}
         <div
           ref={botGraphicRef}
           data-testid="mobile-bot-unit"
           onClick={handleBotTap}
-          className="w-10 h-10 pointer-events-auto cursor-pointer flex items-center justify-center -webkit-tap-highlight-transparent active:scale-90 transition-transform"
+          className="w-7 h-7 pointer-events-auto cursor-pointer flex items-center justify-center -webkit-tap-highlight-transparent active:scale-90 transition-transform"
           style={{ touchAction: "manipulation" }}
           title="Tap to defuse patrol bot!"
           role="button"
           tabIndex={0}
         >
-          {/* Glow backdrop aura */}
-          <div className="absolute inset-0 rounded-full bg-[#FFD36B]/25 blur-sm pointer-events-none" />
+          {/* Subtle localized glowing aura */}
+          <div className="absolute inset-0 rounded-full bg-[#FFD36B]/20 blur-[2px] pointer-events-none" />
 
-          {/* Scaled Mechanical Vector Cyber-Bot */}
+          {/* Scaled Mechanical Vector Cyber-Bot (Compact 28x28) */}
           <svg
             viewBox="0 0 36 36"
-            className="w-9 h-9 drop-shadow-[0_0_8px_rgba(244,102,27,0.85)]"
+            className="w-7 h-7 drop-shadow-[0_0_6px_rgba(244,102,27,0.8)]"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >

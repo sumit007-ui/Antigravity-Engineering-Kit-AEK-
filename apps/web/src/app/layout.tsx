@@ -68,7 +68,7 @@ export default function RootLayout({
         <SmoothScroll>
           <CustomCursor />
           <Navbar />
-          <main className="flex-1 w-full">{children}</main>
+          <main className="flex-1 w-full pr-1.5 sm:pr-0 overflow-x-hidden">{children}</main>
           <Footer />
         </SmoothScroll>
       </body>

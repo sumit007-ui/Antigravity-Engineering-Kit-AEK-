@@ -17,19 +17,19 @@ export default function GettingStartedPage() {
 
       <div className="space-y-8 text-sand/90 text-sm leading-relaxed">
         {/* Step 1 */}
-        <section className="p-6 rounded-2xl ceramic-card border border-espresso-border space-y-3">
-          <h2 className="font-editorial text-2xl text-ivory">Step 1: Install AEK</h2>
+        <section className="p-4 sm:p-6 rounded-2xl ceramic-card border border-espresso-border space-y-3 overflow-hidden">
+          <h2 className="font-editorial text-xl sm:text-2xl text-ivory">Step 1: Install AEK</h2>
           <p className="text-xs text-sand/80">
             Install the precompiled binary for your operating system without requiring administrator or root privileges:
           </p>
-          <div className="p-4 rounded-xl bg-espresso-deep border border-espresso-border font-mono text-xs text-custard space-y-2">
+          <div className="p-3.5 sm:p-4 rounded-xl bg-espresso-deep border border-espresso-border font-mono text-[11px] sm:text-xs text-custard space-y-2 overflow-x-auto">
             <div>
               <span className="text-muted-text"># Windows (PowerShell):</span>
-              <div className="select-all">irm https://raw.githubusercontent.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/main/installers/windows/install.ps1 | iex</div>
+              <div className="select-all break-all sm:break-normal">irm https://raw.githubusercontent.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/main/installers/windows/install.ps1 | iex</div>
             </div>
             <div className="pt-2">
               <span className="text-muted-text"># Linux & macOS (Bash):</span>
-              <div className="select-all">curl -fsSL https://raw.githubusercontent.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/main/installers/linux/install.sh | bash</div>
+              <div className="select-all break-all sm:break-normal">curl -fsSL https://raw.githubusercontent.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/main/installers/linux/install.sh | bash</div>
             </div>
           </div>
         </section>
