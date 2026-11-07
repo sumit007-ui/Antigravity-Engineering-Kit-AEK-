@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Cpu, Bot } from "lucide-react";
-import Domain3DIcon from "@/components/three/Domain3DIcon";
+import { Cpu, AlertTriangle, CheckCircle, ArrowRight } from "lucide-react";
 import SectionHeader from "@/components/primitives/SectionHeader";
-import AgentLogo from "@/components/AgentLogo";
+import AgentLogo, { AgentId } from "@/components/AgentLogo";
 
 const scenes = [
   {
@@ -44,6 +43,13 @@ const scenes = [
 
 export default function ScrollStorytelling() {
   const [activeScene, setActiveScene] = useState(0);
+
+  const agentsList: { id: AgentId; name: string; color: string; status: string }[] = [
+    { id: "antigravity", name: "Google Antigravity", color: "border-sky-500/60 bg-sky-500/10", status: "DISPARATE_CONFIG" },
+    { id: "claude", name: "Claude Code", color: "border-amber-500/60 bg-amber-500/10", status: "CUSTOM_SYSTEM_PROMPT" },
+    { id: "cursor", name: "Cursor AI", color: "border-purple-500/60 bg-purple-500/10", status: "CONFLICTING_RULES" },
+    { id: "opencode", name: "OpenCode", color: "border-emerald-500/60 bg-emerald-500/10", status: "ORPHANED_COMMANDS" },
+  ];
 
   return (
     <section className="relative py-28 px-4 sm:px-6 lg:px-8 border-t border-space-border bg-space-deep overflow-hidden">
@@ -106,18 +112,25 @@ export default function ScrollStorytelling() {
             })}
           </div>
 
-          {/* Right Visual Stage */}
-          <div className="lg:col-span-7 h-[460px] sm:h-[520px] rounded-3xl bg-space-black border-2 border-primary-gold/30 relative p-8 flex items-center justify-center overflow-hidden shadow-hard-md">
+          {/* Right Visual Stage - Classified Radar HUD */}
+          <div className="lg:col-span-7 h-[500px] sm:h-[540px] rounded-3xl bg-space-black border-2 border-primary-gold/40 relative p-6 sm:p-8 flex items-center justify-center overflow-hidden shadow-hard-lg">
             {/* Fine coordinate markers */}
-            <div className="absolute top-4 left-4 font-mono text-[11px] text-primary-gold/70">
-              SYS::SCENE_0{activeScene + 1}
+            <div className="absolute top-4 left-5 font-mono text-[11px] text-primary-gold/80 flex items-center gap-1.5 z-10">
+              <span className="w-2 h-2 rounded-full bg-warm-orange animate-pulse" />
+              <span>SYS::SCENE_0{activeScene + 1}</span>
             </div>
-            <div className="absolute top-4 right-4 font-mono text-[11px] text-primary-gold/70">
+            <div className="absolute top-4 right-5 font-mono text-[11px] text-primary-gold/80 z-10">
               ORCHESTRATION_CORE
             </div>
-            <div className="absolute bottom-4 left-4 font-mono text-[11px] text-sand/60">
+            <div className="absolute bottom-4 left-5 font-mono text-[11px] text-sand/60 z-10">
               RUST_2024::SAFE_SUBPROCESS
             </div>
+            <div className="absolute bottom-4 right-5 font-mono text-[11px] text-sand/60 z-10">
+              SHA256_INTEGRITY::LOCKED
+            </div>
+
+            {/* Tactical Grid Background */}
+            <div className="absolute inset-0 bg-tactile-grid opacity-15 pointer-events-none" />
 
             <AnimatePresence mode="wait">
               {activeScene === 0 && (
@@ -129,25 +142,45 @@ export default function ScrollStorytelling() {
                   transition={{ duration: 0.3 }}
                   className="w-full h-full relative flex items-center justify-center"
                 >
-                  <div className="absolute -top-2 -left-2 p-3 rounded-xl bg-space-surface border-2 border-red-500/40 text-xs text-red-300 font-mono shadow-hard-sm">
-                    ⚠️ Conflicting .cursorrules
-                  </div>
-                  <div className="absolute top-8 right-0 p-3 rounded-xl bg-space-surface border-2 border-amber-500/40 text-xs text-amber-300 font-mono shadow-hard-sm">
-                    ⚠️ Ad-hoc MCP scripts
-                  </div>
-                  <div className="absolute -bottom-2 left-6 p-3 rounded-xl bg-space-surface border-2 border-red-500/40 text-xs text-red-300 font-mono shadow-hard-sm">
-                    ⚠️ Unchecked prompt drift
-                  </div>
-                  <div className="absolute bottom-8 right-4 p-3 rounded-xl bg-space-surface border-2 border-amber-500/40 text-xs text-amber-300 font-mono shadow-hard-sm">
-                    ⚠️ Broken shell escapes
+                  {/* Warning Callouts - Well positioned without collisions */}
+                  <div className="absolute top-10 left-2 sm:left-4 p-2.5 px-3 rounded-xl bg-space-surface/95 border-2 border-red-500/50 text-[11px] text-red-300 font-mono shadow-hard-sm flex items-center gap-2 z-20">
+                    <AlertTriangle className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                    <span>Conflicting .cursorrules</span>
                   </div>
 
-                  {/* Scattered drifting modules */}
-                  <div className="grid grid-cols-2 gap-8">
-                    <Domain3DIcon type="rules" size="lg" />
-                    <Domain3DIcon type="skills" size="lg" />
-                    <Domain3DIcon type="mcp" size="lg" />
-                    <Domain3DIcon type="prompt" size="lg" />
+                  <div className="absolute top-10 right-2 sm:right-4 p-2.5 px-3 rounded-xl bg-space-surface/95 border-2 border-amber-500/50 text-[11px] text-amber-300 font-mono shadow-hard-sm flex items-center gap-2 z-20">
+                    <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    <span>Ad-hoc MCP scripts</span>
+                  </div>
+
+                  <div className="absolute bottom-12 left-2 sm:left-4 p-2.5 px-3 rounded-xl bg-space-surface/95 border-2 border-red-500/50 text-[11px] text-red-300 font-mono shadow-hard-sm flex items-center gap-2 z-20">
+                    <AlertTriangle className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                    <span>Unchecked prompt drift</span>
+                  </div>
+
+                  <div className="absolute bottom-12 right-2 sm:right-4 p-2.5 px-3 rounded-xl bg-space-surface/95 border-2 border-amber-500/50 text-[11px] text-amber-300 font-mono shadow-hard-sm flex items-center gap-2 z-20">
+                    <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    <span>Broken shell escapes</span>
+                  </div>
+
+                  {/* Central 2x2 Official AI Agent Grid */}
+                  <div className="grid grid-cols-2 gap-4 sm:gap-6 z-10 max-w-sm w-full px-4">
+                    {agentsList.map((agent) => (
+                      <div
+                        key={agent.id}
+                        className={`p-4 rounded-2xl bg-space-surface/90 border-2 ${agent.color} shadow-hard-sm flex flex-col items-center text-center transition-transform hover:scale-105`}
+                      >
+                        <div className="w-10 h-10 mb-2 flex items-center justify-center">
+                          <AgentLogo agent={agent.id} size={32} />
+                        </div>
+                        <span className="font-editorial text-sm font-bold text-paper-beige mb-1">
+                          {agent.name}
+                        </span>
+                        <span className="text-[9px] font-mono font-bold text-red-400 tracking-wider">
+                          {agent.status}
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 </motion.div>
               )}
@@ -161,17 +194,26 @@ export default function ScrollStorytelling() {
                   transition={{ duration: 0.3 }}
                   className="w-full h-full relative flex items-center justify-center"
                 >
-                  <div className="relative w-64 h-64 rounded-full border-2 border-dashed border-warm-orange/40 flex items-center justify-center">
-                    <div className="absolute -top-5"><Domain3DIcon type="rules" size="sm" /></div>
-                    <div className="absolute -bottom-5"><Domain3DIcon type="skills" size="sm" /></div>
-                    <div className="absolute -left-5"><Domain3DIcon type="mcp" size="sm" /></div>
-                    <div className="absolute -right-5"><Domain3DIcon type="languages" size="sm" /></div>
+                  <div className="relative w-64 h-64 sm:w-72 sm:h-72 rounded-full border-2 border-dashed border-warm-orange/40 flex items-center justify-center">
+                    {/* Converging official agents around circle */}
+                    <div className="absolute -top-5 p-2 rounded-xl bg-space-surface border-2 border-sky-500/60 shadow-hard-sm">
+                      <AgentLogo agent="antigravity" size={24} />
+                    </div>
+                    <div className="absolute -bottom-5 p-2 rounded-xl bg-space-surface border-2 border-emerald-500/60 shadow-hard-sm">
+                      <AgentLogo agent="opencode" size={24} />
+                    </div>
+                    <div className="absolute -left-5 p-2 rounded-xl bg-space-surface border-2 border-amber-500/60 shadow-hard-sm">
+                      <AgentLogo agent="claude" size={24} />
+                    </div>
+                    <div className="absolute -right-5 p-2 rounded-xl bg-space-surface border-2 border-purple-500/60 shadow-hard-sm">
+                      <AgentLogo agent="cursor" size={24} />
+                    </div>
                   </div>
 
-                  <div className="absolute w-32 h-32 rounded-2xl bg-space-surface border-2 border-primary-gold flex flex-col items-center justify-center shadow-hard-md">
-                    <Cpu className="w-8 h-8 text-primary-gold mb-1" />
-                    <span className="font-editorial text-base font-bold text-paper-beige">AEK Core</span>
-                    <span className="text-[10px] font-mono text-warm-orange">Zero-Cost</span>
+                  <div className="absolute w-36 h-36 rounded-2xl bg-space-surface border-2 border-primary-gold flex flex-col items-center justify-center shadow-hard-md">
+                    <Cpu className="w-9 h-9 text-primary-gold mb-1" />
+                    <span className="font-editorial text-base font-bold text-paper-beige">AEK Rust Core</span>
+                    <span className="text-[10px] font-mono text-warm-orange font-bold">Zero-Cost Runtime</span>
                   </div>
                 </motion.div>
               )}
@@ -195,17 +237,21 @@ export default function ScrollStorytelling() {
                   </div>
 
                   <div className="flex flex-wrap gap-2.5 justify-center max-w-md">
-                    <span className="px-3 py-1 rounded-full text-xs font-mono bg-space-surface border border-primary-gold/40 text-primary-gold shadow-hard-sm">
-                      ✓ Precedence Engine
+                    <span className="px-3 py-1.5 rounded-full text-xs font-mono bg-space-surface border border-primary-gold/40 text-primary-gold shadow-hard-sm flex items-center gap-1.5">
+                      <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>Precedence Engine</span>
                     </span>
-                    <span className="px-3 py-1 rounded-full text-xs font-mono bg-space-surface border border-primary-gold/40 text-primary-gold shadow-hard-sm">
-                      ✓ SHA-256 Tracking
+                    <span className="px-3 py-1.5 rounded-full text-xs font-mono bg-space-surface border border-primary-gold/40 text-primary-gold shadow-hard-sm flex items-center gap-1.5">
+                      <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>SHA-256 State Tracking</span>
                     </span>
-                    <span className="px-3 py-1 rounded-full text-xs font-mono bg-space-surface border border-warm-orange/40 text-warm-orange shadow-hard-sm">
-                      ✓ 8-Stage DAG Quality
+                    <span className="px-3 py-1.5 rounded-full text-xs font-mono bg-space-surface border border-warm-orange/40 text-warm-orange shadow-hard-sm flex items-center gap-1.5">
+                      <CheckCircle className="w-3.5 h-3.5 text-warm-orange" />
+                      <span>8-Stage DAG Gates</span>
                     </span>
-                    <span className="px-3 py-1 rounded-full text-xs font-mono bg-space-surface border border-primary-gold/40 text-primary-gold shadow-hard-sm">
-                      ✓ Zero Telemetry
+                    <span className="px-3 py-1.5 rounded-full text-xs font-mono bg-space-surface border border-primary-gold/40 text-primary-gold shadow-hard-sm flex items-center gap-1.5">
+                      <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>Zero Telemetry</span>
                     </span>
                   </div>
                 </motion.div>
@@ -226,23 +272,24 @@ export default function ScrollStorytelling() {
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-lg">
                     {[
-                      { id: "antigravity" as const, name: "Antigravity", color: "border-sky-500/50" },
-                      { id: "claude" as const, name: "Claude Code", color: "border-amber-500/50" },
-                      { id: "cursor" as const, name: "Cursor", color: "border-purple-500/50" },
-                      { id: "opencode" as const, name: "OpenCode", color: "border-emerald-500/50" },
+                      { id: "antigravity" as const, name: "Antigravity", color: "border-sky-500/60" },
+                      { id: "claude" as const, name: "Claude Code", color: "border-amber-500/60" },
+                      { id: "cursor" as const, name: "Cursor AI", color: "border-purple-500/60" },
+                      { id: "opencode" as const, name: "OpenCode", color: "border-emerald-500/60" },
                     ].map((agent) => (
                       <div
                         key={agent.name}
-                        className={`p-3 rounded-xl bg-space-surface border-2 ${agent.color} text-center shadow-hard-sm`}
+                        className={`p-3 rounded-xl bg-space-surface border-2 ${agent.color} text-center shadow-hard-sm transition-transform hover:scale-105`}
                       >
-                        <div className="w-6 h-6 mx-auto mb-1.5 flex items-center justify-center">
-                          <AgentLogo agent={agent.id} size={20} />
+                        <div className="w-7 h-7 mx-auto mb-1.5 flex items-center justify-center">
+                          <AgentLogo agent={agent.id} size={24} />
                         </div>
                         <span className="text-xs font-bold text-paper-beige block">
                           {agent.name}
                         </span>
-                        <span className="text-[10px] text-primary-gold font-mono">
-                          Native Sync
+                        <span className="text-[10px] text-emerald-400 font-mono font-bold flex items-center justify-center gap-1 mt-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          <span>Native Sync</span>
                         </span>
                       </div>
                     ))}

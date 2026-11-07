@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Terminal, Github, LayoutGrid } from "lucide-react";
+import { Terminal, Github, LayoutGrid, Star } from "lucide-react";
 import { GITHUB_REPO_URL, LATEST_VERSION } from "@/lib/utils";
 import ConsoleMenu from "@/components/primitives/ConsoleMenu";
 import TactileButton from "@/components/primitives/TactileButton";
@@ -115,10 +115,26 @@ export default function Navbar() {
 
           {/* Right Action Bar */}
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* GitHub Repo Link with Animated Star Badge */}
+            <a
+              href={GITHUB_REPO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg border-2 border-border bg-surface-card hover:border-accent-gold text-xs font-mono font-bold text-fg shadow-hard-sm cursor-pointer select-none min-h-[44px] group transition-all"
+              aria-label="GitHub Repository and Star"
+            >
+              <Github className="w-4 h-4 text-fg group-hover:text-accent-gold transition-colors" />
+              <span className="hidden xl:inline text-muted group-hover:text-fg">GitHub</span>
+              <span className="flex items-center gap-1 pl-1.5 border-l border-border text-accent-gold">
+                <Star className="w-3.5 h-3.5 fill-accent-gold text-accent-gold transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12 animate-pulse" />
+                <span className="tabular-nums font-mono text-[11px] font-bold">★ 1.2k</span>
+              </span>
+            </a>
+
             {/* Console Menu Trigger Button */}
             <button
               onClick={() => setConsoleOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded border-2 border-border bg-surface-card hover:border-accent-primary text-xs font-mono font-bold text-fg shadow-hard-sm cursor-pointer select-none min-h-[44px]"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg border-2 border-border bg-surface-card hover:border-accent-primary text-xs font-mono font-bold text-fg shadow-hard-sm cursor-pointer select-none min-h-[44px]"
               aria-label="Open console menu [M]"
             >
               <LayoutGrid className="w-3.5 h-3.5 text-accent-gold" />

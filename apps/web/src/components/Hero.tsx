@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Terminal, Download, CheckCircle2, Clock, ChevronDown } from "lucide-react";
+import { ArrowRight, Terminal, Download, CheckCircle2, Clock, ChevronDown, Radio, Activity, ShieldCheck } from "lucide-react";
 import { GITHUB_REPO_URL, LATEST_VERSION } from "@/lib/utils";
-import HeroArtifact from "@/components/three/HeroArtifact";
 import TactileButton from "@/components/primitives/TactileButton";
 import DecryptText from "@/components/motion/DecryptText";
 
@@ -144,19 +143,82 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right Column: 3D AEK Sculptural Artifact & Coastal Pixel Badge */}
+        {/* Right Column: 16-Bit Coastal Pixel Radar Station & HUD Telemetry */}
         <div className="lg:col-span-5 relative flex items-center justify-center">
-          <div className="relative w-full max-w-[480px]">
-            {/* Ambient sunset glow */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-warm-orange/20 via-burnt-orange/20 to-primary-gold/10 blur-3xl" />
-            
-            {/* 3D Scene */}
-            <HeroArtifact />
+          <div className="relative w-full max-w-[480px] rounded-3xl bg-space-black/95 border-2 border-primary-gold/40 p-6 shadow-hard-lg overflow-hidden group">
+            {/* Ambient sunset glow backdrop */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-warm-orange/15 via-burnt-orange/10 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-tactile-grid opacity-20 pointer-events-none" />
 
-            {/* Dimensional floating caption with classified coordinates */}
-            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-xl bg-space-surface/95 border-2 border-primary-gold/40 text-[11px] font-mono text-primary-gold shadow-hard-sm whitespace-nowrap flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-warm-orange animate-pulse" />
-              <span>PRECISION-MACHINED MONOGRAM ARTIFACT • GOA COASTAL SECTOR</span>
+            {/* Tactical Classified Header Bar */}
+            <div className="flex items-center justify-between border-b-2 border-space-border/80 pb-3 mb-4 text-xs font-mono">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="font-bold text-paper-beige">COASTAL_RADAR::STATION_00</span>
+              </div>
+              <span className="text-[11px] text-primary-gold font-bold">1420.405 MHz</span>
+            </div>
+
+            {/* Pixel Art Visual Showcase: Beach Shack & Horizon */}
+            <div className="relative w-full h-56 rounded-2xl border-2 border-space-border overflow-hidden bg-space-deep flex items-center justify-center">
+              <Image
+                src="/images/beach-shack@4x.png"
+                alt="16-bit Beach Shack Terminal at Dusk"
+                fill
+                sizes="(max-width: 768px) 100vw, 480px"
+                className="object-cover pixelated"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-space-black/80 via-transparent to-transparent pointer-events-none" />
+
+              {/* Radar Crosshair Sweep Overlay */}
+              <div className="absolute inset-0 pointer-events-none border border-primary-gold/20 flex items-center justify-center">
+                <div className="w-24 h-24 rounded-full border border-primary-gold/30 animate-radar" />
+                <div className="absolute w-full h-[1px] bg-primary-gold/20" />
+                <div className="absolute h-full w-[1px] bg-primary-gold/20" />
+              </div>
+
+              {/* Inset Pixel Crest Badge */}
+              <div className="absolute top-3 right-3 w-12 h-12 rounded-xl bg-space-black/80 border border-primary-gold/60 p-1 shadow-hard-sm">
+                <Image
+                  src="/images/radar-crest@4x.png"
+                  alt="Coastal Radar Crest"
+                  width={40}
+                  height={40}
+                  className="pixelated object-contain"
+                />
+              </div>
+
+              {/* Live Tactical Overlay Readout */}
+              <div className="absolute bottom-3 left-3 px-2.5 py-1 rounded bg-space-black/90 border border-warm-orange/50 text-[10px] font-mono text-warm-orange flex items-center gap-1.5 shadow-hard-sm">
+                <Radio className="w-3 h-3 text-warm-orange animate-pulse" />
+                <span>RUST_SUBPROCESS::ACTIVE</span>
+              </div>
+            </div>
+
+            {/* Telemetry Metric Matrix */}
+            <div className="grid grid-cols-3 gap-2.5 mt-4 font-mono text-center">
+              <div className="p-2.5 rounded-xl bg-space-surface border border-space-border/80">
+                <span className="block text-[10px] text-sand/60">KERNEL</span>
+                <span className="text-xs font-bold text-primary-gold">AEK_v{LATEST_VERSION}</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-space-surface border border-space-border/80">
+                <span className="block text-[10px] text-sand/60">MEMORY</span>
+                <span className="text-xs font-bold text-emerald-400">&lt; 32MB</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-space-surface border border-space-border/80">
+                <span className="block text-[10px] text-sand/60">GATES</span>
+                <span className="text-xs font-bold text-paper-beige">8/8 PASS</span>
+              </div>
+            </div>
+
+            {/* Dimensional Classified Caption */}
+            <div className="mt-4 pt-3 border-t border-space-border/60 flex items-center justify-between text-[11px] font-mono text-sand/70">
+              <span className="flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <span>NO TELEMETRY • OFFLINE-FIRST</span>
+              </span>
+              <span className="text-primary-gold font-bold">15°29&apos;N 73°49&apos;E</span>
             </div>
           </div>
         </div>

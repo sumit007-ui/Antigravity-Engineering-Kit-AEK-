@@ -12,6 +12,8 @@ import AgentShowcase from "../components/AgentShowcase";
 import Footer from "../components/Footer";
 import BootLoader from "../components/motion/BootLoader";
 import DecryptText from "../components/motion/DecryptText";
+import Navbar from "../components/Navbar";
+import ScrollStorytelling from "../components/ScrollStorytelling";
 
 describe("Domain3DIcon", () => {
   it("renders without crashing for all 8 domain types", () => {
@@ -129,7 +131,7 @@ describe("Phase 2 Primitives: FilterChip", () => {
 describe("Phase 3 Sections: Hero", () => {
   it("renders classified radar coordinates and primary CTAs", () => {
     render(<Hero />);
-    expect(screen.getByText(/15°29'N 73°49'E/i)).toBeDefined();
+    expect(screen.getAllByText(/15°29'N 73°49'E/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText(/SEC_00: RADAR ACTIVE/i)).toBeDefined();
     expect(screen.getByText(/Get AEK/i)).toBeDefined();
     expect(screen.getByText(/cargo install aek-cli/i)).toBeDefined();
@@ -194,5 +196,36 @@ describe("Phase 4 Motion: Recipe A6 DecryptText", () => {
   it("renders text decrypt component without crashing", () => {
     const { container } = render(<DecryptText text="AEK-SECURE-HASH-256" speed={10} />);
     expect(container.textContent).toBeTruthy();
+  });
+});
+
+describe("Navbar with GitHub Star Animation", () => {
+  it("renders GitHub link with star badge and counter", () => {
+    render(<Navbar />);
+    expect(screen.getByLabelText(/GitHub Repository and Star/i)).toBeDefined();
+    expect(screen.getByText(/1.2k/i)).toBeDefined();
+  });
+});
+
+describe("ScrollStorytelling (Picture scene audit)", () => {
+  it("renders Scene 1 with official agent tiles and 4 warning callouts without 3D canvas", () => {
+    const { container } = render(<ScrollStorytelling />);
+    expect(screen.getByText(/Conflicting .cursorrules/i)).toBeDefined();
+    expect(screen.getByText(/Ad-hoc MCP scripts/i)).toBeDefined();
+    expect(screen.getByText(/Unchecked prompt drift/i)).toBeDefined();
+    expect(screen.getByText(/Broken shell escapes/i)).toBeDefined();
+    expect(screen.getAllByText(/Google Antigravity/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Claude Code/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Cursor AI/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/OpenCode/i).length).toBeGreaterThanOrEqual(1);
+    expect(container.querySelectorAll("canvas").length).toBe(0);
+  });
+});
+
+describe("Hero Component without 3D canvas", () => {
+  it("renders coastal radar station and has 0 canvas elements", () => {
+    const { container } = render(<Hero />);
+    expect(screen.getByText(/COASTAL_RADAR::STATION_00/i)).toBeDefined();
+    expect(container.querySelectorAll("canvas").length).toBe(0);
   });
 });

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Github, Download, Star, Check, Copy } from "lucide-react";
 import { GITHUB_REPO_URL, LATEST_VERSION } from "@/lib/utils";
@@ -28,6 +29,17 @@ export default function OpenSourceSection() {
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8 bg-space-black border-t border-space-border relative overflow-hidden">
       <div className="max-w-4xl mx-auto rounded-3xl p-8 sm:p-12 border-2 border-primary-gold/40 bg-space-deep shadow-hard-md text-center relative z-10">
+        {/* Coastal Builder Motif: Laptop on Sand Pixel Art */}
+        <div className="w-24 h-24 mx-auto mb-5 rounded-2xl bg-space-black/90 border-2 border-primary-gold/50 p-2 shadow-hard-md flex items-center justify-center group hover:border-warm-orange transition-all">
+          <Image
+            src="/images/laptop-sand@4x.png"
+            alt="Pixel Art Laptop on Coastal Beach Sand"
+            width={80}
+            height={80}
+            className="pixelated object-contain"
+          />
+        </div>
+
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-primary-gold/40 bg-space-surface text-xs font-mono text-primary-gold mb-6 font-bold shadow-hard-sm">
           <Star className="w-3.5 h-3.5 text-primary-gold fill-primary-gold" />
           <span>§08 — FREE & OPEN SOURCE SOFTWARE • 15°29&apos;N 73°49&apos;E</span>

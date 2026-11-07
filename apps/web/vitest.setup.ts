@@ -1,4 +1,5 @@
 import "@testing-library/jest-dom";
+import { vi } from "vitest";
 
 if (typeof window !== "undefined") {
   Object.defineProperty(window, "matchMedia", {
@@ -15,3 +16,14 @@ if (typeof window !== "undefined") {
     }),
   });
 }
+
+vi.mock("next/navigation", () => ({
+  usePathname: () => "/",
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    prefetch: vi.fn(),
+    back: vi.fn(),
+  }),
+  useSearchParams: () => new URLSearchParams(),
+}));
