@@ -40,33 +40,39 @@ export default function Navbar() {
       <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
         {/* Brand Monogram & Title */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brandy to-espresso-surface border border-custard/40 flex items-center justify-center shadow-tactile group-hover:border-flamingo transition-all">
-            <span className="font-editorial text-lg font-bold text-custard group-hover:text-ivory transition-colors">
+          <div className="w-10 h-10 rounded-xl bg-plum border-2 border-popcorn/70 flex items-center justify-center shadow-[3px_3px_0px_rgba(248,216,120,0.3)] group-hover:shadow-[3px_3px_0px_#98B4D4] group-hover:border-cerulean transition-all">
+            <span className="font-editorial text-lg font-black text-popcorn group-hover:text-cerulean transition-colors">
               AEK
             </span>
           </div>
           <div className="flex flex-col">
-            <span className="font-editorial text-lg font-semibold text-ivory tracking-tight group-hover:text-custard transition-colors">
-              Antigravity Kit
-            </span>
-            <span className="text-[10px] font-mono tracking-wider text-flamingo uppercase font-medium">
-              v{LATEST_VERSION} RUST
+            <div className="flex items-center gap-2">
+              <span className="font-editorial text-lg font-bold text-ivory tracking-tight group-hover:text-popcorn transition-colors">
+                Antigravity Kit
+              </span>
+              <span className="flex h-2 w-2 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+            </div>
+            <span className="text-[10px] font-mono tracking-wider text-cerulean uppercase font-bold">
+              v{LATEST_VERSION} RUST • ONLINE
             </span>
           </div>
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1 bg-espresso-surface/70 px-3 py-1.5 rounded-full border border-espresso-border backdrop-blur-sm">
+        <nav className="hidden md:flex items-center gap-1 bg-plum-surface/90 px-3 py-1.5 rounded-full border border-plum-border backdrop-blur-md shadow-[2px_2px_0px_rgba(0,0,0,0.3)]">
           {NAV_LINKS.map((link) => {
             const isActive = pathname.startsWith(link.href);
             return (
               <Link
                 key={link.name}
                 href={link.href}
-                className={`relative px-4 py-1.5 text-xs font-medium rounded-full transition-all duration-200 ${
+                className={`relative px-4 py-1.5 text-xs font-semibold rounded-full transition-all duration-200 ${
                   isActive
-                    ? "text-ivory bg-brandy/60 border border-brandy-light"
-                    : "text-sand/80 hover:text-ivory hover:bg-espresso-elevated/50"
+                    ? "text-plum-deep bg-popcorn font-bold shadow-[2px_2px_0px_rgba(0,0,0,0.2)]"
+                    : "text-sand/90 hover:text-ivory hover:bg-plum/60"
                 }`}
               >
                 {link.name}
@@ -81,16 +87,16 @@ export default function Navbar() {
             href={GITHUB_REPO_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-mono text-sand/90 hover:text-ivory border border-espresso-border hover:border-flamingo/50 transition-all bg-espresso-surface/50"
+            className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold text-sand hover:text-ivory border-2 border-plum-border hover:border-cerulean shadow-[2px_2px_0px_rgba(0,0,0,0.3)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all bg-plum-surface/70"
           >
-            <Github className="w-3.5 h-3.5" />
-            <span>GitHub</span>
+            <Github className="w-3.5 h-3.5 text-popcorn" />
+            <span>GitHub ★</span>
           </a>
 
           <Link href="/docs/getting-started">
-            <MagneticButton variant="primary" className="!py-1.5 !px-4 !text-xs font-semibold">
-              Get Started
-            </MagneticButton>
+            <button className="py-1.5 px-4 text-xs font-bold bg-popcorn text-plum-deep rounded-xl border-2 border-popcorn shadow-[3px_3px_0px_#241B1C] hover:brightness-105 active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer">
+              Launch Kit →
+            </button>
           </Link>
         </div>
 

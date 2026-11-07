@@ -22,12 +22,14 @@ export default function Hero() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-flamingo/40 bg-brandy/20 text-xs font-mono text-custard mb-6 shadow-tactile"
+            className="inline-flex flex-wrap items-center gap-2 px-4 py-1.5 rounded-full border-2 border-popcorn/50 bg-plum-surface/90 text-xs font-mono text-popcorn mb-6 shadow-[3px_3px_0px_rgba(248,216,120,0.2)]"
           >
-            <span className="w-2 h-2 rounded-full bg-flamingo animate-pulse" />
-            <span>AEK v{LATEST_VERSION} OPEN-SOURCE LAUNCH</span>
-            <span className="text-espresso-border">•</span>
-            <span className="text-sand/80">Rust 2024 Edition</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="font-bold">AEK v{LATEST_VERSION} RUST ENGINE</span>
+            <span className="text-plum-border">•</span>
+            <span className="text-cerulean font-semibold">AUTONOMOUS AGENTS UNIFIED</span>
+            <span className="text-plum-border">•</span>
+            <span className="text-ivory font-bold">100% OPEN SOURCE</span>
           </motion.div>
 
           {/* Primary Editorial Headline */}
@@ -39,7 +41,7 @@ export default function Hero() {
           >
             One Engineering Kit. <br />
             <span className="italic font-normal text-gradient-editorial">
-              Infinite Possibilities.
+              Autonomous Precision.
             </span>
           </motion.h1>
 
@@ -50,7 +52,7 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-lg sm:text-xl text-sand/90 font-normal max-w-2xl leading-relaxed mb-4"
           >
-            One powerful Rust-powered foundation for modern AI coding agents.
+            The high-performance Rust foundation built for developers who ship software with autonomous AI agents.
           </motion.p>
 
           <motion.p
@@ -59,10 +61,10 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.25 }}
             className="text-xs sm:text-sm text-secondary-text max-w-xl mb-8"
           >
-            Unify global engineering rules, specialized agent skills, MCP integrations, multi-language toolchains, prompt optimization, and automated validation with <strong className="text-custard font-medium">ruthless precision</strong> across Antigravity, Claude Code, Cursor, and OpenCode.
+            Unify global engineering rules, 15 specialized skills, Model Context Protocol (MCP), and automated test-driven validation with <strong className="text-popcorn font-bold">ruthless precision</strong> across Antigravity, Claude Code, Cursor, and OpenCode.
           </motion.p>
 
-          {/* Action CTAs */}
+          {/* Action CTAs - Neo-Brutalist Tactile Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -70,27 +72,27 @@ export default function Hero() {
             className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-10"
           >
             <Link href="/download">
-              <MagneticButton variant="primary" className="!px-6 !py-3.5 !text-sm font-semibold flex items-center gap-2">
-                <Download className="w-4 h-4 text-custard" />
-                <span>Download for Windows & Linux</span>
-              </MagneticButton>
+              <button className="px-6 py-3.5 text-sm font-bold bg-popcorn text-plum-deep rounded-xl border-2 border-popcorn shadow-[4px_4px_0px_#241B1C] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-2 cursor-pointer">
+                <Download className="w-4 h-4 text-plum-deep" />
+                <span>Get AEK v{LATEST_VERSION}</span>
+              </button>
             </Link>
 
             <Link href="/docs/getting-started">
-              <MagneticButton variant="secondary" className="!px-6 !py-3.5 !text-sm font-medium flex items-center gap-2">
+              <button className="px-6 py-3.5 text-sm font-semibold bg-plum-surface text-ivory rounded-xl border-2 border-cerulean/50 shadow-[4px_4px_0px_rgba(152,180,212,0.2)] hover:border-cerulean hover:text-popcorn active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-2 cursor-pointer">
                 <span>Quickstart Guide</span>
-                <ArrowRight className="w-4 h-4 text-flamingo" />
-              </MagneticButton>
+                <ArrowRight className="w-4 h-4 text-cerulean" />
+              </button>
             </Link>
 
             <a
               href={GITHUB_REPO_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-3 text-xs font-mono text-sand/90 hover:text-ivory border border-espresso-border rounded-xl bg-espresso-surface/50 hover:border-flamingo/50 transition-all flex items-center gap-2"
+              className="px-4 py-3.5 text-xs font-mono text-sand hover:text-ivory border-2 border-plum-border rounded-xl bg-plum/40 hover:border-popcorn/60 shadow-[3px_3px_0px_rgba(0,0,0,0.4)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-2"
             >
-              <span>View Source</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-brandy text-custard font-mono">v{LATEST_VERSION}</span>
+              <Terminal className="w-4 h-4 text-popcorn" />
+              <span>cargo install aek-cli</span>
             </a>
           </motion.div>
 

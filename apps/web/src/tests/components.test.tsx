@@ -2,6 +2,8 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import Domain3DIcon from "../components/three/Domain3DIcon";
 import DocsSidebar, { DOCS_NAVIGATION } from "../components/DocsSidebar";
+import MarqueeTicker from "../components/MarqueeTicker";
+import LiveTelemetry from "../components/LiveTelemetry";
 
 describe("Domain3DIcon", () => {
   it("renders without crashing for all 8 domain types", () => {
@@ -30,4 +32,22 @@ describe("DocsNavigation", () => {
     expect(totalLinks).toBe(14);
   });
 });
+
+describe("MarqueeTicker Component (Goa-style UX)", () => {
+  it("renders the animated marquee ticker with key high-energy badges", () => {
+    render(<MarqueeTicker />);
+    expect(screen.getAllByText(/RUST WORKSPACE/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/MODEL CONTEXT PROTOCOL/i).length).toBeGreaterThan(0);
+  });
+});
+
+describe("LiveTelemetry Component (Goa-style Infra Metrics)", () => {
+  it("renders live builder infrastructure metrics", () => {
+    render(<LiveTelemetry />);
+    expect(screen.getByText(/16 CRATES/i)).toBeDefined();
+    expect(screen.getByText(/100% PASSING/i)).toBeDefined();
+    expect(screen.getByText(/COLD BOOT/i)).toBeDefined();
+  });
+});
+
 
