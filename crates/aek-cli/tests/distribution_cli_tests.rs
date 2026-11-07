@@ -183,9 +183,36 @@ fn test_cli_install_verify_with_mismatch_hash_fails() {
 
 #[test]
 fn test_cli_update_check_and_dry_run() {
+    let temp_dir = tempfile::tempdir().expect("failed to create temp dir");
+    let manifest_file = temp_dir.path().join("update-manifest.json");
+    let platform = aek_distribution::model::PlatformSpec::current();
+    let manifest_json = serde_json::json!({
+        "schema_version": "1.0.0",
+        "version": "0.2.0",
+        "release_channel": "stable",
+        "timestamp": "2026-11-07T12:00:00Z",
+        "artifacts": [
+            {
+                "filename": format!("aek-v0.2.0-{}.zip", platform.target_triple),
+                "target_triple": platform.target_triple,
+                "os": platform.os,
+                "arch": platform.arch,
+                "size_bytes": 1024,
+                "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+                "download_url": "https://example.com/download"
+            }
+        ]
+    });
+    std::fs::write(&manifest_file, manifest_json.to_string()).unwrap();
+
     let check_output = Command::new(env!("CARGO_BIN_EXE_aek"))
         .current_dir(workspace_root())
-        .args(["update", "check"])
+        .args([
+            "update",
+            "check",
+            "--manifest",
+            manifest_file.to_str().unwrap(),
+        ])
         .output()
         .expect("failed to run aek update check");
 
@@ -195,13 +222,32 @@ fn test_cli_update_check_and_dry_run() {
 
     let dry_run_output = Command::new(env!("CARGO_BIN_EXE_aek"))
         .current_dir(workspace_root())
-        .args(["update", "--dry-run"])
+        .args([
+            "update",
+            "--dry-run",
+            "--manifest",
+            manifest_file.to_str().unwrap(),
+        ])
         .output()
         .expect("failed to run aek update --dry-run");
 
     assert!(dry_run_output.status.success());
     let dry_run_stdout = String::from_utf8_lossy(&dry_run_output.stdout);
     assert!(dry_run_stdout.contains("[DRY RUN]") || dry_run_stdout.contains("Update Plan"));
+
+    // Also verify that update check in an empty directory without manifest fails gracefully
+    let no_manifest_output = Command::new(env!("CARGO_BIN_EXE_aek"))
+        .current_dir(temp_dir.path())
+        .args(["update", "check"])
+        .output()
+        .expect("failed to run aek update check without manifest");
+    assert!(!no_manifest_output.status.success());
+    let combined_err = format!(
+        "{}\n{}",
+        String::from_utf8_lossy(&no_manifest_output.stdout),
+        String::from_utf8_lossy(&no_manifest_output.stderr)
+    );
+    assert!(combined_err.contains("No release manifest found"));
 }
 
 #[test]
