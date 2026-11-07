@@ -37,15 +37,22 @@ pub fn execute_update(args: &UpdateArgs) -> ExitCode {
         match aek_distribution::manifest::ReleaseManifest::load_from_file(m_path) {
             Ok(m) => m,
             Err(e) => {
-                eprintln!("[FAIL] Failed to load manifest from '{}': {e}", m_path.display());
+                eprintln!(
+                    "[FAIL] Failed to load manifest from '{}': {e}",
+                    m_path.display()
+                );
                 return ExitCode::FAILURE;
             }
         }
     } else if let Ok(env_path) = env::var("AEK_RELEASE_MANIFEST") {
-        match aek_distribution::manifest::ReleaseManifest::load_from_file(std::path::Path::new(&env_path)) {
+        match aek_distribution::manifest::ReleaseManifest::load_from_file(std::path::Path::new(
+            &env_path,
+        )) {
             Ok(m) => m,
             Err(e) => {
-                eprintln!("[FAIL] Failed to load manifest from AEK_RELEASE_MANIFEST '{env_path}': {e}");
+                eprintln!(
+                    "[FAIL] Failed to load manifest from AEK_RELEASE_MANIFEST '{env_path}': {e}"
+                );
                 return ExitCode::FAILURE;
             }
         }
@@ -405,9 +412,17 @@ pub fn execute_install(args: &InstallArgs) -> ExitCode {
                 let manifest_path = paths.manifest_path();
                 if manifest_path.is_file() {
                     if let Ok(manifest_content) = fs::read_to_string(&manifest_path) {
-                        if let Ok(manifest) = serde_json::from_str::<InstallationManifest>(&manifest_content) {
-                            println!("[INFO] Found installation manifest: {}", manifest_path.display());
-                            if exe_path == manifest.binary_path || exe_path.ends_with("aek") || exe_path.ends_with("aek.exe") {
+                        if let Ok(manifest) =
+                            serde_json::from_str::<InstallationManifest>(&manifest_content)
+                        {
+                            println!(
+                                "[INFO] Found installation manifest: {}",
+                                manifest_path.display()
+                            );
+                            if exe_path == manifest.binary_path
+                                || exe_path.ends_with("aek")
+                                || exe_path.ends_with("aek.exe")
+                            {
                                 println!("\n[PASS] Installation manifest verified.");
                                 println!("Verification Status: [VERIFIED]");
                                 return ExitCode::SUCCESS;
@@ -417,9 +432,13 @@ pub fn execute_install(args: &InstallArgs) -> ExitCode {
                 }
 
                 println!("\n[INFO] Integrity Checksum: {actual_hash}");
-                println!("[WARN] No expected checksum or installation manifest provided to verify against.");
+                println!(
+                    "[WARN] No expected checksum or installation manifest provided to verify against."
+                );
                 println!("Verification Status: [UNVERIFIED]");
-                println!("Tip: Run `aek install verify --expected-hash <SHA256>` to cryptographically verify.");
+                println!(
+                    "Tip: Run `aek install verify --expected-hash <SHA256>` to cryptographically verify."
+                );
                 ExitCode::SUCCESS
             }
         }

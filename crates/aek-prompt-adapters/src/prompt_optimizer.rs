@@ -41,14 +41,19 @@ impl PromptOptimizerAdapter {
             "Principal Flutter & Mobile Architect"
         } else if content.contains("ROS") || content.contains("robotics") {
             "Principal Robotics & ROS 2 Systems Engineer"
-        } else if content.contains("TypeScript") || content.contains("Next.js") || content.contains("React") {
+        } else if content.contains("TypeScript")
+            || content.contains("Next.js")
+            || content.contains("React")
+        {
             "Principal Fullstack & Systems Architect"
         } else {
             "Principal Software Engineer & Technical Architect"
         };
 
         let mut output = String::new();
-        output.push_str("<!-- Compiler: AEK Deterministic Structural Engine (Zero Hallucination) -->\n\n");
+        output.push_str(
+            "<!-- Compiler: AEK Deterministic Structural Engine (Zero Hallucination) -->\n\n",
+        );
         output.push_str(&format!("# Role: {role}\n\n"));
 
         output.push_str("## Profile\n");

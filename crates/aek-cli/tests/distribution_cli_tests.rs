@@ -83,7 +83,10 @@ fn test_cli_install_verify_with_mismatch_hash_fails() {
         .output()
         .expect("failed to run aek install verify with wrong hash");
 
-    assert!(!output.status.success(), "expected failure on hash mismatch");
+    assert!(
+        !output.status.success(),
+        "expected failure on hash mismatch"
+    );
     let stderr = String::from_utf8_lossy(&output.stderr);
     let stdout = String::from_utf8_lossy(&output.stdout);
     let combined = format!("{stdout}\n{stderr}");
@@ -148,7 +151,12 @@ fn test_cli_update_with_custom_manifest() {
 
     let output = Command::new(env!("CARGO_BIN_EXE_aek"))
         .current_dir(workspace_root())
-        .args(["update", "check", "--manifest", manifest_file.to_str().unwrap()])
+        .args([
+            "update",
+            "check",
+            "--manifest",
+            manifest_file.to_str().unwrap(),
+        ])
         .output()
         .expect("failed to run aek update check with custom manifest");
 
