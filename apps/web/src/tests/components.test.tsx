@@ -214,6 +214,7 @@ describe("Navbar and GitHubStarButton Component", () => {
     expect(screen.getByLabelText(/Main Navigation/i)).toBeDefined();
     expect(screen.getByLabelText(/GitHub Repository and Star/i)).toBeDefined();
     expect(screen.getByText(/Antigravity Kit/i)).toBeDefined();
+    expect(screen.getByAltText(/AEK Emblem/i)).toBeDefined();
     expect(screen.getByRole("link", { name: /^Features$/i })).toBeDefined();
     expect(screen.getByRole("link", { name: /^Agents$/i })).toBeDefined();
     expect(screen.getByRole("link", { name: /^Integrations$/i })).toBeDefined();
