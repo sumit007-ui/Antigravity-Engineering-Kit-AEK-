@@ -3,15 +3,19 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import TactileButton from "@/components/primitives/TactileButton";
+import AutonomousAgentSwarm from "@/components/motion/AutonomousAgentSwarm";
 import { GITHUB_REPO_URL } from "@/lib/utils";
 
 export default function TypographicInterlude() {
   return (
-    <section className="relative py-28 px-4 sm:px-6 lg:px-8 bg-space-violet border-y-2 border-primary-gold/40 overflow-hidden text-center">
-      {/* Decorative ambient tactile backdrop */}
-      <div className="absolute inset-0 bg-tactile-grid opacity-15 pointer-events-none" />
+    <section className="relative py-28 px-4 sm:px-6 lg:px-8 bg-space-violet border-y-2 border-primary-gold/40 overflow-hidden text-center group/manifesto">
+      {/* Interactive Autonomous Cyber Robot Swarm (Follows Cursor) */}
+      <AutonomousAgentSwarm />
 
-      <div className="max-w-4xl mx-auto relative z-10">
+      {/* Decorative ambient tactile backdrop */}
+      <div className="absolute inset-0 bg-tactile-grid opacity-15 pointer-events-none z-1" />
+
+      <div className="max-w-4xl mx-auto relative z-10 pointer-events-auto">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary-gold/40 bg-space-black/60 text-xs font-mono text-primary-gold mb-6 font-bold shadow-hard-sm">
           <span>§07 — A MANIFESTO FOR DEVELOPER INFRASTRUCTURE</span>
         </div>

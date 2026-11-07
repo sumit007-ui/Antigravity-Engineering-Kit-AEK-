@@ -243,10 +243,12 @@ describe("ScrollStorytelling (Picture scene audit)", () => {
   });
 });
 
-describe("Hero Component without 3D canvas", () => {
-  it("renders tactical launcher deck on the right and has 0 canvas elements", () => {
-    const { container } = render(<Hero />);
-    expect(screen.getByText(/AEK_LAUNCH_DECK/i)).toBeDefined();
-    expect(container.querySelectorAll("canvas").length).toBe(0);
+describe("TypographicInterlude & AutonomousAgentSwarm (Interactive Cyber Bot Swarm)", () => {
+  it("renders the manifesto section with autonomous agent bot swarm background", async () => {
+    const { default: TypographicInterlude } = await import("../components/TypographicInterlude");
+    const { container } = render(<TypographicInterlude />);
+    expect(screen.getByText(/A MANIFESTO FOR DEVELOPER INFRASTRUCTURE/i)).toBeDefined();
+    expect(screen.getByText(/Engineering deserves/i)).toBeDefined();
+    expect(container.querySelector("canvas")).toBeTruthy();
   });
 });

@@ -15,6 +15,10 @@ if (typeof window !== "undefined") {
       dispatchEvent: () => false,
     }),
   });
+
+  if (typeof HTMLCanvasElement !== "undefined") {
+    HTMLCanvasElement.prototype.getContext = () => null;
+  }
 }
 
 vi.mock("next/navigation", () => ({
