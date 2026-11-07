@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Check, ArrowRight, ShieldCheck, FileCode, Layers } from "lucide-react";
-import TiltCard from "@/components/motion/TiltCard";
+import { ArrowRight, ShieldCheck, FileCode } from "lucide-react";
+import SectionHeader from "@/components/primitives/SectionHeader";
 import AgentLogo, { AgentId } from "@/components/AgentLogo";
 
 interface AgentInfo {
@@ -99,47 +99,43 @@ export default function AgentShowcase() {
   const active = AGENTS.find((a) => a.id === selectedAgent) || AGENTS[0];
 
   return (
-    <section className="py-28 px-4 sm:px-6 lg:px-8 bg-espresso border-t border-espresso-border relative">
+    <section className="py-28 px-4 sm:px-6 lg:px-8 bg-space-deep border-t border-space-border relative">
       <div className="max-w-content mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-flamingo/40 bg-brandy/20 text-xs font-mono text-custard mb-3">
-            ✦ UNIVERSAL COMPATIBILITY
-          </div>
-          <h2 className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-ivory tracking-tight mb-4">
-            One kit. <span className="italic text-gradient-editorial">Every AI coding agent.</span>
-          </h2>
-          <p className="text-secondary-text text-sm sm:text-base">
-            AEK translates your engineering rules, skills, and MCP tools natively into the target agent&apos;s exact configuration dialect.
-          </p>
-        </div>
+        <SectionHeader
+          sectionNum="05"
+          coordinates="15°29'N 73°49'E • SEC_05"
+          title="One kit. Every AI coding agent."
+          subtitle="AEK translates your engineering rules, skills, and MCP tools natively into the target agent's exact configuration dialect."
+          align="center"
+        />
 
         {/* 4 Agent Selection Cards with Official Logos */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 mt-12">
           {AGENTS.map((agent) => {
             const isSelected = selectedAgent === agent.id;
             return (
               <button
                 key={agent.id}
                 onClick={() => setSelectedAgent(agent.id)}
-                className={`p-5 rounded-2xl text-left transition-all duration-200 border-2 group cursor-pointer ${
+                className={`p-5 rounded-2xl text-left transition-all border-2 group cursor-pointer ${
                   isSelected
-                    ? "bg-plum border-popcorn shadow-[4px_4px_0px_#F8D878]"
-                    : "bg-plum-deep/90 border-plum-border hover:border-cerulean/60 shadow-[3px_3px_0px_rgba(0,0,0,0.4)]"
+                    ? "bg-space-surface border-warm-orange shadow-hard-md"
+                    : "bg-space-black/80 border-space-border/80 hover:border-primary-gold/60 shadow-hard-sm"
                 }`}
               >
                 <div className="flex items-center justify-between mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-plum-surface/90 border border-plum-border flex items-center justify-center group-hover:border-popcorn/50 transition-colors">
+                  <div className="w-10 h-10 rounded-xl bg-space-deep border border-space-border flex items-center justify-center group-hover:border-primary-gold/50 transition-colors">
                     <AgentLogo agent={agent.id as AgentId} size={22} className="transition-transform group-hover:scale-110" />
                   </div>
                   {isSelected ? (
-                    <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-popcorn text-plum-deep uppercase">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-primary-gold text-space-black uppercase">
                       ACTIVE
                     </span>
                   ) : (
-                    <span className="w-2 h-2 rounded-full bg-plum-border group-hover:bg-cerulean transition-colors" />
+                    <span className="w-2 h-2 rounded-full bg-space-border group-hover:bg-warm-orange transition-colors" />
                   )}
                 </div>
-                <h3 className="font-editorial text-lg text-ivory mb-0.5 font-bold">{agent.name}</h3>
+                <h3 className="font-editorial text-lg text-paper-beige mb-0.5 font-bold">{agent.name}</h3>
                 <p className="text-[11px] font-mono text-sand/70 mb-2">{agent.provider}</p>
                 <div className="text-[11px] font-mono text-emerald-400 flex items-center gap-1">
                   <ShieldCheck className="w-3.5 h-3.5" />
@@ -151,35 +147,35 @@ export default function AgentShowcase() {
         </div>
 
         {/* Detailed Inspector Card */}
-        <div className="rounded-3xl border-2 border-popcorn/30 bg-plum-deep/95 p-8 shadow-[6px_6px_0px_#382C2D] grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="rounded-3xl border-2 border-primary-gold/40 bg-space-black p-8 shadow-hard-md grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Details */}
           <div className="lg:col-span-6 space-y-6">
             <div>
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-popcorn">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-primary-gold">
                 ✦ NATIVE TRANSLATION MATRIX
               </span>
               <div className="flex items-center gap-3 mt-2 mb-2">
-                <div className="w-10 h-10 rounded-xl bg-plum border border-plum-border flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-space-surface border border-space-border flex items-center justify-center">
                   <AgentLogo agent={active.id as AgentId} size={24} />
                 </div>
-                <h3 className="font-editorial text-3xl text-ivory font-bold">
+                <h3 className="font-editorial text-3xl text-paper-beige font-bold">
                   {active.name}
                 </h3>
               </div>
-              <p className="text-xs font-mono text-cerulean font-semibold">{active.provider}</p>
+              <p className="text-xs font-mono text-warm-orange font-semibold">{active.provider}</p>
             </div>
 
             <div className="space-y-3 text-xs">
-              <div className="p-3.5 rounded-xl bg-espresso-deep border border-espresso-border">
-                <span className="font-mono text-flamingo block mb-1">RULES CONFIGURATION:</span>
+              <div className="p-3.5 rounded-xl bg-space-surface border border-space-border">
+                <span className="font-mono text-primary-gold block mb-1">RULES CONFIGURATION:</span>
                 <span className="font-mono text-sand">{active.rulesConfig}</span>
               </div>
-              <div className="p-3.5 rounded-xl bg-espresso-deep border border-espresso-border">
-                <span className="font-mono text-flamingo block mb-1">MCP INTEGRATION PATH:</span>
+              <div className="p-3.5 rounded-xl bg-space-surface border border-space-border">
+                <span className="font-mono text-primary-gold block mb-1">MCP INTEGRATION PATH:</span>
                 <span className="font-mono text-sand">{active.mcpConfig}</span>
               </div>
-              <div className="p-3.5 rounded-xl bg-espresso-deep border border-espresso-border">
-                <span className="font-mono text-flamingo block mb-1">SKILLS RUNBOOKS:</span>
+              <div className="p-3.5 rounded-xl bg-space-surface border border-space-border">
+                <span className="font-mono text-primary-gold block mb-1">SKILLS RUNBOOKS:</span>
                 <span className="font-mono text-sand">{active.skillsConfig}</span>
               </div>
             </div>
@@ -187,22 +183,22 @@ export default function AgentShowcase() {
             <div className="pt-2">
               <Link
                 href="/agents"
-                className="inline-flex items-center gap-2 text-xs font-semibold text-custard hover:text-ivory"
+                className="inline-flex items-center gap-2 text-xs font-semibold text-primary-gold hover:text-paper-beige font-mono"
               >
                 <span>View Full Agent Capability Matrix</span>
-                <ArrowRight className="w-3.5 h-3.5 text-flamingo" />
+                <ArrowRight className="w-3.5 h-3.5 text-warm-orange" />
               </Link>
             </div>
           </div>
 
           {/* Right Live Configuration Preview */}
-          <div className="lg:col-span-6 rounded-2xl overflow-hidden border border-espresso-border bg-espresso-deep shadow-tactile">
-            <div className="bg-espresso-surface px-4 py-2.5 border-b border-espresso-border flex items-center justify-between text-xs font-mono text-sand">
-              <span className="flex items-center gap-1.5 text-custard">
-                <FileCode className="w-3.5 h-3.5 text-flamingo" />
+          <div className="lg:col-span-6 rounded-2xl overflow-hidden border-2 border-space-border bg-space-deep shadow-hard-sm">
+            <div className="bg-space-surface px-4 py-2.5 border-b border-space-border flex items-center justify-between text-xs font-mono text-sand">
+              <span className="flex items-center gap-1.5 text-primary-gold font-bold">
+                <FileCode className="w-3.5 h-3.5 text-warm-orange" />
                 {active.previewFile}
               </span>
-              <span className="text-[10px] text-muted-text">AUTOGENERATED BY AEK</span>
+              <span className="text-[10px] text-sand/60">AUTOGENERATED BY AEK</span>
             </div>
             <pre className="p-5 font-mono text-xs text-sand/90 overflow-x-auto leading-relaxed">
               <code>{active.codePreview}</code>

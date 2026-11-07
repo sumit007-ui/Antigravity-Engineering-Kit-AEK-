@@ -1,8 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Press+Start+2P&family=Space+Grotesk:wght@500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-pixel: "Press Start 2P", monospace;
+  --font-body: "Inter", system-ui, sans-serif;
+
   /* 16-Color Style Bible Palette */
   --c-01: #050505;
   --c-02: #120d24;

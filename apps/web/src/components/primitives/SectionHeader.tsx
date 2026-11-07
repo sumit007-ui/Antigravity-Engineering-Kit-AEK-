@@ -5,6 +5,7 @@ interface SectionHeaderProps {
   category?: string;
   sectionCode?: string;
   sectionNumber?: string;
+  sectionNum?: string;
   sectionTag?: string;
   badgePill?: string;
   title: string;
@@ -18,6 +19,7 @@ export default function SectionHeader({
   category = "AEK_MISSION_HUD",
   sectionCode = "SEC_02",
   sectionNumber,
+  sectionNum,
   sectionTag,
   badgePill,
   title,
@@ -26,6 +28,7 @@ export default function SectionHeader({
   className = "",
 }: SectionHeaderProps) {
   const isCenter = align === "center";
+  const num = sectionNumber || sectionNum;
 
   return (
     <div className={`mb-12 sm:mb-16 ${isCenter ? "text-center mx-auto max-w-3xl" : "text-left max-w-3xl"} ${className}`}>
@@ -40,10 +43,10 @@ export default function SectionHeader({
       </div>
 
       {/* 2. Sub-label with § mark and optional badge */}
-      {(sectionNumber || sectionTag || badgePill) && (
+      {(num || sectionTag || badgePill) && (
         <div className="flex items-center gap-2 justify-center mb-3">
           <span className="text-xs font-mono font-bold uppercase tracking-wider text-accent-secondary">
-            §{sectionNumber || "00"} — {sectionTag || "PROTOCOL"}
+            §{num || "00"} — {sectionTag || "PROTOCOL"}
           </span>
           {badgePill && (
             <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-surface-card border border-border text-accent-gold uppercase">

@@ -1,65 +1,101 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { Github, Download, Star, ShieldCheck, Terminal, GitBranch } from "lucide-react";
+import { Github, Download, Star, Check, Copy } from "lucide-react";
 import { GITHUB_REPO_URL, LATEST_VERSION } from "@/lib/utils";
-import MagneticButton from "@/components/motion/MagneticButton";
+import TactileButton from "@/components/primitives/TactileButton";
 
 export default function OpenSourceSection() {
+  const [copiedWin, setCopiedWin] = useState(false);
+  const [copiedLinux, setCopiedLinux] = useState(false);
+
+  const winCmd = "irm https://raw.githubusercontent.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/main/installers/windows/install.ps1 | iex";
+  const linuxCmd = "curl -fsSL https://raw.githubusercontent.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/main/installers/linux/install.sh | bash";
+
+  const handleCopy = (type: "win" | "linux") => {
+    const cmd = type === "win" ? winCmd : linuxCmd;
+    navigator.clipboard.writeText(cmd);
+    if (type === "win") {
+      setCopiedWin(true);
+      setTimeout(() => setCopiedWin(false), 2000);
+    } else {
+      setCopiedLinux(true);
+      setTimeout(() => setCopiedLinux(false), 2000);
+    }
+  };
+
   return (
-    <section className="py-24 px-4 sm:px-6 lg:px-8 bg-espresso-deep border-t border-espresso-border relative overflow-hidden">
-      <div className="max-w-4xl mx-auto rounded-3xl ceramic-card p-8 sm:p-12 border border-espresso-border shadow-tactile-hover text-center relative z-10">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-flamingo/40 bg-brandy/20 text-xs font-mono text-custard mb-6">
-          <Star className="w-3.5 h-3.5 text-flamingo fill-flamingo" />
-          <span>FREE & OPEN SOURCE SOFTWARE</span>
+    <section className="py-24 px-4 sm:px-6 lg:px-8 bg-space-black border-t border-space-border relative overflow-hidden">
+      <div className="max-w-4xl mx-auto rounded-3xl p-8 sm:p-12 border-2 border-primary-gold/40 bg-space-deep shadow-hard-md text-center relative z-10">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-primary-gold/40 bg-space-surface text-xs font-mono text-primary-gold mb-6 font-bold shadow-hard-sm">
+          <Star className="w-3.5 h-3.5 text-primary-gold fill-primary-gold" />
+          <span>§08 — FREE & OPEN SOURCE SOFTWARE • 15°29&apos;N 73°49&apos;E</span>
         </div>
 
-        <h2 className="font-editorial text-3xl sm:text-5xl lg:text-6xl text-ivory tracking-tight mb-4">
+        <h2 className="font-editorial text-3xl sm:text-5xl lg:text-6xl text-paper-beige tracking-tight mb-4 font-bold">
           Ready to elevate your <br />
           <span className="italic text-gradient-editorial">engineering environment?</span>
         </h2>
 
-        <p className="text-secondary-text text-sm sm:text-base max-w-xl mx-auto mb-8 leading-relaxed">
+        <p className="text-sand/90 text-sm sm:text-base max-w-xl mx-auto mb-8 leading-relaxed">
           AEK is free, open source, and dual-licensed under Apache 2.0 or MIT. Designed with ruthless precision for professional software teams and AI agent developers.
         </p>
 
         <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
           <Link href="/download">
-            <MagneticButton variant="primary" className="!px-7 !py-3.5 !text-sm font-semibold flex items-center gap-2">
-              <Download className="w-4 h-4 text-custard" />
+            <TactileButton variant="gold" size="lg" className="flex items-center gap-2">
+              <Download className="w-4 h-4 text-space-black" />
               <span>Download AEK v{LATEST_VERSION}</span>
-            </MagneticButton>
+            </TactileButton>
           </Link>
 
           <a
             href={GITHUB_REPO_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-espresso-surface hover:bg-espresso-elevated border border-espresso-border text-custard hover:text-ivory text-sm font-mono transition-all"
           >
-            <Github className="w-4 h-4" />
-            <span>Star on GitHub</span>
+            <TactileButton variant="secondary" size="lg" className="flex items-center gap-2 font-mono">
+              <Github className="w-4 h-4" />
+              <span>Star on GitHub</span>
+            </TactileButton>
           </a>
         </div>
 
         {/* Quick Install Snippets */}
-        <div className="max-w-2xl mx-auto p-4 rounded-2xl bg-espresso-deep border border-espresso-border text-left font-mono text-xs">
-          <div className="flex items-center justify-between text-muted-text text-[11px] mb-2 pb-2 border-b border-espresso-border/60">
+        <div className="max-w-2xl mx-auto p-5 rounded-2xl bg-space-black border-2 border-space-border text-left font-mono text-xs shadow-hard-sm">
+          <div className="flex items-center justify-between text-primary-gold text-[11px] font-bold mb-3 pb-2 border-b border-space-border/60">
             <span>ONE-LINE USER INSTALLATION</span>
-            <span>NO ADMIN/ROOT REQUIRED</span>
+            <span className="text-sand/70">NO ADMIN/ROOT REQUIRED</span>
           </div>
-          <div className="space-y-2">
-            <div>
-              <span className="text-sand/60 select-none mr-2">Windows:</span>
-              <code className="text-custard select-all">
-                irm https://raw.githubusercontent.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/main/installers/windows/install.ps1 | iex
-              </code>
+          
+          <div className="space-y-3">
+            <div className="flex items-center justify-between gap-2 bg-space-surface p-2.5 rounded-xl border border-space-border">
+              <div className="overflow-x-auto whitespace-nowrap">
+                <span className="text-warm-orange font-bold mr-2">Windows:</span>
+                <code className="text-paper-beige select-all">{winCmd}</code>
+              </div>
+              <button
+                onClick={() => handleCopy("win")}
+                className="px-2.5 py-1 rounded bg-space-black border border-primary-gold/40 text-[10px] text-primary-gold hover:text-paper-beige flex items-center gap-1 shrink-0"
+              >
+                {copiedWin ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                <span>{copiedWin ? "COPIED" : "COPY"}</span>
+              </button>
             </div>
-            <div>
-              <span className="text-sand/60 select-none mr-2">Linux:</span>
-              <code className="text-custard select-all">
-                curl -fsSL https://raw.githubusercontent.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/main/installers/linux/install.sh | bash
-              </code>
+
+            <div className="flex items-center justify-between gap-2 bg-space-surface p-2.5 rounded-xl border border-space-border">
+              <div className="overflow-x-auto whitespace-nowrap">
+                <span className="text-warm-orange font-bold mr-2">Linux:</span>
+                <code className="text-paper-beige select-all">{linuxCmd}</code>
+              </div>
+              <button
+                onClick={() => handleCopy("linux")}
+                className="px-2.5 py-1 rounded bg-space-black border border-primary-gold/40 text-[10px] text-primary-gold hover:text-paper-beige flex items-center gap-1 shrink-0"
+              >
+                {copiedLinux ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                <span>{copiedLinux ? "COPIED" : "COPY"}</span>
+              </button>
             </div>
           </div>
         </div>

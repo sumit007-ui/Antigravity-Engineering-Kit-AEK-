@@ -1,10 +1,15 @@
 import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import Domain3DIcon from "../components/three/Domain3DIcon";
 import DocsSidebar, { DOCS_NAVIGATION } from "../components/DocsSidebar";
 import MarqueeTicker from "../components/MarqueeTicker";
 import LiveTelemetry from "../components/LiveTelemetry";
 import AgentLogo from "../components/AgentLogo";
+import Hero from "../components/Hero";
+import EditorialBentoGrid from "../components/EditorialBentoGrid";
+import InteractiveTerminal from "../components/InteractiveTerminal";
+import AgentShowcase from "../components/AgentShowcase";
+import Footer from "../components/Footer";
 
 describe("Domain3DIcon", () => {
   it("renders without crashing for all 8 domain types", () => {
@@ -119,6 +124,56 @@ describe("Phase 2 Primitives: FilterChip", () => {
   });
 });
 
+describe("Phase 3 Sections: Hero", () => {
+  it("renders classified radar coordinates and primary CTAs", () => {
+    render(<Hero />);
+    expect(screen.getByText(/15°29'N 73°49'E/i)).toBeDefined();
+    expect(screen.getByText(/SEC_00: RADAR ACTIVE/i)).toBeDefined();
+    expect(screen.getByText(/Get AEK/i)).toBeDefined();
+    expect(screen.getByText(/cargo install aek-cli/i)).toBeDefined();
+  });
+});
 
+describe("Phase 3 Sections: EditorialBentoGrid", () => {
+  it("renders core infrastructure cards and locked preview empty states", () => {
+    render(<EditorialBentoGrid />);
+    expect(screen.getByText(/Precision engineering by architectural design/i)).toBeDefined();
+    expect(screen.getByText(/CRATE: aek-cloud/i)).toBeDefined();
+    expect(screen.getByText(/CRATE: aek-eval/i)).toBeDefined();
+    const notifyBtns = screen.getAllByText(/NOTIFY ME/i);
+    expect(notifyBtns.length).toBeGreaterThan(0);
+    fireEvent.click(notifyBtns[0]);
+    expect(screen.getByText(/REGISTERED FOR UNLOCK/i)).toBeDefined();
+  });
+});
 
+describe("Phase 3 Sections: InteractiveTerminal", () => {
+  it("renders command line interface with tab switches", () => {
+    render(<InteractiveTerminal />);
+    expect(screen.getByText(/Deterministic control at your fingertips/i)).toBeDefined();
+    expect(screen.getByText(/\[01\] INITIALIZE/i)).toBeDefined();
+    expect(screen.getByText(/\[02\] AGENT SYNC/i)).toBeDefined();
+  });
+});
 
+describe("Phase 3 Sections: AgentShowcase", () => {
+  it("renders all four supported agents with translation matrix", () => {
+    render(<AgentShowcase />);
+    expect(screen.getByText(/One kit\. Every AI coding agent\./i)).toBeDefined();
+    expect(screen.getAllByText(/Google Gemini Antigravity/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Anthropic Claude Code/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Cursor AI IDE/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/OpenCode/i).length).toBeGreaterThanOrEqual(1);
+  });
+});
+
+describe("Phase 3 Sections: Footer", () => {
+  it("renders Trust Center row with Privacy, Terms, Security, and Code of Conduct", () => {
+    render(<Footer />);
+    expect(screen.getByText(/AEK TRUST CENTER:/i)).toBeDefined();
+    expect(screen.getByText(/Privacy Policy/i)).toBeDefined();
+    expect(screen.getByText(/Terms of Service/i)).toBeDefined();
+    expect(screen.getByText(/Security Audit/i)).toBeDefined();
+    expect(screen.getByText(/Code of Conduct/i)).toBeDefined();
+  });
+});

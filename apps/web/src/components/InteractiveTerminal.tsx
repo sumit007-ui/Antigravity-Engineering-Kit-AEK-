@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Check, Terminal as TerminalIcon, Sparkles } from "lucide-react";
+import { Copy, Check } from "lucide-react";
+import SectionHeader from "@/components/primitives/SectionHeader";
+import FilterChip from "@/components/primitives/FilterChip";
 
 interface TerminalTab {
   id: string;
@@ -13,7 +15,7 @@ interface TerminalTab {
 const TABS: TerminalTab[] = [
   {
     id: "init",
-    label: "Initialize Workspace",
+    label: "[01] INITIALIZE",
     command: "aek init --profile engineering",
     output: [
       "[INFO] Resolving system directories: %LOCALAPPDATA%\\aek",
@@ -25,7 +27,7 @@ const TABS: TerminalTab[] = [
   },
   {
     id: "sync",
-    label: "Sync Coding Agents",
+    label: "[02] AGENT SYNC",
     command: "aek agent sync --all --strategy replace-managed",
     output: [
       "[INFO] Scanning target agent directories...",
@@ -38,7 +40,7 @@ const TABS: TerminalTab[] = [
   },
   {
     id: "validate",
-    label: "Quality Gate DAG",
+    label: "[03] QUALITY GATES",
     command: "aek validate --strict --fail-fast",
     output: [
       "[DAG] Stage 1/8: Code Formatting Verification ... [PASS: 0.12s]",
@@ -52,7 +54,7 @@ const TABS: TerminalTab[] = [
   },
   {
     id: "mcp",
-    label: "MCP Discovery",
+    label: "[04] MCP DISCOVERY",
     command: "aek mcp list --status",
     output: [
       "ID                   TRANSPORT   SECURITY LEVEL    STATUS",
@@ -80,77 +82,70 @@ export default function InteractiveTerminal() {
   };
 
   return (
-    <section className="py-28 px-4 sm:px-6 lg:px-8 bg-espresso-deep border-t border-espresso-border relative">
+    <section className="py-28 px-4 sm:px-6 lg:px-8 bg-space-black border-t border-space-border relative">
       <div className="max-w-content mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-flamingo/40 bg-brandy/20 text-xs font-mono text-custard mb-3">
-            ✦ COMMAND LINE INTERFACE
-          </div>
-          <h2 className="font-editorial text-4xl sm:text-5xl text-ivory tracking-tight mb-4">
-            Deterministic control at your <span className="italic text-gradient-editorial">fingertips.</span>
-          </h2>
-          <p className="text-secondary-text text-sm sm:text-base">
-            Safe subprocess execution with direct argument arrays. Zero shell injection vulnerabilities.
-          </p>
+        <SectionHeader
+          sectionNum="04"
+          coordinates="15°29'N 73°49'E • SEC_04"
+          title="Deterministic control at your fingertips."
+          subtitle="Safe subprocess execution with direct argument arrays. Zero shell injection vulnerabilities."
+          align="center"
+        />
+
+        {/* Filter Chips / Action Switchers */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-8 mt-10">
+          {TABS.map((tab, idx) => (
+            <FilterChip
+              key={tab.id}
+              label={tab.label}
+              active={activeTab === idx}
+              onClick={() => setActiveTab(idx)}
+            />
+          ))}
         </div>
 
         {/* Terminal Window Frame */}
-        <div className="max-w-4xl mx-auto rounded-3xl overflow-hidden border border-espresso-border bg-espresso-deep shadow-tactile-hover">
+        <div className="max-w-4xl mx-auto rounded-2xl overflow-hidden border-2 border-primary-gold/40 bg-space-black shadow-hard-md">
           {/* Top Bar with traffic lights & command switcher */}
-          <div className="bg-espresso-surface px-4 py-3 border-b border-espresso-border flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2 self-start sm:self-center">
-              <span className="w-3 h-3 rounded-full bg-brandy border border-flamingo/40" />
-              <span className="w-3 h-3 rounded-full bg-sand border border-custard/40" />
-              <span className="w-3 h-3 rounded-full bg-emerald-500/80 border border-emerald-400/40" />
-              <span className="font-mono text-xs text-muted-text ml-2">aek-terminal ~ v0.1.0</span>
+          <div className="bg-space-surface px-4 py-3 border-b-2 border-space-border flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full bg-red-500/80 border border-red-600/50" />
+              <span className="w-3 h-3 rounded-full bg-amber-500/80 border border-amber-600/50" />
+              <span className="w-3 h-3 rounded-full bg-emerald-500/80 border border-emerald-600/50" />
+              <span className="font-mono text-xs text-primary-gold ml-2 font-bold">
+                aek-terminal ~ v0.1.0 • 15°29&apos;N 73°49&apos;E
+              </span>
             </div>
 
-            {/* Tabs */}
-            <div className="flex items-center gap-1 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
-              {TABS.map((tab, idx) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(idx)}
-                  className={`px-3 py-1 text-xs font-mono rounded-lg transition-colors whitespace-nowrap ${
-                    activeTab === idx
-                      ? "bg-brandy text-ivory border border-flamingo/50"
-                      : "text-sand/70 hover:text-ivory hover:bg-espresso-elevated"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
+            <button
+              onClick={handleCopy}
+              className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-space-deep hover:bg-space-surface border border-primary-gold/30 text-xs font-mono text-primary-gold hover:text-paper-beige transition-colors"
+              aria-label="Copy command"
+            >
+              {copied ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                  <span className="text-emerald-400">COPIED</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5 text-sand" />
+                  <span>COPY</span>
+                </>
+              )}
+            </button>
           </div>
 
           {/* Terminal Command Line */}
-          <div className="p-6 bg-espresso-deep/95 font-mono text-xs sm:text-sm">
-            <div className="flex items-center justify-between pb-4 border-b border-espresso-border/60 mb-6">
-              <div className="flex items-center gap-2 text-custard">
-                <span className="text-flamingo font-bold">$</span>
-                <span className="text-ivory font-medium select-all">{current.command}</span>
-              </div>
-              <button
-                onClick={handleCopy}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-espresso-surface hover:bg-espresso-elevated border border-espresso-border text-xs text-sand hover:text-ivory transition-colors"
-                aria-label="Copy command"
-              >
-                {copied ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    <span className="text-emerald-400">Copied</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5 text-muted-text" />
-                    <span>Copy</span>
-                  </>
-                )}
-              </button>
+          <div className="p-6 bg-space-black font-mono text-xs sm:text-sm">
+            <div className="flex items-center gap-2 text-primary-gold pb-4 border-b border-space-border/60 mb-6">
+              <span className="text-warm-orange font-bold font-pixel text-xs">{">"}</span>
+              <span className="text-paper-beige font-semibold select-all tracking-wide">{current.command}</span>
+              <span className="w-2 h-4 bg-primary-gold inline-block animate-pulse ml-1" />
             </div>
 
             {/* Terminal Output */}
-            <div className="space-y-2 text-sand/90 min-h-[180px]">
+            <div className="space-y-2.5 text-sand/90 min-h-[180px]">
               {current.output.map((line, i) => {
                 const isPass = line.includes("[PASS") || line.includes("[SUCCESS");
                 const isInfo = line.includes("[INFO");
@@ -158,16 +153,16 @@ export default function InteractiveTerminal() {
 
                 return (
                   <div key={i} className="leading-relaxed flex items-start gap-2">
-                    <span className="text-muted-text select-none">{">"}</span>
+                    <span className="text-primary-gold/40 select-none font-bold">»</span>
                     <span
                       className={
                         isPass
                           ? "text-emerald-400 font-medium"
                           : isInfo
-                          ? "text-custard"
+                          ? "text-primary-gold"
                           : isDag
-                          ? "text-flamingo"
-                          : "text-sand/80"
+                          ? "text-warm-orange"
+                          : "text-sand/90"
                       }
                     >
                       {line}
@@ -179,9 +174,12 @@ export default function InteractiveTerminal() {
           </div>
 
           {/* Subprocess Isolation Badge */}
-          <div className="bg-espresso-surface px-6 py-2.5 border-t border-espresso-border text-[11px] font-mono text-muted-text flex items-center justify-between">
-            <span>ISOLATION: SECURE_SUBPROCESS_DIRECT_ARGS</span>
-            <span className="text-custard">MEMORY: 18.4 MB</span>
+          <div className="bg-space-surface px-6 py-2.5 border-t-2 border-space-border text-[11px] font-mono text-sand flex items-center justify-between">
+            <span className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+              <span>ISOLATION: SECURE_SUBPROCESS_DIRECT_ARGS</span>
+            </span>
+            <span className="text-primary-gold font-bold">MEMORY_BUDGET: &lt;50 MB</span>
           </div>
         </div>
       </div>
