@@ -72,15 +72,15 @@ export default function Navbar() {
         }`}
       >
         <div className="max-w-content mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-2 sm:gap-4">
-          {/* Brand Monogram & System Version (Matches Official Logo Emblem) */}
+          {/* Pure Transparent Brand Symbol (No Box / No Background) */}
           <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
-            <div className="w-10 h-10 rounded-xl bg-[#0D0B18] border-2 border-[#FFD36B] flex items-center justify-center shadow-[0_0_12px_rgba(255,211,107,0.15)] group-hover:shadow-[0_0_18px_rgba(255,211,107,0.35)] group-hover:border-[#FFC15E] transition-all overflow-hidden p-1">
+            <div className="relative flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9">
               <Image
-                src="/icons/removed-bg-logo.png"
+                src="/icons/symbol.png"
                 alt="AEK Emblem"
                 width={36}
                 height={36}
-                className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(244,102,27,0.4)] group-hover:scale-105 transition-transform"
+                className="w-full h-full object-contain filter drop-shadow-[0_0_8px_rgba(244,102,27,0.6)] group-hover:drop-shadow-[0_0_14px_rgba(255,211,107,0.9)] group-hover:scale-110 transition-all duration-200"
                 priority
               />
             </div>
