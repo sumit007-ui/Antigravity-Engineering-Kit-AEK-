@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Cpu, Terminal, Shield, Wrench, Layers, Bot, Network, FileCheck } from "lucide-react";
+import SectionHeader from "@/components/primitives/SectionHeader";
+import { PixelCard } from "@/components/primitives/PixelCard";
 
 interface NodeDetail {
   id: string;
@@ -68,23 +69,18 @@ export default function ArchitectureVisualization() {
   const selected = NODES.find((n) => n.id === activeNode) || NODES[0];
 
   return (
-    <section className="py-28 px-4 sm:px-6 lg:px-8 bg-espresso-deep border-t border-espresso-border relative">
+    <section className="py-28 px-4 sm:px-6 lg:px-8 bg-space-black border-t border-space-border relative">
       <div className="max-w-content mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-flamingo/40 bg-brandy/20 text-xs font-mono text-custard mb-3">
-            ✦ RUST WORKSPACE TOPOLOGY
-          </div>
-          <h2 className="font-editorial text-4xl sm:text-5xl text-ivory tracking-tight mb-4">
-            Sixteen decoupled crates. <br />
-            <span className="italic text-gradient-editorial">One cohesive architecture.</span>
-          </h2>
-          <p className="text-secondary-text text-sm sm:text-base">
-            Inspect the foundational crates powering AEK&apos;s memory safety, deterministic execution, and agent synchronization.
-          </p>
-        </div>
+        <SectionHeader
+          sectionNum="06"
+          sectionCode="SEC_06"
+          title="Sixteen decoupled crates. One cohesive architecture."
+          subtitle="Inspect the foundational crates powering AEK's memory safety, deterministic execution, and agent synchronization."
+          align="center"
+        />
 
         {/* Interactive Architecture Canvas */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mt-12">
           {/* Node Grid */}
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {NODES.map((node) => {
@@ -93,16 +89,16 @@ export default function ArchitectureVisualization() {
                 <button
                   key={node.id}
                   onClick={() => setActiveNode(node.id)}
-                  className={`p-5 rounded-2xl text-left transition-all border ${
+                  className={`p-5 rounded-2xl text-left transition-all border-2 ${
                     isSelected
-                      ? "bg-espresso-surface border-flamingo shadow-tactile glow-flamingo"
-                      : "bg-espresso/50 border-espresso-border hover:border-custard/40"
+                      ? "bg-space-surface border-warm-orange shadow-hard-md"
+                      : "bg-space-deep/80 border-space-border hover:border-primary-gold/40 shadow-hard-sm"
                   }`}
                 >
-                  <span className="font-mono text-[11px] text-flamingo font-semibold block mb-1">
+                  <span className="font-mono text-[11px] text-primary-gold font-bold block mb-1">
                     {node.crate}
                   </span>
-                  <h3 className="font-editorial text-xl text-ivory mb-1 font-medium">{node.name}</h3>
+                  <h3 className="font-editorial text-xl text-paper-beige mb-1 font-bold">{node.name}</h3>
                   <p className="text-xs text-sand/70">{node.role}</p>
                 </button>
               );
@@ -110,29 +106,29 @@ export default function ArchitectureVisualization() {
           </div>
 
           {/* Node Inspector Panel */}
-          <div className="lg:col-span-5 rounded-3xl ceramic-card p-7 border border-espresso-border shadow-tactile">
-            <div className="flex items-center justify-between pb-4 border-b border-espresso-border mb-5">
+          <div className="lg:col-span-5 rounded-3xl bg-space-deep p-7 border-2 border-primary-gold/40 shadow-hard-md">
+            <div className="flex items-center justify-between pb-4 border-b border-space-border mb-5">
               <div>
-                <span className="font-mono text-xs text-flamingo">{selected.crate}</span>
-                <h3 className="font-editorial text-2xl text-ivory mt-0.5">{selected.name}</h3>
+                <span className="font-mono text-xs text-warm-orange font-bold">{selected.crate}</span>
+                <h3 className="font-editorial text-2xl text-paper-beige mt-0.5 font-bold">{selected.name}</h3>
               </div>
-              <span className="px-2.5 py-1 rounded-full bg-brandy/50 border border-brandy-light text-[10px] font-mono text-custard">
+              <span className="px-2.5 py-1 rounded-full bg-space-surface border border-primary-gold/40 text-[10px] font-mono text-primary-gold font-bold">
                 CRATE SPEC
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-sand leading-relaxed mb-6">
+            <p className="text-xs sm:text-sm text-sand/90 leading-relaxed mb-6 font-mono">
               {selected.description}
             </p>
 
             <div>
-              <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-custard mb-3">
+              <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-primary-gold mb-3">
                 Architectural Invariants
               </h4>
-              <ul className="space-y-2">
+              <ul className="space-y-2.5">
                 {selected.invariants.map((inv, i) => (
                   <li key={i} className="flex items-start gap-2 text-xs text-sand/90">
-                    <span className="text-flamingo font-bold">✓</span>
+                    <span className="text-warm-orange font-bold">✓</span>
                     <span>{inv}</span>
                   </li>
                 ))}
@@ -144,4 +140,3 @@ export default function ArchitectureVisualization() {
     </section>
   );
 }
-

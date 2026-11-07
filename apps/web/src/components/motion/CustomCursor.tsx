@@ -15,11 +15,18 @@ export default function CustomCursor() {
   const smoothY = useSpring(cursorY, springConfig);
 
   useEffect(() => {
-    // Only enable on desktop pointer devices with fine pointer and no reduced motion
-    const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Strictly disable custom cursor on mobile, touch, and low-pointer devices
+    const isMobile =
+      typeof window !== "undefined" &&
+      (window.innerWidth < 768 ||
+        window.matchMedia("(hover: none)").matches ||
+        navigator.maxTouchPoints > 0);
 
-    if (!hasFinePointer || prefersReducedMotion) {
+    const hasFinePointer = typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches;
+    const prefersReducedMotion =
+      typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (isMobile || !hasFinePointer || prefersReducedMotion) {
       return;
     }
 
@@ -50,7 +57,7 @@ export default function CustomCursor() {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full border border-flamingo/60 mix-blend-screen"
+      className="hidden md:block fixed top-0 left-0 pointer-events-none z-[9999] rounded-full border border-flamingo/60 mix-blend-screen"
       style={{
         x: smoothX,
         y: smoothY,

@@ -2,12 +2,15 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu, X, ArrowUpRight, Github, Terminal } from "lucide-react";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import { Terminal, Github, LayoutGrid, Star } from "lucide-react";
 import { GITHUB_REPO_URL, LATEST_VERSION } from "@/lib/utils";
-import MagneticButton from "@/components/motion/MagneticButton";
+import ConsoleMenu from "@/components/primitives/ConsoleMenu";
+import TactileButton from "@/components/primitives/TactileButton";
+import GitHubStarButton from "@/components/motion/GitHubStarButton";
 
-const NAV_LINKS = [
+const NAV_ITEMS = [
   { name: "Features", href: "/features" },
   { name: "Agents", href: "/agents" },
   { name: "Integrations", href: "/integrations" },
@@ -18,9 +21,11 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [consoleOpen, setConsoleOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
+  // Scroll detection
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -29,122 +34,116 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Keyboard Navigation Hotkeys
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
+      if (tag === "input" || tag === "textarea" || (e.target as HTMLElement)?.isContentEditable) {
+        return;
+      }
+
+      if (e.key === "m" || e.key === "M") {
+        e.preventDefault();
+        setConsoleOpen((prev) => !prev);
+      } else if (!consoleOpen) {
+        if (e.key === "a" || e.key === "A") {
+          router.push("/about");
+        } else if (e.key === "f" || e.key === "F") {
+          router.push("/features");
+        } else if (e.key === "d" || e.key === "D") {
+          router.push("/docs");
+        } else if (e.key === "i" || e.key === "I") {
+          router.push("/integrations");
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [consoleOpen, router]);
+
   return (
-    <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 border-b ${
-        scrolled
-          ? "bg-espresso-deep/90 backdrop-blur-md border-espresso-border shadow-tactile"
-          : "bg-transparent border-transparent"
-      }`}
-    >
-      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
-        {/* Brand Monogram & Title */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-xl bg-plum border-2 border-popcorn/70 flex items-center justify-center shadow-[3px_3px_0px_rgba(248,216,120,0.3)] group-hover:shadow-[3px_3px_0px_#98B4D4] group-hover:border-cerulean transition-all">
-            <span className="font-editorial text-lg font-black text-popcorn group-hover:text-cerulean transition-colors">
-              AEK
-            </span>
-          </div>
-          <div className="flex flex-col">
-            <div className="flex items-center gap-2">
-              <span className="font-editorial text-lg font-bold text-ivory tracking-tight group-hover:text-popcorn transition-colors">
+    <>
+      <header
+        className={`sticky top-0 z-40 w-full transition-all duration-160 border-b ${
+          scrolled
+            ? "bg-bg/95 backdrop-blur-xl border-border shadow-hard-md"
+            : "bg-bg/85 backdrop-blur-md border-border/40"
+        }`}
+      >
+        <div className="max-w-content mx-auto px-2.5 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-1.5 sm:gap-4">
+          {/* Pure Transparent Brand Symbol (No Box / No Background) */}
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0 min-w-0">
+            <div className="relative flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 shrink-0">
+              <Image
+                src="/icons/symbol.png"
+                alt="AEK Emblem"
+                width={36}
+                height={36}
+                className="w-full h-full object-contain filter drop-shadow-[0_0_8px_rgba(244,102,27,0.6)] group-hover:drop-shadow-[0_0_14px_rgba(255,211,107,0.9)] group-hover:scale-110 transition-all duration-200"
+                priority
+              />
+            </div>
+            <div className="flex flex-col min-w-0">
+              <span className="font-display text-sm sm:text-base font-black text-fg tracking-tight group-hover:text-[#FFD36B] transition-colors leading-tight truncate">
                 Antigravity Kit
               </span>
-              <span className="flex h-2 w-2 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              <span className="text-[9px] sm:text-[10px] font-mono tracking-wider text-sand/80 uppercase font-semibold truncate">
+                ONE KIT • EVERY AGENT • V{LATEST_VERSION}
               </span>
             </div>
-            <span className="text-[10px] font-mono tracking-wider text-cerulean uppercase font-bold">
-              v{LATEST_VERSION} RUST • ONLINE
-            </span>
-          </div>
-        </Link>
-
-        {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1 bg-plum-surface/90 px-3 py-1.5 rounded-full border border-plum-border backdrop-blur-md shadow-[2px_2px_0px_rgba(0,0,0,0.3)]">
-          {NAV_LINKS.map((link) => {
-            const isActive = pathname.startsWith(link.href);
-            return (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={`relative px-4 py-1.5 text-xs font-semibold rounded-full transition-all duration-200 ${
-                  isActive
-                    ? "text-plum-deep bg-popcorn font-bold shadow-[2px_2px_0px_rgba(0,0,0,0.2)]"
-                    : "text-sand/90 hover:text-ivory hover:bg-plum/60"
-                }`}
-              >
-                {link.name}
-              </Link>
-            );
-          })}
-        </nav>
-
-        {/* Right Action Buttons */}
-        <div className="hidden lg:flex items-center gap-3">
-          <a
-            href={GITHUB_REPO_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold text-sand hover:text-ivory border-2 border-plum-border hover:border-cerulean shadow-[2px_2px_0px_rgba(0,0,0,0.3)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all bg-plum-surface/70"
-          >
-            <Github className="w-3.5 h-3.5 text-popcorn" />
-            <span>GitHub ★</span>
-          </a>
-
-          <Link href="/docs/getting-started">
-            <button className="py-1.5 px-4 text-xs font-bold bg-popcorn text-plum-deep rounded-xl border-2 border-popcorn shadow-[3px_3px_0px_#241B1C] hover:brightness-105 active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer">
-              Launch Kit →
-            </button>
           </Link>
-        </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 rounded-xl text-sand hover:text-ivory border border-espresso-border"
-          aria-label="Toggle menu"
-        >
-          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
-      </div>
+          {/* Desktop Navigation Links without Hotkey Alphabet Badges (Clean Golden Style) */}
+          <nav
+            aria-label="Main Navigation"
+            className="hidden lg:flex items-center gap-1 xl:gap-2 bg-[#0D0B18]/70 backdrop-blur-md px-3 py-1.5 rounded-xl border border-[#FFD36B]/20 shadow-hard-sm"
+          >
+            {NAV_ITEMS.map((item) => {
+              const isActive = pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`px-3 py-1 text-sm font-semibold tracking-wide transition-all select-none rounded-lg ${
+                    isActive
+                      ? "text-[#FFD36B] bg-[#FFD36B]/15 drop-shadow-[0_0_8px_rgba(255,211,107,0.4)]"
+                      : "text-[#FFD36B]/85 hover:text-fg hover:drop-shadow-[0_0_6px_rgba(255,211,107,0.3)] hover:bg-[#FFD36B]/10"
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
+          </nav>
 
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-b border-espresso-border bg-espresso-surface/95 backdrop-blur-lg px-6 py-6 space-y-4">
-          <div className="flex flex-col space-y-3">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-sm font-medium text-sand hover:text-ivory py-1"
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
-          <div className="pt-4 border-t border-espresso-border flex flex-col gap-3">
-            <a
-              href={GITHUB_REPO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-mono border border-espresso-border text-sand"
+          {/* Right Action Bar (Spacious & Balanced, Zero Overflow on Mobile) */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            {/* Live Direct GitHub Star Button with Golden Glow Hover */}
+            <GitHubStarButton />
+
+            {/* Console Menu Trigger Button */}
+            <button
+              onClick={() => setConsoleOpen(true)}
+              className="flex items-center justify-center gap-1.5 w-9 h-9 sm:w-auto sm:h-auto sm:px-3 sm:py-2 rounded-lg border-2 border-border bg-surface-card hover:border-[#FFD36B] text-xs font-mono font-bold text-fg shadow-hard-sm cursor-pointer select-none shrink-0"
+              aria-label="Open console menu [M]"
             >
-              <Github className="w-4 h-4" />
-              <span>GitHub Repository</span>
-            </a>
-            <Link
-              href="/download"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center py-2.5 rounded-xl text-xs font-semibold bg-brandy text-ivory border border-flamingo/40"
-            >
-              Download AEK v{LATEST_VERSION}
+              <LayoutGrid className="w-4 h-4 text-[#FFD36B] shrink-0" />
+              <span className="hidden sm:inline font-mono">[M] MENU</span>
+            </button>
+
+            {/* Launch / Download Primary CTA */}
+            <Link href="/download" className="hidden md:inline-flex">
+              <TactileButton variant="primary" className="py-2 px-3 sm:px-4 text-xs font-mono">
+                Launch Kit ↗
+              </TactileButton>
             </Link>
           </div>
         </div>
-      )}
-    </header>
+      </header>
+
+      {/* Fullscreen Console Menu */}
+      <ConsoleMenu isOpen={consoleOpen} onClose={() => setConsoleOpen(false)} />
+    </>
   );
 }

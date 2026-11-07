@@ -1,138 +1,186 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Terminal, Shield, Download, Sparkles, CheckCircle2 } from "lucide-react";
+import {
+  ArrowRight,
+  Terminal,
+  Download,
+  CheckCircle2,
+  Clock,
+  ChevronDown,
+  Copy,
+  Check,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
 import { GITHUB_REPO_URL, LATEST_VERSION } from "@/lib/utils";
-import HeroArtifact from "@/components/three/HeroArtifact";
-import MagneticButton from "@/components/motion/MagneticButton";
+import TactileButton from "@/components/primitives/TactileButton";
+import DecryptText from "@/components/motion/DecryptText";
 
 export default function Hero() {
-  return (
-    <section className="relative min-h-[92vh] flex items-center justify-center pt-8 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-espresso-deep">
-      {/* Background ambient lighting */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-radial-gradient opacity-40 pointer-events-none" />
-      <div className="absolute inset-0 bg-tactile-grid opacity-20 pointer-events-none" />
+  const [timeStr, setTimeStr] = useState<string>("00:00:00 UTC");
+  const [copied, setCopied] = useState(false);
 
-      <div className="max-w-content w-full mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Left Column: Editorial Headline & Actions */}
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setTimeStr(now.toTimeString().split(" ")[0] + " UTC");
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleCopyCmd = () => {
+    navigator.clipboard.writeText("cargo install aek-cli");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <section className="relative min-h-[calc(100vh-4.5rem)] flex flex-col justify-between pt-6 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-space-black">
+      {/* 16-bit Coastal Pixel Art Sunset Background */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+        <Image
+          src="/images/hero-scene@4x.png"
+          alt="16-bit Coastal Sunset Pixel Art"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-bottom opacity-35 mix-blend-screen pixelated"
+        />
+        {/* Coastal sunset gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-space-black via-space-black/75 to-transparent" />
+        <div className="absolute inset-0 bg-tactile-grid opacity-15" />
+      </div>
+
+      {/* Main One-Page Fit Grid */}
+      <div className="max-w-content w-full mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto">
+        {/* Left Column: Text & Editorial Hierarchy (Left te text show kr) */}
         <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
-          {/* Eyebrow Pill */}
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex flex-wrap items-center gap-2 px-4 py-1.5 rounded-full border-2 border-popcorn/50 bg-plum-surface/90 text-xs font-mono text-popcorn mb-6 shadow-[3px_3px_0px_rgba(248,216,120,0.2)]"
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="font-bold">AEK v{LATEST_VERSION} RUST ENGINE</span>
-            <span className="text-plum-border">•</span>
-            <span className="text-cerulean font-semibold">AUTONOMOUS AGENTS UNIFIED</span>
-            <span className="text-plum-border">•</span>
-            <span className="text-ivory font-bold">100% OPEN SOURCE</span>
-          </motion.div>
+          {/* System Status & Time Awareness Beacon */}
+          <div className="inline-flex flex-wrap items-center gap-2 px-3.5 py-1.5 rounded-full border-2 border-primary-gold/40 bg-space-surface/90 text-xs font-mono text-primary-gold mb-4 sm:mb-6 shadow-hard-sm">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+            </span>
+            <span className="font-bold tracking-wider">
+              <DecryptText text="AEK_CORE::ONLINE" />
+            </span>
+            <span className="text-secondary-mauve">•</span>
+            <span className="text-paper-beige font-semibold">AUTONOMOUS ENGINE</span>
+            <span className="text-secondary-mauve">•</span>
+            <span className="text-primary-gold font-mono font-bold flex items-center gap-1">
+              <Clock className="w-3 h-3 text-primary-gold" />
+              <span className="tabular-nums">{timeStr}</span>
+            </span>
+          </div>
 
           {/* Primary Editorial Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-editorial text-5xl sm:text-7xl lg:text-8xl text-ivory tracking-tight leading-[1.02] mb-6"
-          >
+          <h1 className="font-editorial text-4xl sm:text-6xl lg:text-7xl xl:text-8xl text-paper-beige tracking-tight leading-[1.04] mb-4">
             One Engineering Kit. <br />
             <span className="italic font-normal text-gradient-editorial">
               Autonomous Precision.
             </span>
-          </motion.h1>
+          </h1>
 
           {/* Secondary Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-lg sm:text-xl text-sand/90 font-normal max-w-2xl leading-relaxed mb-4"
-          >
+          <p className="text-base sm:text-lg lg:text-xl text-sand/90 font-normal max-w-2xl leading-relaxed mb-3">
             The high-performance Rust foundation built for developers who ship software with autonomous AI agents.
-          </motion.p>
+          </p>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.25 }}
-            className="text-xs sm:text-sm text-secondary-text max-w-xl mb-8"
-          >
-            Unify global engineering rules, 15 specialized skills, Model Context Protocol (MCP), and automated test-driven validation with <strong className="text-popcorn font-bold">ruthless precision</strong> across Antigravity, Claude Code, Cursor, and OpenCode.
-          </motion.p>
+          <p className="text-xs sm:text-sm text-secondary-text max-w-xl mb-6">
+            Unify global engineering rules, 15 specialized skills, Model Context Protocol (MCP), and automated test-driven validation with{" "}
+            <strong className="text-primary-gold font-bold">ruthless precision</strong> across Antigravity, Claude Code, Cursor, and OpenCode.
+          </p>
 
-          {/* Action CTAs - Neo-Brutalist Tactile Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.35 }}
-            className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-10"
-          >
-            <Link href="/download">
-              <button className="px-6 py-3.5 text-sm font-bold bg-popcorn text-plum-deep rounded-xl border-2 border-popcorn shadow-[4px_4px_0px_#241B1C] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-2 cursor-pointer">
-                <Download className="w-4 h-4 text-plum-deep" />
-                <span>Get AEK v{LATEST_VERSION}</span>
-              </button>
-            </Link>
-
-            <Link href="/docs/getting-started">
-              <button className="px-6 py-3.5 text-sm font-semibold bg-plum-surface text-ivory rounded-xl border-2 border-cerulean/50 shadow-[4px_4px_0px_rgba(152,180,212,0.2)] hover:border-cerulean hover:text-popcorn active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-2 cursor-pointer">
-                <span>Quickstart Guide</span>
-                <ArrowRight className="w-4 h-4 text-cerulean" />
-              </button>
-            </Link>
-
-            <a
-              href={GITHUB_REPO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-3.5 text-xs font-mono text-sand hover:text-ivory border-2 border-plum-border rounded-xl bg-plum/40 hover:border-popcorn/60 shadow-[3px_3px_0px_rgba(0,0,0,0.4)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-2"
-            >
-              <Terminal className="w-4 h-4 text-popcorn" />
-              <span>cargo install aek-cli</span>
-            </a>
-          </motion.div>
-
-          {/* Verified Quality Badges */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-sand/80 pt-6 border-t border-espresso-border/60"
-          >
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Zero Shell-Injection Risk</span>
+          {/* Verified Quality Invariants (Solid Tactile Pills for Pristine Contrast) */}
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 sm:gap-4 text-xs font-mono text-sand pt-4 border-t border-space-border/60">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-space-surface/95 border border-primary-gold/30 shadow-hard-sm backdrop-blur-md">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="font-semibold">Zero Shell-Injection Risk</span>
             </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Sub-50 MB Memory Footprint</span>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-space-surface/95 border border-primary-gold/30 shadow-hard-sm backdrop-blur-md">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="font-semibold">Sub-50 MB Memory Footprint</span>
             </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Cryptographic Rollbacks</span>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Right Column: 3D AEK Sculptural Artifact */}
-        <div className="lg:col-span-5 relative flex items-center justify-center">
-          <div className="relative w-full max-w-[500px]">
-            {/* Ambient backdrop glow */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-brandy/30 via-flamingo/20 to-custard/10 blur-3xl" />
-            
-            {/* 3D Scene */}
-            <HeroArtifact />
-
-            {/* Dimensional floating caption */}
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-espresso-surface/90 border border-espresso-border text-[11px] font-mono text-custard backdrop-blur-md shadow-tactile whitespace-nowrap">
-              ✦ Precision-Machined Monogram Artifact
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-space-surface/95 border border-primary-gold/30 shadow-hard-sm backdrop-blur-md">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="font-semibold">Cryptographic Rollbacks</span>
             </div>
           </div>
         </div>
+
+        {/* Right Column: Tactical Action Deck & Buttons (Right button) */}
+        <div className="lg:col-span-5 flex flex-col items-center justify-center w-full max-w-md mx-auto lg:mx-0">
+          <div className="w-full rounded-2xl bg-space-surface/95 border-2 border-primary-gold/40 p-6 shadow-hard-lg relative backdrop-blur-md">
+            {/* Terminal Card Header */}
+            <div className="flex items-center justify-between pb-3 mb-5 border-b-2 border-space-border text-xs font-mono">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="font-bold text-paper-beige">AEK_LAUNCH_DECK</span>
+              </div>
+              <span className="text-[11px] text-primary-gold font-bold">v{LATEST_VERSION} RUST</span>
+            </div>
+
+            {/* Action Buttons Stack */}
+            <div className="space-y-3.5">
+              {/* Primary Download Button */}
+              <Link href="/download" className="block w-full">
+                <TactileButton variant="gold" size="lg" hotkey="D" className="w-full flex items-center justify-center gap-2.5 text-space-black font-bold text-sm">
+                  <Download className="w-4 h-4 text-space-black" />
+                  <span>Get AEK v{LATEST_VERSION}</span>
+                </TactileButton>
+              </Link>
+
+              {/* Quickstart Guide Button */}
+              <Link href="/docs/getting-started" className="block w-full">
+                <TactileButton variant="secondary" size="lg" hotkey="G" className="w-full flex items-center justify-center gap-2 text-paper-beige font-semibold text-sm">
+                  <span>Quickstart Guide</span>
+                  <ArrowRight className="w-4 h-4 text-warm-orange" />
+                </TactileButton>
+              </Link>
+
+              {/* Cargo CLI Install Command Box */}
+              <div className="pt-2">
+                <div className="flex items-center justify-between text-[11px] font-mono text-sand/70 mb-1.5 px-1">
+                  <span>RUST CRATE INSTALLATION</span>
+                  <span className="text-primary-gold font-bold">[C]</span>
+                </div>
+                <div className="flex items-center justify-between gap-2 p-3 rounded-xl bg-space-black border-2 border-space-border text-xs font-mono shadow-hard-sm">
+                  <div className="flex items-center gap-2 text-paper-beige overflow-hidden">
+                    <Terminal className="w-4 h-4 text-primary-gold shrink-0" />
+                    <code className="text-primary-gold select-all truncate">cargo install aek-cli</code>
+                  </div>
+                  <button
+                    onClick={handleCopyCmd}
+                    className="p-1.5 rounded-lg bg-space-surface border border-primary-gold/40 text-primary-gold hover:text-paper-beige hover:border-primary-gold transition-colors shrink-0"
+                    title="Copy command"
+                  >
+                    {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Platform Badges */}
+            <div className="mt-5 pt-3.5 border-t border-space-border/60 flex items-center justify-between text-[10px] font-mono text-sand/60">
+              <span className="flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <span>OFFLINE-FIRST</span>
+              </span>
+              <span>WINDOWS • MACOS • LINUX</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Subtle Scroll Cue */}
+      <div className="w-full flex flex-col items-center justify-center pt-2 pb-1 text-[10px] font-mono text-primary-gold/70 select-none">
+        <span className="tracking-widest uppercase mb-0.5">▼ SCROLL TO DECRYPT SYSTEM</span>
+        <ChevronDown className="w-3.5 h-3.5 animate-bounce text-warm-orange" />
       </div>
     </section>
   );

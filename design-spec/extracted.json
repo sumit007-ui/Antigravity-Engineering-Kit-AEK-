@@ -1,0 +1,59 @@
+{
+  "theme": "retro 16-bit coastal expedition x classified terminal HUD",
+  "colors": {
+    "bg": "#050505",
+    "fg": "#F4F4EE",
+    "accent_primary": "#FF4B18",
+    "accent_secondary": "#98B4D4",
+    "accent_gold": "#FFC15E",
+    "surface": "#0C0A10",
+    "surface_card": "#120D1A",
+    "surface_elevated": "#1A1424",
+    "border": "#2E243A",
+    "border_highlight": "#FF4B18",
+    "success": "#10B981",
+    "danger": "#EF4444",
+    "muted": "#8A8199"
+  },
+  "palette_16": [
+    "#050505",
+    "#120D24",
+    "#2B1544",
+    "#5A1F55",
+    "#A02F58",
+    "#E0553F",
+    "#FF4B18",
+    "#FF8A3D",
+    "#FFC15E",
+    "#FFD36B",
+    "#F5E9C8",
+    "#6A2459",
+    "#3B2418",
+    "#7A4630",
+    "#98B4D4",
+    "#F4F4EE"
+  ],
+  "fonts": {
+    "display": "Space Grotesk, sans-serif",
+    "body": "Inter, system-ui, sans-serif",
+    "mono": "JetBrains Mono, ui-monospace, monospace",
+    "pixel": "'Press Start 2P', monospace"
+  },
+  "motion": {
+    "dur_instant": "80ms",
+    "dur_fast": "160ms",
+    "dur_base": "280ms",
+    "dur_slow": "600ms",
+    "dur_scene": "1200ms",
+    "dur_ambient": "30s",
+    "ease_out": "cubic-bezier(0.22, 1, 0.36, 1)",
+    "ease_step": "steps(8, end)"
+  },
+  "shadows": {
+    "hard_sm": "2px 2px 0px #050505",
+    "hard_md": "4px 4px 0px #050505",
+    "hard_primary": "4px 4px 0px #FF4B18",
+    "hard_gold": "4px 4px 0px #FFC15E"
+  }
+}
+

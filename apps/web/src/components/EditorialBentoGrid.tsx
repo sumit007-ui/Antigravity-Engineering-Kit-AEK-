@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import Domain3DIcon, { DomainIconType } from "@/components/three/Domain3DIcon";
-import TiltCard from "@/components/motion/TiltCard";
+import SectionHeader from "@/components/primitives/SectionHeader";
+import { PixelCard, LockedCard } from "@/components/primitives/PixelCard";
 
 interface FeatureCardItem {
   id: string;
@@ -14,7 +15,6 @@ interface FeatureCardItem {
   command: string;
   badge: string;
   link: string;
-  glow: "flamingo" | "brandy" | "custard";
   colSpan: string;
 }
 
@@ -29,7 +29,6 @@ const FEATURES: FeatureCardItem[] = [
     command: "aek rules list --audit",
     badge: "PRECISION ENGINE",
     link: "/features#rules",
-    glow: "custard",
     colSpan: "lg:col-span-7",
   },
   {
@@ -42,7 +41,6 @@ const FEATURES: FeatureCardItem[] = [
     command: "aek skills discover",
     badge: "DISCOVERY ENGINE",
     link: "/features#skills",
-    glow: "flamingo",
     colSpan: "lg:col-span-5",
   },
   {
@@ -55,7 +53,6 @@ const FEATURES: FeatureCardItem[] = [
     command: "aek agent sync --all",
     badge: "CROSS-PLATFORM",
     link: "/agents",
-    glow: "brandy",
     colSpan: "lg:col-span-5",
   },
   {
@@ -68,7 +65,6 @@ const FEATURES: FeatureCardItem[] = [
     command: "aek mcp list --json",
     badge: "MCP CLIENT",
     link: "/features#mcp",
-    glow: "flamingo",
     colSpan: "lg:col-span-7",
   },
   {
@@ -81,7 +77,6 @@ const FEATURES: FeatureCardItem[] = [
     command: "aek validate --strict",
     badge: "DAG RUNNER",
     link: "/features#validation",
-    glow: "custard",
     colSpan: "lg:col-span-6",
   },
   {
@@ -94,48 +89,38 @@ const FEATURES: FeatureCardItem[] = [
     command: "aek security audit",
     badge: "LEAST PRIVILEGE",
     link: "/features#security",
-    glow: "brandy",
     colSpan: "lg:col-span-6",
   },
 ];
 
 export default function EditorialBentoGrid() {
   return (
-    <section className="py-28 px-4 sm:px-6 lg:px-8 bg-espresso border-t border-espresso-border relative overflow-hidden">
+    <section className="py-28 px-4 sm:px-6 lg:px-8 bg-space-black border-t border-space-border relative overflow-hidden">
       <div className="max-w-content mx-auto relative z-10">
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-flamingo/40 bg-brandy/20 text-xs font-mono text-custard mb-3">
-              ✦ CORE INFRASTRUCTURE
-            </div>
-            <h2 className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-ivory tracking-tight">
-              Precision engineering <br />
-              <span className="italic text-gradient-editorial">by architectural design.</span>
-            </h2>
-          </div>
-          <p className="text-secondary-text text-sm sm:text-base max-w-md">
-            Eight interconnected Rust crates working in harmony to replace fragile prompt engineering with durable systems infrastructure.
-          </p>
-        </div>
+        <SectionHeader
+          sectionNum="03"
+          sectionCode="SEC_03"
+          title="Precision engineering by architectural design."
+          subtitle="Sixteen interconnected Rust crates working in harmony to replace fragile prompt engineering with durable systems infrastructure."
+        />
 
         {/* Asymmetric Bento Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-12">
           {FEATURES.map((feat) => (
             <div key={feat.id} className={feat.colSpan}>
-              <TiltCard glowColor={feat.glow} className="h-full flex flex-col justify-between">
+              <PixelCard className="h-full flex flex-col justify-between">
                 <div>
                   <div className="flex items-start justify-between mb-6">
                     <Domain3DIcon type={feat.type} size="md" />
-                    <span className="text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-md bg-espresso-surface border border-espresso-border text-sand">
+                    <span className="text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-md bg-space-deep border border-space-border text-primary-gold">
                       {feat.badge}
                     </span>
                   </div>
 
-                  <p className="text-[11px] font-mono tracking-widest text-flamingo uppercase font-semibold mb-1">
+                  <p className="text-[11px] font-mono tracking-widest text-warm-orange uppercase font-semibold mb-1">
                     {feat.category}
                   </p>
-                  <h3 className="font-editorial text-2xl sm:text-3xl text-ivory mb-3 font-medium">
+                  <h3 className="font-editorial text-2xl sm:text-3xl text-paper-beige mb-3 font-medium">
                     {feat.title}
                   </h3>
                   <p className="text-sm text-sand/80 leading-relaxed mb-6">
@@ -143,24 +128,42 @@ export default function EditorialBentoGrid() {
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-espresso-border/80 flex items-center justify-between">
-                  <code className="text-xs font-mono text-custard/90 bg-espresso-deep px-3 py-1.5 rounded-lg border border-espresso-border">
+                <div className="pt-4 border-t border-space-border/80 flex items-center justify-between">
+                  <code className="text-xs font-mono text-primary-gold bg-space-deep px-3 py-1.5 rounded-lg border border-space-border">
                     $ {feat.command}
                   </code>
                   <Link
                     href={feat.link}
-                    className="inline-flex items-center gap-1 text-xs font-medium text-flamingo hover:text-ivory transition-colors"
+                    className="inline-flex items-center gap-1 text-xs font-medium text-warm-orange hover:text-paper-beige transition-colors font-mono"
                   >
                     <span>Details</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
-              </TiltCard>
+              </PixelCard>
             </div>
           ))}
+
+          {/* Honest Empty States (UX Goal 5): Locked / Coming Soon Modules */}
+          <div className="lg:col-span-6">
+            <LockedCard
+              id="cloud"
+              title="CRATE: aek-cloud"
+              status="CLASSIFIED // Q3 ROADMAP"
+              category="AUTONOMOUS CLOUD ORCHESTRATION"
+            />
+          </div>
+
+          <div className="lg:col-span-6">
+            <LockedCard
+              id="eval"
+              title="CRATE: aek-eval"
+              status="CLASSIFIED // IN RESEARCH"
+              category="PROMPTFOO & RED-TEAMING HARNESS"
+            />
+          </div>
         </div>
       </div>
     </section>
   );
 }
-
