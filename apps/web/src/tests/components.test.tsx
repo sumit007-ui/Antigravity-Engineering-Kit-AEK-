@@ -252,3 +252,11 @@ describe("TypographicInterlude & AutonomousAgentSwarm (Interactive Cyber Bot Swa
     expect(container.querySelector("canvas")).toBeTruthy();
   });
 });
+
+describe("CyberBotArcade Component (Interactive Gamified Bot Layer)", () => {
+  it("renders arcade canvas and registers interactive gameplay layer", async () => {
+    const { default: CyberBotArcade } = await import("../components/motion/CyberBotArcade");
+    const { container } = render(<CyberBotArcade />);
+    expect(container.querySelector("canvas")).toBeTruthy();
+  });
+});

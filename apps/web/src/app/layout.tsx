@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import CustomCursor from "@/components/motion/CustomCursor";
 import BootLoader from "@/components/motion/BootLoader";
+import CyberBotArcade from "@/components/motion/CyberBotArcade";
 
 export const metadata: Metadata = {
   title: "Antigravity Engineering Kit (AEK) — One Engineering Kit. Every AI Coding Agent.",
@@ -61,10 +62,11 @@ export default function RootLayout({
     >
       <body className="min-h-screen flex flex-col bg-bg text-fg font-body antialiased selection:bg-accent-primary/30 selection:text-fg">
         <BootLoader />
+        <CyberBotArcade />
         <SmoothScroll>
           <CustomCursor />
           <Navbar />
-          <main className="flex-1 w-full">{children}</main>
+          <main className="flex-1 w-full relative z-10">{children}</main>
           <Footer />
         </SmoothScroll>
       </body>
