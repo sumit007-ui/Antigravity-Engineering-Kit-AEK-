@@ -27,3 +27,4 @@ export const fontBody = Inter({
   variable: "--font-body",
   display: "swap",
 });
+
