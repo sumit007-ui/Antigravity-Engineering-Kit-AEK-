@@ -223,9 +223,9 @@ describe("ScrollStorytelling (Picture scene audit)", () => {
 });
 
 describe("Hero Component without 3D canvas", () => {
-  it("renders coastal radar station and has 0 canvas elements", () => {
+  it("renders tactical launcher deck on the right and has 0 canvas elements", () => {
     const { container } = render(<Hero />);
-    expect(screen.getByText(/COASTAL_RADAR::STATION_00/i)).toBeDefined();
+    expect(screen.getByText(/AEK_LAUNCH_DECK/i)).toBeDefined();
     expect(container.querySelectorAll("canvas").length).toBe(0);
   });
 });
