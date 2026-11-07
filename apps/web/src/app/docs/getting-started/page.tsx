@@ -17,7 +17,7 @@ export default function GettingStartedPage() {
 
       <div className="space-y-8 text-sand/90 text-sm leading-relaxed">
         {/* Step 1 */}
-        <section className="p-4 sm:p-6 rounded-2xl ceramic-card border border-espresso-border space-y-3 overflow-hidden">
+        <section className="p-4 sm:p-6 rounded-2xl ceramic-card border border-espresso-border space-y-3 overflow-hidden w-full min-w-0">
           <h2 className="font-editorial text-xl sm:text-2xl text-ivory">Step 1: Install AEK</h2>
           <p className="text-xs text-sand/80">
             Install the precompiled binary for your operating system without requiring administrator or root privileges:
@@ -35,12 +35,12 @@ export default function GettingStartedPage() {
         </section>
 
         {/* Step 2 */}
-        <section className="p-6 rounded-2xl ceramic-card border border-espresso-border space-y-3">
-          <h2 className="font-editorial text-2xl text-ivory">Step 2: Initialize Workspace</h2>
+        <section className="p-4 sm:p-6 rounded-2xl ceramic-card border border-espresso-border space-y-3 overflow-hidden w-full min-w-0">
+          <h2 className="font-editorial text-xl sm:text-2xl text-ivory">Step 2: Initialize Workspace</h2>
           <p className="text-xs text-sand/80">
             Navigate to your repository root and initialize an AEK configuration profile:
           </p>
-          <div className="p-4 rounded-xl bg-espresso-deep border border-espresso-border font-mono text-xs text-custard">
+          <div className="p-4 rounded-xl bg-espresso-deep border border-espresso-border font-mono text-xs text-custard overflow-x-auto">
             $ aek init --profile engineering
           </div>
           <p className="text-xs text-sand/70">
@@ -49,12 +49,12 @@ export default function GettingStartedPage() {
         </section>
 
         {/* Step 3 */}
-        <section className="p-6 rounded-2xl ceramic-card border border-espresso-border space-y-3">
-          <h2 className="font-editorial text-2xl text-ivory">Step 3: Synchronize AI Coding Agents</h2>
+        <section className="p-4 sm:p-6 rounded-2xl ceramic-card border border-espresso-border space-y-3 overflow-hidden w-full min-w-0">
+          <h2 className="font-editorial text-xl sm:text-2xl text-ivory">Step 3: Synchronize AI Coding Agents</h2>
           <p className="text-xs text-sand/80">
             Translate and export your rules, skills, and verified MCP servers natively to all installed coding agents:
           </p>
-          <div className="p-4 rounded-xl bg-espresso-deep border border-espresso-border font-mono text-xs text-custard">
+          <div className="p-4 rounded-xl bg-espresso-deep border border-espresso-border font-mono text-xs text-custard overflow-x-auto">
             $ aek agent sync --all
           </div>
           <p className="text-xs text-sand/70">
@@ -63,12 +63,12 @@ export default function GettingStartedPage() {
         </section>
 
         {/* Step 4 */}
-        <section className="p-6 rounded-2xl ceramic-card border border-espresso-border space-y-3">
-          <h2 className="font-editorial text-2xl text-ivory">Step 4: Run Quality Gates</h2>
+        <section className="p-4 sm:p-6 rounded-2xl ceramic-card border border-espresso-border space-y-3 overflow-hidden w-full min-w-0">
+          <h2 className="font-editorial text-xl sm:text-2xl text-ivory">Step 4: Run Quality Gates</h2>
           <p className="text-xs text-sand/80">
             Execute the 8-stage verification pipeline to audit code health before committing:
           </p>
-          <div className="p-4 rounded-xl bg-espresso-deep border border-espresso-border font-mono text-xs text-custard">
+          <div className="p-4 rounded-xl bg-espresso-deep border border-espresso-border font-mono text-xs text-custard overflow-x-auto">
             $ aek validate --strict
           </div>
         </section>

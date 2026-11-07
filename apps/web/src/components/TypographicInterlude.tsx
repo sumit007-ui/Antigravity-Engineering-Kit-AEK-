@@ -9,8 +9,10 @@ import { GITHUB_REPO_URL } from "@/lib/utils";
 export default function TypographicInterlude() {
   return (
     <section className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-space-violet border-y-2 border-primary-gold/40 overflow-hidden text-center group/manifesto">
-      {/* Interactive Autonomous Cyber Robot Swarm (Follows Cursor) */}
-      <AutonomousAgentSwarm />
+      {/* Interactive Autonomous Cyber Robot Swarm (Desktop / Large Displays Only — Kept Off Mobile to Ensure Pristine Legibility) */}
+      <div className="hidden md:block">
+        <AutonomousAgentSwarm />
+      </div>
 
       {/* Decorative ambient tactile backdrop */}
       <div className="absolute inset-0 bg-tactile-grid opacity-15 pointer-events-none z-1" />

@@ -71,7 +71,7 @@ export default function Navbar() {
             : "bg-bg/85 backdrop-blur-md border-border/40"
         }`}
       >
-        <div className="max-w-content mx-auto px-2.5 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-1.5 sm:gap-4">
+        <div className="max-w-content mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-2 sm:gap-4">
           {/* Pure Transparent Brand Symbol (No Box / No Background) */}
           <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0 min-w-0">
             <div className="relative flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 shrink-0">
@@ -88,7 +88,7 @@ export default function Navbar() {
               <span className="font-display text-sm sm:text-base font-black text-fg tracking-tight group-hover:text-[#FFD36B] transition-colors leading-tight truncate">
                 Antigravity Kit
               </span>
-              <span className="text-[9px] sm:text-[10px] font-mono tracking-wider text-sand/80 uppercase font-semibold truncate">
+              <span className="text-[9px] sm:text-[10px] font-mono tracking-wider text-sand/80 uppercase font-semibold truncate max-w-[130px] sm:max-w-none">
                 ONE KIT • EVERY AGENT • V{LATEST_VERSION}
               </span>
             </div>
