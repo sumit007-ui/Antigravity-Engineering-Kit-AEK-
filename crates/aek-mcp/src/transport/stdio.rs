@@ -42,11 +42,42 @@ impl StdioTransport {
             cmd.current_dir(wd);
         }
 
+        // Prevent host secret leakage by clearing inherited environment
+        cmd.env_clear();
+        for (k, v) in std::env::vars() {
+            let upper = k.to_ascii_uppercase();
+            if matches!(
+                upper.as_str(),
+                "PATH"
+                    | "PATHEXT"
+                    | "SYSTEMROOT"
+                    | "WINDIR"
+                    | "COMSPEC"
+                    | "TEMP"
+                    | "TMP"
+                    | "HOME"
+                    | "USER"
+                    | "USERPROFILE"
+                    | "SHELL"
+                    | "TERM"
+                    | "LANG"
+            ) {
+                cmd.env(k, v);
+            }
+        }
+
         for (k, v) in env {
             // Support environment variable expansion (e.g. `${GITHUB_TOKEN}` -> read from host env)
             let resolved_value = if v.starts_with("${") && v.ends_with('}') {
                 let var_name = &v[2..v.len() - 1];
-                std::env::var(var_name).unwrap_or_default()
+                std::env::var(var_name).map_err(|_| {
+                    McpError::InvalidConfiguration(
+                        server_id.to_string(),
+                        format!(
+                            "Required environment variable '{var_name}' is not set in the host environment"
+                        ),
+                    )
+                })?
             } else {
                 v.clone()
             };

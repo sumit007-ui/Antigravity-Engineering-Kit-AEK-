@@ -3,7 +3,36 @@
 use crate::errors::ValidationError;
 use aek_languages::model::DetectedProject;
 use std::path::{Path, PathBuf};
-use std::process::Command;
+use std::process::Output;
+use std::sync::mpsc::channel;
+use std::thread;
+use std::time::Duration;
+
+fn run_git_with_timeout(
+    path: &Path,
+    args: &[&str],
+    timeout: Duration,
+) -> Result<Output, ValidationError> {
+    let mut cmd = std::process::Command::new("git");
+    cmd.args(args).current_dir(path);
+
+    let (tx, rx) = channel();
+    thread::spawn(move || {
+        let res = cmd.output();
+        let _ = tx.send(res);
+    });
+
+    match rx.recv_timeout(timeout) {
+        Ok(Ok(out)) => Ok(out),
+        Ok(Err(e)) => Err(ValidationError::Command(format!(
+            "Failed to invoke git: {e}"
+        ))),
+        Err(_) => Err(ValidationError::Command(format!(
+            "Git command timed out after {} seconds",
+            timeout.as_secs()
+        ))),
+    }
+}
 
 /// Detector tracking modified files via Git and mapping changes to projects.
 #[derive(Debug, Default, Clone)]
@@ -19,22 +48,19 @@ impl GitChangeDetector {
     /// Checks if a directory is inside a Git working tree.
     #[must_use]
     pub fn is_git_repo(&self, path: &Path) -> bool {
-        let output = Command::new("git")
-            .arg("rev-parse")
-            .arg("--is-inside-work-tree")
-            .current_dir(path)
-            .output();
+        let output = run_git_with_timeout(
+            path,
+            &["rev-parse", "--is-inside-work-tree"],
+            Duration::from_secs(15),
+        );
 
         matches!(output, Ok(out) if out.status.success() && String::from_utf8_lossy(&out.stdout).trim() == "true")
     }
 
     /// Detects all uncommitted changed or untracked files relative to HEAD.
     pub fn detect_changed_files(&self, path: &Path) -> Result<Vec<PathBuf>, ValidationError> {
-        let output = Command::new("git")
-            .args(["status", "--porcelain"])
-            .current_dir(path)
-            .output()
-            .map_err(|e| ValidationError::Command(format!("Failed to invoke git: {e}")))?;
+        let output =
+            run_git_with_timeout(path, &["status", "--porcelain"], Duration::from_secs(15))?;
 
         if !output.status.success() {
             return Ok(Vec::new());
@@ -61,11 +87,11 @@ impl GitChangeDetector {
         path: &Path,
         base_ref: &str,
     ) -> Result<Vec<PathBuf>, ValidationError> {
-        let output = Command::new("git")
-            .args(["diff", "--name-only", base_ref])
-            .current_dir(path)
-            .output()
-            .map_err(|e| ValidationError::Command(format!("Failed to invoke git diff: {e}")))?;
+        let output = run_git_with_timeout(
+            path,
+            &["diff", "--name-only", base_ref],
+            Duration::from_secs(15),
+        )?;
 
         if !output.status.success() {
             // Fall back to uncommitted changes if base ref is unavailable

@@ -27,6 +27,7 @@ pub struct SafeCommand {
     args: Vec<String>,
     current_dir: Option<PathBuf>,
     envs: HashMap<String, String>,
+    env_clear: bool,
     timeout: Option<Duration>,
     dry_run: bool,
 }
@@ -40,6 +41,7 @@ impl SafeCommand {
             args: Vec::new(),
             current_dir: None,
             envs: HashMap::new(),
+            env_clear: false,
             timeout: Some(Duration::from_secs(60)),
             dry_run: false,
         }
@@ -93,6 +95,13 @@ impl SafeCommand {
         self
     }
 
+    /// Clears inherited environment variables, isolating the process from host secrets.
+    #[must_use]
+    pub fn env_clear(mut self) -> Self {
+        self.env_clear = true;
+        self
+    }
+
     /// Configures execution timeout.
     #[must_use]
     pub fn timeout(mut self, timeout: Duration) -> Self {
@@ -132,6 +141,32 @@ impl SafeCommand {
         cmd.stdout(std::process::Stdio::piped());
         cmd.stderr(std::process::Stdio::piped());
         cmd.kill_on_drop(true);
+
+        if self.env_clear {
+            cmd.env_clear();
+            // Preserve essential system variables for execution
+            for (k, v) in std::env::vars() {
+                let upper = k.to_ascii_uppercase();
+                if matches!(
+                    upper.as_str(),
+                    "PATH"
+                        | "PATHEXT"
+                        | "SYSTEMROOT"
+                        | "WINDIR"
+                        | "COMSPEC"
+                        | "TEMP"
+                        | "TMP"
+                        | "HOME"
+                        | "USER"
+                        | "USERPROFILE"
+                        | "SHELL"
+                        | "TERM"
+                        | "LANG"
+                ) {
+                    cmd.env(k, v);
+                }
+            }
+        }
 
         if let Some(ref dir) = self.current_dir {
             cmd.current_dir(dir);

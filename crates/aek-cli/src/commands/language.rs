@@ -19,6 +19,14 @@ use std::str::FromStr;
 
 use std::process::ExitCode;
 
+fn parse_language(input: &str) -> Result<LanguageId> {
+    let trimmed = input.trim();
+    if trimmed.is_empty() {
+        return Err(anyhow!("Language identifier cannot be empty"));
+    }
+    LanguageId::from_str(trimmed).map_err(|e| anyhow!("Failed to parse language '{input}': {e}"))
+}
+
 /// Entry point from `main` returning `ExitCode`.
 pub fn execute_language(args: &LanguageArgs) -> ExitCode {
     let rt = match tokio::runtime::Runtime::new() {
@@ -126,7 +134,7 @@ async fn handle_doctor(args: LanguageDoctorArgs) -> Result<()> {
     let doctor = LanguageDoctor::default();
 
     if let Some(ref lang_str) = args.language {
-        let lang_id = LanguageId::from_str(lang_str).unwrap();
+        let lang_id = parse_language(lang_str)?;
         let report = doctor.audit_language(&lang_id).await;
 
         if args.json {
@@ -204,7 +212,7 @@ fn print_doctor_report(report: &aek_languages::diagnostics::LanguageDoctorReport
 }
 
 async fn handle_tools(args: LanguageToolsArgs) -> Result<()> {
-    let lang_id = LanguageId::from_str(&args.language).unwrap();
+    let lang_id = parse_language(&args.language)?;
     let registry = ToolchainRegistry::default();
     let tools = registry.get_tools_for_language(&lang_id);
 
@@ -237,7 +245,7 @@ async fn handle_tools(args: LanguageToolsArgs) -> Result<()> {
 }
 
 async fn handle_compatibility(args: LanguageCompatibilityArgs) -> Result<()> {
-    let lang_id = LanguageId::from_str(&args.language).unwrap();
+    let lang_id = parse_language(&args.language)?;
     let scan_dir = match args.path {
         Some(p) => p,
         None => env::current_dir().context("Failed to resolve current directory")?,
@@ -284,7 +292,7 @@ async fn handle_compatibility(args: LanguageCompatibilityArgs) -> Result<()> {
 }
 
 async fn handle_setup(args: LanguageSetupArgs) -> Result<()> {
-    let lang_id = LanguageId::from_str(&args.language).unwrap();
+    let lang_id = parse_language(&args.language)?;
     let doctor = LanguageDoctor::default();
     let report = doctor.audit_language(&lang_id).await;
 
@@ -343,7 +351,7 @@ async fn handle_setup(args: LanguageSetupArgs) -> Result<()> {
 }
 
 async fn handle_validate_lang(args: LanguageValidateArgs) -> Result<()> {
-    let lang_id = LanguageId::from_str(&args.language).unwrap();
+    let lang_id = parse_language(&args.language)?;
     let scan_dir = match args.path {
         Some(p) => p,
         None => env::current_dir().context("Failed to resolve current directory")?,

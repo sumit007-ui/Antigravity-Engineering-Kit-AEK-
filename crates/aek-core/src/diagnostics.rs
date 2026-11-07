@@ -4,7 +4,6 @@ use aek_platform::detection::{detect_arch, detect_os, find_executable_in_path};
 use aek_platform::paths::PlatformPaths;
 use serde::{Deserialize, Serialize};
 use std::path::Path;
-use std::process::Command;
 
 /// Standard status reported for an environment diagnostic check.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -272,10 +271,11 @@ impl DiagnosticsRunner {
             );
         }
 
-        // Execute safe version check
-        match Command::new(binary).args(args).output() {
-            Ok(output) if output.status.success() => {
-                let first_line = String::from_utf8_lossy(&output.stdout)
+        // Execute safe version check with bounded timeout
+        match crate::system::execute_safe(binary, args) {
+            Ok(output) if output.success => {
+                let first_line = output
+                    .stdout
                     .lines()
                     .next()
                     .unwrap_or("Installed")

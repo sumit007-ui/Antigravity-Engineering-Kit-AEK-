@@ -33,6 +33,12 @@ impl std::fmt::Display for ToolPermission {
 }
 
 /// Heuristically classifies a tool's permission risk level based on identifier and description.
+///
+/// # Security Note
+/// This classification is an informational, advisory risk label intended for UX warnings
+/// and prompt-level policy checks. It does NOT constitute a kernel sandbox or hardware isolation
+/// boundary. External tools must run in least-privilege containers or OS-level sandboxes
+/// if untrusted.
 #[must_use]
 pub fn classify_tool_permission(name: &str, description: &str) -> ToolPermission {
     let lower_name = name.to_ascii_lowercase();

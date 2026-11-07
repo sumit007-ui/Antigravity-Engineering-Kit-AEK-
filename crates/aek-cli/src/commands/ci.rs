@@ -171,7 +171,9 @@ pub fn handle_ci(args: CiArgs) -> Result<()> {
 
                     println!(
                         "Workflow {:<24} : {}",
-                        path.file_name().unwrap().to_string_lossy(),
+                        path.file_name()
+                            .map(|f| f.to_string_lossy())
+                            .unwrap_or_else(|| path.to_string_lossy()),
                         status
                     );
                 }

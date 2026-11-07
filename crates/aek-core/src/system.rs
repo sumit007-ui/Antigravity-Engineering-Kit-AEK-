@@ -1,7 +1,10 @@
 //! Safe subprocess execution and system diagnostic utilities.
 
 use crate::error::AekCoreError;
-use std::process::{Command, Output};
+use std::process::Command;
+use std::sync::mpsc::channel;
+use std::thread;
+use std::time::Duration;
 
 /// Result of executing a system command.
 #[derive(Debug, Clone)]
@@ -16,24 +19,51 @@ pub struct CommandResult {
     pub success: bool,
 }
 
-/// Executes a binary safely without shell wrapping to eliminate command injection risk.
+/// Executes a binary safely with an explicit bounded timeout.
+///
+/// # Errors
+/// Returns `AekCoreError::ProcessExecutionFailed` if spawning fails or the timeout is exceeded.
+pub fn execute_safe_with_timeout(
+    cmd: &str,
+    args: &[&str],
+    timeout: Duration,
+) -> Result<CommandResult, AekCoreError> {
+    let mut command = Command::new(cmd);
+    command.args(args);
+
+    let (tx, rx) = channel();
+    thread::spawn(move || {
+        let res = command.output();
+        let _ = tx.send(res);
+    });
+
+    match rx.recv_timeout(timeout) {
+        Ok(Ok(output)) => {
+            let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
+            let stderr = String::from_utf8_lossy(&output.stderr).trim().to_string();
+            Ok(CommandResult {
+                status_code: output.status.code(),
+                stdout,
+                stderr,
+                success: output.status.success(),
+            })
+        }
+        Ok(Err(e)) => Err(AekCoreError::ProcessExecutionFailed(format!(
+            "Failed to execute '{cmd}': {e}"
+        ))),
+        Err(_) => Err(AekCoreError::ProcessExecutionFailed(format!(
+            "Process '{cmd}' timed out after {} seconds",
+            timeout.as_secs()
+        ))),
+    }
+}
+
+/// Executes a binary safely without shell wrapping with a default 30-second timeout.
 ///
 /// # Errors
 /// Returns `AekCoreError::ProcessExecutionFailed` if spawning or executing fails.
 pub fn execute_safe(cmd: &str, args: &[&str]) -> Result<CommandResult, AekCoreError> {
-    let output: Output = Command::new(cmd).args(args).output().map_err(|e| {
-        AekCoreError::ProcessExecutionFailed(format!("Failed to execute '{cmd}': {e}"))
-    })?;
-
-    let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
-    let stderr = String::from_utf8_lossy(&output.stderr).trim().to_string();
-
-    Ok(CommandResult {
-        status_code: output.status.code(),
-        stdout,
-        stderr,
-        success: output.status.success(),
-    })
+    execute_safe_with_timeout(cmd, args, Duration::from_secs(30))
 }
 
 /// System platform information.

@@ -98,6 +98,8 @@ pub struct InstallationManifest {
     pub scope: InstallationScope,
     pub install_dir: PathBuf,
     pub binary_path: PathBuf,
+    #[serde(default, alias = "sha256")]
+    pub binary_checksum: Option<String>,
     pub installed_at: String,
     pub method: InstallationMethod,
     pub platform: PlatformSpec,

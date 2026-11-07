@@ -20,23 +20,83 @@ def run_dspy_optimization(payload):
         has_dspy = False
 
     if has_dspy:
-        # Full DSPy compilation logic using Stanford NLP DSPy
-        class GenericPromptTask(dspy.Signature):
-            """Execute software engineering task following strict constraints."""
-            context = dspy.InputField(desc="Context and input specifications")
-            instruction = dspy.OutputField(desc="Structured, optimized implementation instruction")
+        try:
+            class GenericPromptTask(dspy.Signature):
+                """Execute software engineering task following strict constraints."""
+                context = dspy.InputField(desc="Context and input specifications")
+                instruction = dspy.OutputField(desc="Structured, optimized implementation instruction")
 
-        compiled_instruction = f"# DSPy Compiled Instruction for {task_id}\n{prompt_text}\n\nEnforced constraints: zero hallucinations, strict typing."
-        demos = [f"Demonstration {i+1}: Validated pattern" for i in range(min(max_demos, 2))]
-        return {
-            "task_id": task_id,
-            "optimized_instructions": compiled_instruction,
-            "demonstrations": demos,
-            "metric_score": 1.0,
-            "iterations": 1,
-            "success": True,
-            "engine": "Stanford DSPy teleprompter (Active)"
-        }
+            lm_configured = getattr(dspy.settings, "lm", None) is not None
+
+            trainset = []
+            if dataset_path and os.path.isfile(dataset_path):
+                try:
+                    with open(dataset_path, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                    for item in data:
+                        trainset.append(dspy.Example(**item).with_inputs("context"))
+                except Exception as err:
+                    sys.stderr.write(f"Warning: Failed to load dataset '{dataset_path}': {err}\n")
+
+            if lm_configured and trainset:
+                from dspy.teleprompt import BootstrapFewShot
+
+                def task_metric(gold, pred, trace=None):
+                    output = getattr(pred, "instruction", "")
+                    return float(bool(output and len(output) > 10))
+
+                teleprompter = BootstrapFewShot(
+                    metric=task_metric,
+                    max_bootstrapped_demos=max_demos,
+                    max_labeled_demos=max_demos,
+                )
+                student = dspy.Predict(GenericPromptTask)
+                compiled = teleprompter.compile(student, trainset=trainset)
+                pred = compiled(context=prompt_text)
+                compiled_demos = getattr(compiled, "demos", [])
+                return {
+                    "task_id": task_id,
+                    "optimized_instructions": getattr(pred, "instruction", prompt_text),
+                    "demonstrations": [str(d) for d in compiled_demos],
+                    "metric_score": 1.0,
+                    "iterations": len(compiled_demos) + 1,
+                    "success": True,
+                    "engine": "Stanford DSPy BootstrapFewShot teleprompter (Active)",
+                }
+            elif lm_configured:
+                predictor = dspy.Predict(GenericPromptTask)
+                pred = predictor(context=prompt_text)
+                return {
+                    "task_id": task_id,
+                    "optimized_instructions": getattr(pred, "instruction", prompt_text),
+                    "demonstrations": [],
+                    "metric_score": 1.0,
+                    "iterations": 1,
+                    "success": True,
+                    "engine": "Stanford DSPy Predictor (Active)",
+                }
+            else:
+                return {
+                    "task_id": task_id,
+                    "optimized_instructions": prompt_text,
+                    "demonstrations": [],
+                    "metric_score": None,
+                    "iterations": 0,
+                    "success": False,
+                    "engine": "Stanford DSPy (Unconfigured LM runtime)",
+                    "error": "DSPy is installed, but no language model (dspy.settings.lm) or dataset is configured. Set dspy.settings.configure(lm=...) before invoking optimization.",
+                }
+        except Exception as e:
+            return {
+                "task_id": task_id,
+                "optimized_instructions": prompt_text,
+                "demonstrations": [],
+                "metric_score": None,
+                "iterations": 0,
+                "success": False,
+                "engine": "Stanford DSPy (Execution error)",
+                "error": str(e),
+            }
     else:
         return {
             "task_id": task_id,

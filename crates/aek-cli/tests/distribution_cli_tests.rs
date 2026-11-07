@@ -49,10 +49,181 @@ fn test_cli_install_verify() {
         .output()
         .expect("failed to run aek install verify");
 
-    assert!(output.status.success());
+    // Without an expected hash or manifest, verification cannot pass and exits with non-zero
+    assert!(!output.status.success());
     let stdout = String::from_utf8_lossy(&output.stdout);
     assert!(stdout.contains("AEK Installation Integrity Verification"));
+    assert!(stdout.contains("[UNVERIFIED]"));
     assert!(stdout.contains("SHA256:"));
+}
+
+#[test]
+fn test_cli_install_verify_with_manifest_matching_and_mismatch() {
+    let temp_dir = tempfile::tempdir().expect("failed to create temp dir");
+    let manifest_file = temp_dir.path().join("installation-manifest.json");
+    let exe_path = PathBuf::from(env!("CARGO_BIN_EXE_aek"));
+    let actual_hash = aek_distribution::verification::compute_file_sha256(&exe_path)
+        .expect("failed to compute binary hash");
+
+    // Test with matching hash in manifest
+    let valid_manifest = serde_json::json!({
+        "version": "0.2.0",
+        "scope": "user",
+        "install_dir": temp_dir.path().to_string_lossy(),
+        "binary_path": exe_path.to_string_lossy(),
+        "binary_checksum": actual_hash,
+        "installed_at": "2026-11-07T12:00:00Z",
+        "method": "installer_script",
+        "platform": {
+            "target_triple": "x86_64-pc-windows-msvc",
+            "os": "windows",
+            "arch": "x86_64"
+        },
+        "managed_files": [exe_path.to_string_lossy()],
+        "previous_version": null,
+        "verification_status": "verified"
+    });
+    std::fs::write(&manifest_file, valid_manifest.to_string()).unwrap();
+
+    let output = Command::new(env!("CARGO_BIN_EXE_aek"))
+        .current_dir(workspace_root())
+        .args([
+            "install",
+            "verify",
+            "--manifest",
+            manifest_file.to_str().unwrap(),
+        ])
+        .output()
+        .expect("failed to run aek install verify with manifest");
+
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    assert!(
+        output.status.success(),
+        "expected success but got stdout: {stdout}"
+    );
+    assert!(stdout.contains("[VERIFIED]"));
+
+    // Test with mismatched hash in manifest
+    let invalid_manifest = serde_json::json!({
+        "version": "0.2.0",
+        "scope": "user",
+        "install_dir": temp_dir.path().to_string_lossy(),
+        "binary_path": exe_path.to_string_lossy(),
+        "binary_checksum": "1111111111111111111111111111111111111111111111111111111111111111",
+        "installed_at": "2026-11-07T12:00:00Z",
+        "method": "installer_script",
+        "platform": {
+            "target_triple": "x86_64-pc-windows-msvc",
+            "os": "windows",
+            "arch": "x86_64"
+        },
+        "managed_files": [exe_path.to_string_lossy()],
+        "previous_version": null,
+        "verification_status": "verified"
+    });
+    std::fs::write(&manifest_file, invalid_manifest.to_string()).unwrap();
+
+    let output_bad = Command::new(env!("CARGO_BIN_EXE_aek"))
+        .current_dir(workspace_root())
+        .args([
+            "install",
+            "verify",
+            "--manifest",
+            manifest_file.to_str().unwrap(),
+        ])
+        .output()
+        .expect("failed to run aek install verify with bad manifest");
+
+    assert!(!output_bad.status.success());
+    let combined = format!(
+        "{}\n{}",
+        String::from_utf8_lossy(&output_bad.stdout),
+        String::from_utf8_lossy(&output_bad.stderr)
+    );
+    assert!(combined.contains("[FAILED]") || combined.contains("mismatch"));
+}
+
+#[test]
+fn test_cli_install_verify_with_manifest_matching_and_mismatch() {
+    let temp_dir = tempfile::tempdir().expect("failed to create temp dir");
+    let manifest_file = temp_dir.path().join("installation-manifest.json");
+    let exe_path = PathBuf::from(env!("CARGO_BIN_EXE_aek"));
+    let actual_hash = aek_distribution::verification::compute_file_sha256(&exe_path)
+        .expect("failed to compute binary hash");
+
+    // Test with matching hash in manifest
+    let valid_manifest = serde_json::json!({
+        "version": "0.2.0",
+        "scope": "user",
+        "install_dir": temp_dir.path().to_string_lossy(),
+        "binary_path": exe_path.to_string_lossy(),
+        "binary_checksum": actual_hash,
+        "installed_at": "2026-11-07T12:00:00Z",
+        "method": "installer_script",
+        "platform": {
+            "target_triple": "x86_64-pc-windows-msvc",
+            "os": "windows",
+            "arch": "x86_64"
+        },
+        "managed_files": [exe_path.to_string_lossy()],
+        "previous_version": null,
+        "verification_status": "verified"
+    });
+    std::fs::write(&manifest_file, valid_manifest.to_string()).unwrap();
+
+    let output = Command::new(env!("CARGO_BIN_EXE_aek"))
+        .current_dir(workspace_root())
+        .args([
+            "install",
+            "verify",
+            "--manifest",
+            manifest_file.to_str().unwrap(),
+        ])
+        .output()
+        .expect("failed to run aek install verify with manifest");
+
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    assert!(output.status.success(), "expected success but got stdout: {stdout}");
+    assert!(stdout.contains("[VERIFIED]"));
+
+    // Test with mismatched hash in manifest
+    let invalid_manifest = serde_json::json!({
+        "version": "0.2.0",
+        "scope": "user",
+        "install_dir": temp_dir.path().to_string_lossy(),
+        "binary_path": exe_path.to_string_lossy(),
+        "binary_checksum": "1111111111111111111111111111111111111111111111111111111111111111",
+        "installed_at": "2026-11-07T12:00:00Z",
+        "method": "installer_script",
+        "platform": {
+            "target_triple": "x86_64-pc-windows-msvc",
+            "os": "windows",
+            "arch": "x86_64"
+        },
+        "managed_files": [exe_path.to_string_lossy()],
+        "previous_version": null,
+        "verification_status": "verified"
+    });
+    std::fs::write(&manifest_file, invalid_manifest.to_string()).unwrap();
+
+    let output_bad = Command::new(env!("CARGO_BIN_EXE_aek"))
+        .current_dir(workspace_root())
+        .args([
+            "install",
+            "verify",
+            "--manifest",
+            manifest_file.to_str().unwrap(),
+        ])
+        .output()
+        .expect("failed to run aek install verify with bad manifest");
+
+    assert!(!output_bad.status.success());
+    let combined = format!(
+        "{}\n{}",
+        String::from_utf8_lossy(&output_bad.stdout),
+        String::from_utf8_lossy(&output_bad.stderr)
+    );
+    assert!(combined.contains("[FAILED]") || combined.contains("mismatch"));
 }
 
 #[test]

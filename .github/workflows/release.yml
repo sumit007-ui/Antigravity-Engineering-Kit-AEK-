@@ -24,10 +24,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Set up Rust
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@a54c7fe93642104db64bc879d4da4c69498d011b # master
         with:
           components: rustfmt, clippy
 
@@ -46,10 +46,10 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Set up Rust
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@a54c7fe93642104db64bc879d4da4c69498d011b # master
 
       - name: Build release binary
         run: cargo build --workspace --release
@@ -66,7 +66,7 @@ jobs:
           .\packaging\package-windows.ps1 -Version $ver -BinaryPath target\release\aek.exe -OutputDir dist
 
       - name: Upload Windows build artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
         with:
           name: windows-artifacts
           path: dist/
@@ -78,10 +78,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Set up Rust
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@a54c7fe93642104db64bc879d4da4c69498d011b # master
 
       - name: Build release binary
         run: cargo build --workspace --release
@@ -100,7 +100,7 @@ jobs:
           ./packaging/package-linux.sh "$ver" "x86_64-unknown-linux-gnu" target/release/aek dist
 
       - name: Upload Linux build artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
         with:
           name: linux-artifacts
           path: dist/
@@ -112,10 +112,10 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Set up Rust
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@a54c7fe93642104db64bc879d4da4c69498d011b # master
 
       - name: Build release binary
         run: cargo build --workspace --release
@@ -131,7 +131,7 @@ jobs:
           ./packaging/package-macos.sh "$ver" "aarch64-apple-darwin" target/release/aek dist
 
       - name: Upload macOS build artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
         with:
           name: macos-artifacts
           path: dist/
@@ -146,19 +146,19 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Download Windows artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
         with:
           name: windows-artifacts
           path: dist/
 
       - name: Download Linux artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
         with:
           name: linux-artifacts
           path: dist/
 
       - name: Download macOS artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
         with:
           name: macos-artifacts
           path: dist/
@@ -223,7 +223,7 @@ jobs:
           ./scripts/verify-release.sh dist dist/release-manifest.json
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@c062e496a7aa52674e7c37617a224f8087cf289d # v2.2.1
         with:
           body_path: docs/release-notes-v0.1.0.md
           files: |

@@ -1215,6 +1215,10 @@ pub enum InstallSubcommand {
         /// Expected SHA-256 hash to verify against.
         #[arg(long)]
         expected_hash: Option<String>,
+
+        /// Optional installation manifest path to verify against.
+        #[arg(long)]
+        manifest: Option<std::path::PathBuf>,
     },
 }
 

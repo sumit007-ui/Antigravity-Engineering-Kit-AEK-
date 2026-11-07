@@ -56,48 +56,21 @@ pub fn execute_update(args: &UpdateArgs) -> ExitCode {
                 return ExitCode::FAILURE;
             }
         }
-    } else {
-        let target_version = args
-            .version
-            .clone()
-            .unwrap_or_else(|| CURRENT_VERSION.to_string());
-        let ext = if platform.os == "windows" {
-            "zip"
-        } else {
-            "tar.gz"
-        };
-        let filename = format!("aek-v{target_version}-{}.{ext}", platform.target_triple);
-
-        // Check if an existing local packaged artifact or current binary exists to compute authentic SHA-256 and size
-        let local_artifact = std::path::PathBuf::from("dist").join(&filename);
-        let (size_bytes, sha256_hash) = if local_artifact.is_file() {
-            let sz = fs::metadata(&local_artifact).map(|m| m.len()).unwrap_or(0);
-            let h = compute_file_sha256(&local_artifact).unwrap_or_default();
-            (sz, h)
-        } else {
-            let exe_path = env::current_exe().unwrap_or_else(|_| paths.binary_path());
-            let sz = fs::metadata(&exe_path).map(|m| m.len()).unwrap_or(0);
-            let h = compute_file_sha256(&exe_path).unwrap_or_default();
-            (sz, h)
-        };
-
-        aek_distribution::manifest::ReleaseManifest {
-            schema_version: "1.0.0".to_string(),
-            version: target_version.clone(),
-            release_channel: "stable".to_string(),
-            timestamp: "2026-11-07T12:00:00Z".to_string(),
-            artifacts: vec![aek_distribution::manifest::ReleaseArtifact {
-                filename: filename.clone(),
-                target_triple: platform.target_triple.clone(),
-                os: platform.os.clone(),
-                arch: platform.arch.clone(),
-                size_bytes,
-                sha256: sha256_hash,
-                download_url: format!(
-                    "https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/releases/download/v{target_version}/{filename}"
-                ),
-            }],
+    } else if std::path::Path::new("dist/manifest.json").is_file() {
+        match aek_distribution::manifest::ReleaseManifest::load_from_file(std::path::Path::new(
+            "dist/manifest.json",
+        )) {
+            Ok(m) => m,
+            Err(e) => {
+                eprintln!("[FAIL] Failed to load local dist/manifest.json: {e}");
+                return ExitCode::FAILURE;
+            }
         }
+    } else {
+        eprintln!(
+            "[FAIL] No release manifest found. Specify an authentic manifest with --manifest <PATH> or set AEK_RELEASE_MANIFEST."
+        );
+        return ExitCode::FAILURE;
     };
 
     match checker.create_plan(&manifest, args.force) {
@@ -334,12 +307,17 @@ pub fn execute_install(args: &InstallArgs) -> ExitCode {
             );
 
             // 2. PATH check
-            let path_var = env::var("PATH").unwrap_or_default();
-            let parent_dir = exe_path
-                .parent()
-                .map(|p| p.to_string_lossy().to_string())
-                .unwrap_or_default();
-            let on_path = path_var.contains(&parent_dir);
+            let on_path = if let Some(parent) = exe_path.parent() {
+                env::split_paths(&env::var_os("PATH").unwrap_or_default()).any(|p| {
+                    if let (Ok(c1), Ok(c2)) = (p.canonicalize(), parent.canonicalize()) {
+                        c1 == c2
+                    } else {
+                        p == parent
+                    }
+                })
+            } else {
+                false
+            };
             println!(
                 "{:<24} {:<12} {:<24}",
                 "System PATH Entry",
@@ -373,7 +351,10 @@ pub fn execute_install(args: &InstallArgs) -> ExitCode {
             println!("{:-<60}\n", "");
             ExitCode::SUCCESS
         }
-        InstallSubcommand::Verify { expected_hash } => {
+        InstallSubcommand::Verify {
+            expected_hash,
+            manifest: custom_manifest,
+        } => {
             println!("\nAEK Installation Integrity Verification");
             println!("{:=<60}", "");
 
@@ -409,24 +390,59 @@ pub fn execute_install(args: &InstallArgs) -> ExitCode {
                     ExitCode::FAILURE
                 }
             } else {
-                let manifest_path = paths.manifest_path();
+                let manifest_path = custom_manifest
+                    .clone()
+                    .unwrap_or_else(|| paths.manifest_path());
+
                 if manifest_path.is_file() {
-                    if let Ok(manifest_content) = fs::read_to_string(&manifest_path) {
-                        if let Ok(manifest) =
-                            serde_json::from_str::<InstallationManifest>(&manifest_content)
-                        {
-                            println!(
-                                "[INFO] Found installation manifest: {}",
+                    match fs::read_to_string(&manifest_path) {
+                        Ok(manifest_content) => {
+                            let expected_hash = if let Ok(manifest) =
+                                serde_json::from_str::<InstallationManifest>(&manifest_content)
+                            {
+                                manifest.binary_checksum
+                            } else if let Ok(release_manifest) =
+                                serde_json::from_str::<aek_distribution::manifest::ReleaseManifest>(
+                                    &manifest_content,
+                                )
+                            {
+                                release_manifest
+                                    .find_artifact(&PlatformSpec::current())
+                                    .map(|a| a.sha256.clone())
+                            } else {
+                                None
+                            };
+
+                            if let Some(hash) = expected_hash {
+                                let trimmed = hash.trim();
+                                println!(
+                                    "[INFO] Found installation manifest: {}",
+                                    manifest_path.display()
+                                );
+                                if !trimmed.is_empty() && actual_hash.eq_ignore_ascii_case(trimmed)
+                                {
+                                    println!("\n[PASS] Installation manifest checksum verified.");
+                                    println!("Verification Status: [VERIFIED]");
+                                    return ExitCode::SUCCESS;
+                                } else {
+                                    eprintln!("\n[FAIL] Manifest checksum mismatch!");
+                                    eprintln!("  Expected: {trimmed}");
+                                    eprintln!("  Found:    {actual_hash}");
+                                    eprintln!("\nVerification Status: [FAILED]");
+                                    return ExitCode::FAILURE;
+                                }
+                            } else {
+                                eprintln!(
+                                    "[WARN] Manifest at '{}' does not contain checksum for current platform",
+                                    manifest_path.display()
+                                );
+                            }
+                        }
+                        Err(e) => {
+                            eprintln!(
+                                "[WARN] Failed to read installation manifest at '{}': {e}",
                                 manifest_path.display()
                             );
-                            if exe_path == manifest.binary_path
-                                || exe_path.ends_with("aek")
-                                || exe_path.ends_with("aek.exe")
-                            {
-                                println!("\n[PASS] Installation manifest verified.");
-                                println!("Verification Status: [VERIFIED]");
-                                return ExitCode::SUCCESS;
-                            }
                         }
                     }
                 }
@@ -439,7 +455,7 @@ pub fn execute_install(args: &InstallArgs) -> ExitCode {
                 println!(
                     "Tip: Run `aek install verify --expected-hash <SHA256>` to cryptographically verify."
                 );
-                ExitCode::SUCCESS
+                ExitCode::FAILURE
             }
         }
     }
@@ -483,6 +499,7 @@ fn default_manifest(paths: &DistributionPaths) -> InstallationManifest {
         scope: InstallationScope::User,
         install_dir: paths.bin_dir(),
         binary_path: paths.binary_path(),
+        binary_checksum: None,
         installed_at: "2026-11-06T18:00:00Z".to_string(),
         method: InstallationMethod::InstallerScript,
         platform: PlatformSpec::current(),

@@ -156,6 +156,7 @@ fn test_installation_manifest_serialization() {
         scope: InstallationScope::User,
         install_dir: PathBuf::from("/home/user/.local/bin"),
         binary_path: PathBuf::from("/home/user/.local/bin/aek"),
+        binary_checksum: None,
         installed_at: "2026-11-06T18:00:00Z".to_string(),
         method: InstallationMethod::InstallerScript,
         platform: PlatformSpec {
@@ -312,6 +313,7 @@ fn test_uninstaller_safe_and_purge() {
         scope: InstallationScope::User,
         install_dir: install_dir.clone(),
         binary_path: bin_path.clone(),
+        binary_checksum: None,
         installed_at: "2026-11-06T18:00:00Z".to_string(),
         method: InstallationMethod::InstallerScript,
         platform: PlatformSpec {
