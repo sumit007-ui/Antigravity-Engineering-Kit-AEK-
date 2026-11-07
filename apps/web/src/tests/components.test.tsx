@@ -4,6 +4,7 @@ import Domain3DIcon from "../components/three/Domain3DIcon";
 import DocsSidebar, { DOCS_NAVIGATION } from "../components/DocsSidebar";
 import MarqueeTicker from "../components/MarqueeTicker";
 import LiveTelemetry from "../components/LiveTelemetry";
+import AgentLogo from "../components/AgentLogo";
 
 describe("Domain3DIcon", () => {
   it("renders without crashing for all 8 domain types", () => {
@@ -49,5 +50,16 @@ describe("LiveTelemetry Component (Goa-style Infra Metrics)", () => {
     expect(screen.getByText(/COLD BOOT/i)).toBeDefined();
   });
 });
+
+describe("AgentLogo Component (Official Icons)", () => {
+  it("renders official SVG icons for all 4 supported agents", () => {
+    const agents = ["antigravity", "claude", "cursor", "opencode"] as const;
+    agents.forEach((agentId) => {
+      const { container } = render(<AgentLogo agent={agentId} className="w-6 h-6" />);
+      expect(container.querySelector("svg")).toBeTruthy();
+    });
+  });
+});
+
 
 

@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Bot, Check, ArrowRight, ShieldCheck, FileCode, Layers } from "lucide-react";
+import { Check, ArrowRight, ShieldCheck, FileCode, Layers } from "lucide-react";
 import TiltCard from "@/components/motion/TiltCard";
+import AgentLogo, { AgentId } from "@/components/AgentLogo";
 
 interface AgentInfo {
   id: string;
@@ -112,7 +113,7 @@ export default function AgentShowcase() {
           </p>
         </div>
 
-        {/* 4 Agent Selection Cards */}
+        {/* 4 Agent Selection Cards with Official Logos */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {AGENTS.map((agent) => {
             const isSelected = selectedAgent === agent.id;
@@ -120,17 +121,25 @@ export default function AgentShowcase() {
               <button
                 key={agent.id}
                 onClick={() => setSelectedAgent(agent.id)}
-                className={`p-5 rounded-2xl text-left transition-all duration-300 border ${
+                className={`p-5 rounded-2xl text-left transition-all duration-200 border-2 group cursor-pointer ${
                   isSelected
-                    ? "bg-espresso-surface border-flamingo shadow-tactile glow-flamingo"
-                    : "bg-espresso-deep/80 border-espresso-border hover:border-custard/40"
+                    ? "bg-plum border-popcorn shadow-[4px_4px_0px_#F8D878]"
+                    : "bg-plum-deep/90 border-plum-border hover:border-cerulean/60 shadow-[3px_3px_0px_rgba(0,0,0,0.4)]"
                 }`}
               >
                 <div className="flex items-center justify-between mb-3">
-                  <Bot className={`w-6 h-6 ${agent.accent}`} />
-                  {isSelected && <span className="w-2 h-2 rounded-full bg-flamingo" />}
+                  <div className="w-10 h-10 rounded-xl bg-plum-surface/90 border border-plum-border flex items-center justify-center group-hover:border-popcorn/50 transition-colors">
+                    <AgentLogo agent={agent.id as AgentId} size={22} className="transition-transform group-hover:scale-110" />
+                  </div>
+                  {isSelected ? (
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-popcorn text-plum-deep uppercase">
+                      ACTIVE
+                    </span>
+                  ) : (
+                    <span className="w-2 h-2 rounded-full bg-plum-border group-hover:bg-cerulean transition-colors" />
+                  )}
                 </div>
-                <h3 className="font-editorial text-lg text-ivory mb-0.5">{agent.name}</h3>
+                <h3 className="font-editorial text-lg text-ivory mb-0.5 font-bold">{agent.name}</h3>
                 <p className="text-[11px] font-mono text-sand/70 mb-2">{agent.provider}</p>
                 <div className="text-[11px] font-mono text-emerald-400 flex items-center gap-1">
                   <ShieldCheck className="w-3.5 h-3.5" />
@@ -142,17 +151,22 @@ export default function AgentShowcase() {
         </div>
 
         {/* Detailed Inspector Card */}
-        <div className="rounded-3xl ceramic-card p-8 border border-espresso-border grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="rounded-3xl border-2 border-popcorn/30 bg-plum-deep/95 p-8 shadow-[6px_6px_0px_#382C2D] grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Details */}
           <div className="lg:col-span-6 space-y-6">
             <div>
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-flamingo">
-                NATIVE TRANSLATION MATRIX
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-popcorn">
+                ✦ NATIVE TRANSLATION MATRIX
               </span>
-              <h3 className="font-editorial text-3xl text-ivory mt-1 mb-2">
-                {active.name}
-              </h3>
-              <p className="text-xs font-mono text-custard">{active.provider}</p>
+              <div className="flex items-center gap-3 mt-2 mb-2">
+                <div className="w-10 h-10 rounded-xl bg-plum border border-plum-border flex items-center justify-center">
+                  <AgentLogo agent={active.id as AgentId} size={24} />
+                </div>
+                <h3 className="font-editorial text-3xl text-ivory font-bold">
+                  {active.name}
+                </h3>
+              </div>
+              <p className="text-xs font-mono text-cerulean font-semibold">{active.provider}</p>
             </div>
 
             <div className="space-y-3 text-xs">
