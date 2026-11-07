@@ -1,60 +1,29 @@
-[servers.sequential-thinking]
-id = "sequential-thinking"
-name = "Sequential Thinking Reasoning Server"
-description = "Dynamic multi-step structured reasoning and hypothesis validation"
+[servers.github]
+id = "github"
+name = "GitHub MCP Server"
+description = "Access GitHub repositories, issues, pull requests, and code searches"
 enabled = true
 timeout_seconds = 30
-requires_auth = false
-auth_env_vars = []
+requires_auth = true
+auth_env_vars = ["GITHUB_TOKEN"]
 required_dependencies = [
     "npx",
     "node",
 ]
 version = "1.0.0"
 
-[servers.sequential-thinking.transport]
+[servers.github.transport]
 type = "stdio"
 command = "npx"
 args = [
     "-y",
-    "@modelcontextprotocol/server-sequential-thinking",
+    "@modelcontextprotocol/server-github",
 ]
 
-[servers.sequential-thinking.transport.env]
+[servers.github.transport.env]
+GITHUB_PERSONAL_ACCESS_TOKEN = "${GITHUB_TOKEN}"
 
-[servers.sequential-thinking.permissions]
-allow_read_only = true
-allow_filesystem_write = false
-allow_network_write = false
-allow_sensitive = false
-allowed_paths = []
-
-[servers.playwright]
-id = "playwright"
-name = "Playwright Browser Automation"
-description = "Automate browser interactions, take screenshots, and inspect DOM structures"
-enabled = true
-timeout_seconds = 45
-requires_auth = false
-auth_env_vars = []
-required_dependencies = [
-    "npx",
-    "node",
-]
-version = "1.0.0"
-
-[servers.playwright.transport]
-type = "stdio"
-command = "npx"
-args = [
-    "-y",
-    "@playwright/mcp@latest",
-    "--headless",
-]
-
-[servers.playwright.transport.env]
-
-[servers.playwright.permissions]
+[servers.github.permissions]
 allow_read_only = true
 allow_filesystem_write = false
 allow_network_write = false
@@ -93,32 +62,32 @@ allow_network_write = false
 allow_sensitive = false
 allowed_paths = ["./scratch"]
 
-[servers.github]
-id = "github"
-name = "GitHub MCP Server"
-description = "Access GitHub repositories, issues, pull requests, and code searches"
+[servers.playwright]
+id = "playwright"
+name = "Playwright Browser Automation"
+description = "Automate browser interactions, take screenshots, and inspect DOM structures"
 enabled = true
-timeout_seconds = 30
-requires_auth = true
-auth_env_vars = ["GITHUB_TOKEN"]
+timeout_seconds = 45
+requires_auth = false
+auth_env_vars = []
 required_dependencies = [
     "npx",
     "node",
 ]
 version = "1.0.0"
 
-[servers.github.transport]
+[servers.playwright.transport]
 type = "stdio"
 command = "npx"
 args = [
     "-y",
-    "@modelcontextprotocol/server-github",
+    "@playwright/mcp@latest",
+    "--headless",
 ]
 
-[servers.github.transport.env]
-GITHUB_PERSONAL_ACCESS_TOKEN = "${GITHUB_TOKEN}"
+[servers.playwright.transport.env]
 
-[servers.github.permissions]
+[servers.playwright.permissions]
 allow_read_only = true
 allow_filesystem_write = false
 allow_network_write = false
@@ -143,6 +112,37 @@ url = "https://mcp.context7.com/mcp"
 [servers.context7.transport.headers]
 
 [servers.context7.permissions]
+allow_read_only = true
+allow_filesystem_write = false
+allow_network_write = false
+allow_sensitive = false
+allowed_paths = []
+
+[servers.sequential-thinking]
+id = "sequential-thinking"
+name = "Sequential Thinking Reasoning Server"
+description = "Dynamic multi-step structured reasoning and hypothesis validation"
+enabled = true
+timeout_seconds = 30
+requires_auth = false
+auth_env_vars = []
+required_dependencies = [
+    "npx",
+    "node",
+]
+version = "1.0.0"
+
+[servers.sequential-thinking.transport]
+type = "stdio"
+command = "npx"
+args = [
+    "-y",
+    "@modelcontextprotocol/server-sequential-thinking",
+]
+
+[servers.sequential-thinking.transport.env]
+
+[servers.sequential-thinking.permissions]
 allow_read_only = true
 allow_filesystem_write = false
 allow_network_write = false
