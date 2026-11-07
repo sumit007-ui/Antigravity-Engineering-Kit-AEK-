@@ -16,7 +16,7 @@ export default function DocsLayout({
           <span>SYSTEM_VERSION: 0.1.0</span>
         </div>
         <div className="hidden sm:flex items-center gap-2 text-[11px] text-primary-gold/80">
-          <span>COORDINATES: 15°29&apos;N 73°49&apos;E</span>
+          <span>ENGINE: RUST 2024</span>
         </div>
       </div>
 

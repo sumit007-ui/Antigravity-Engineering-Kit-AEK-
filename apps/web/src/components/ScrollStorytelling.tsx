@@ -59,7 +59,7 @@ export default function ScrollStorytelling() {
       <div className="max-w-content mx-auto">
         <SectionHeader
           sectionNum="02"
-          coordinates="15°29'N 73°49'E • SEC_02"
+          sectionCode="SEC_02"
           title="From fragmented tools to one engineering system."
           subtitle="How AEK unifies disconnected AI tools into a single, high-performance developer foundation."
           align="center"

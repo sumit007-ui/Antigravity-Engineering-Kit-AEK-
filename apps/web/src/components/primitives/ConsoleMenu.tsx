@@ -64,7 +64,7 @@ export default function ConsoleMenu({ isOpen, onClose }: ConsoleMenuProps) {
         <div className="flex items-center gap-3">
           <span className="w-3 h-3 rounded-full bg-accent-primary animate-radar" />
           <span className="font-mono text-xs font-bold tracking-widest uppercase text-accent-gold">
-            SYS_CONSOLE // 15°29&apos;N 73°49&apos;E
+            SYS_CONSOLE // SYSTEM CONTROL DECK
           </span>
           <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-surface-card border border-border text-accent-secondary">
             v{LATEST_VERSION} RUST

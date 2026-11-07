@@ -73,7 +73,7 @@ export default function ArchitectureVisualization() {
       <div className="max-w-content mx-auto">
         <SectionHeader
           sectionNum="06"
-          coordinates="15°29'N 73°49'E • SEC_06"
+          sectionCode="SEC_06"
           title="Sixteen decoupled crates. One cohesive architecture."
           subtitle="Inspect the foundational crates powering AEK's memory safety, deterministic execution, and agent synchronization."
           align="center"

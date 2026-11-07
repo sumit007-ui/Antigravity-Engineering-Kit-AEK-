@@ -45,7 +45,7 @@ export default function TerminalWindow({
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-[10px] text-muted hidden sm:inline">15°29&apos;N 73°49&apos;E</span>
+          <span className="text-[10px] text-muted hidden sm:inline">RUST_SUBPROCESS</span>
           <button
             onClick={handleCopy}
             className="p-1.5 rounded hover:bg-surface-card hover:text-fg transition-colors flex items-center gap-1 text-[11px] text-accent-gold"

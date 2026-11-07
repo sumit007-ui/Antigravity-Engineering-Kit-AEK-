@@ -103,7 +103,7 @@ export default function AgentShowcase() {
       <div className="max-w-content mx-auto">
         <SectionHeader
           sectionNum="05"
-          coordinates="15°29'N 73°49'E • SEC_05"
+          sectionCode="SEC_05"
           title="One kit. Every AI coding agent."
           subtitle="AEK translates your engineering rules, skills, and MCP tools natively into the target agent's exact configuration dialect."
           align="center"

@@ -84,13 +84,13 @@ export default function DocsSidebar() {
       <div className={`space-y-6 ${mobileExpanded ? "block" : "hidden lg:block"}`}>
         {/* Quick Filter Input */}
         <div className="relative">
-          <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-sand/60" />
+          <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-primary-gold/70" />
           <input
             type="text"
             value={filterQuery}
             onChange={(e) => setFilterQuery(e.target.value)}
             placeholder="Filter topics... [ / ]"
-            className="w-full pl-8 pr-3 py-2 text-xs font-mono bg-space-surface/90 border-2 border-space-border focus:border-primary-gold rounded-xl text-paper-beige placeholder-sand/50 outline-none transition-all shadow-hard-sm"
+            className="w-full pl-8 pr-8 py-2 text-xs font-mono bg-[#0D0B18] border-2 border-space-border focus:border-primary-gold rounded-lg text-[#F4F4EE] placeholder:text-sand/50 outline-none transition-all shadow-hard-sm"
           />
           {filterQuery && (
             <button

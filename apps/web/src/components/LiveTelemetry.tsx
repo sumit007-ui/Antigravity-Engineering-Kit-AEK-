@@ -38,7 +38,7 @@ const METRICS = [
 
 export default function LiveTelemetry() {
   return (
-    <section className="w-full max-w-content mx-auto px-4 sm:px-6 lg:px-8 -mt-6 mb-16 relative z-20">
+    <section className="w-full max-w-content mx-auto px-4 sm:px-6 lg:px-8 mt-10 sm:mt-14 mb-20 relative z-20">
       <div className="rounded-2xl border-2 border-primary-gold/40 bg-space-deep/95 p-6 backdrop-blur-xl shadow-hard-md relative overflow-hidden">
         {/* Top Status Banner */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-5 border-b border-space-border/80">

@@ -84,7 +84,7 @@ export default function Navbar() {
                 <span className="w-2 h-2 rounded-full bg-success animate-radar" />
               </div>
               <span className="text-[10px] font-mono tracking-wider text-muted uppercase">
-                15°29&apos;N 73°49&apos;E • v{LATEST_VERSION}
+                ONE KIT • EVERY AGENT • v{LATEST_VERSION}
               </span>
             </div>
           </Link>

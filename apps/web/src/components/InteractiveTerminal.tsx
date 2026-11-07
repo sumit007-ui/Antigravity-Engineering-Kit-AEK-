@@ -108,7 +108,7 @@ export default function InteractiveTerminal() {
       <div className="max-w-content mx-auto">
         <SectionHeader
           sectionNum="04"
-          coordinates="15°29'N 73°49'E • SEC_04"
+          sectionCode="SEC_04"
           title="Deterministic control at your fingertips."
           subtitle="Safe subprocess execution with direct argument arrays. Zero shell injection vulnerabilities."
           align="center"
@@ -135,7 +135,7 @@ export default function InteractiveTerminal() {
               <span className="w-3 h-3 rounded-full bg-amber-500/80 border border-amber-600/50" />
               <span className="w-3 h-3 rounded-full bg-emerald-500/80 border border-emerald-600/50" />
               <span className="font-mono text-xs text-primary-gold ml-2 font-bold">
-                aek-terminal ~ v0.1.0 • 15°29&apos;N 73°49&apos;E
+                aek-terminal ~ v0.1.0 • RUST_STABLE
               </span>
             </div>
 

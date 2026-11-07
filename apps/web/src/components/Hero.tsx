@@ -40,8 +40,8 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-[calc(100vh-4.5rem)] lg:h-[calc(100vh-4.5rem)] flex flex-col justify-between py-6 px-4 sm:px-6 lg:px-8 overflow-hidden bg-space-black">
-      {/* 16-bit Coastal Pixel Art Background */}
+    <section className="relative min-h-[calc(100vh-4.5rem)] flex flex-col justify-between pt-6 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-space-black">
+      {/* 16-bit Coastal Pixel Art Sunset Background */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
         <Image
           src="/images/hero-scene@4x.png"
@@ -49,7 +49,7 @@ export default function Hero() {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-bottom opacity-30 mix-blend-screen pixelated"
+          className="object-cover object-bottom opacity-35 mix-blend-screen pixelated"
         />
         {/* Coastal sunset gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-space-black via-space-black/75 to-transparent" />
@@ -60,17 +60,17 @@ export default function Hero() {
       <div className="max-w-content w-full mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto">
         {/* Left Column: Text & Editorial Hierarchy (Left te text show kr) */}
         <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
-          {/* Classified Radar & Time Awareness Beacon */}
+          {/* System Status & Time Awareness Beacon */}
           <div className="inline-flex flex-wrap items-center gap-2 px-3.5 py-1.5 rounded-full border-2 border-primary-gold/40 bg-space-surface/90 text-xs font-mono text-primary-gold mb-4 sm:mb-6 shadow-hard-sm">
             <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
             </span>
             <span className="font-bold tracking-wider">
-              <DecryptText text="15°29'N 73°49'E" />
+              <DecryptText text="AEK_CORE::ONLINE" />
             </span>
             <span className="text-secondary-mauve">•</span>
-            <span className="text-paper-beige font-semibold">SEC_00: RADAR ACTIVE</span>
+            <span className="text-paper-beige font-semibold">AUTONOMOUS ENGINE</span>
             <span className="text-secondary-mauve">•</span>
             <span className="text-primary-gold font-mono font-bold flex items-center gap-1">
               <Clock className="w-3 h-3 text-primary-gold" />

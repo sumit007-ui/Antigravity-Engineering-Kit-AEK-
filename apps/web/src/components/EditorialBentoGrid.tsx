@@ -99,7 +99,7 @@ export default function EditorialBentoGrid() {
       <div className="max-w-content mx-auto relative z-10">
         <SectionHeader
           sectionNum="03"
-          coordinates="15°29'N 73°49'E • SEC_03"
+          sectionCode="SEC_03"
           title="Precision engineering by architectural design."
           subtitle="Sixteen interconnected Rust crates working in harmony to replace fragile prompt engineering with durable systems infrastructure."
         />

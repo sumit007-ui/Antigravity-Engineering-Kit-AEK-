@@ -129,10 +129,10 @@ describe("Phase 2 Primitives: FilterChip", () => {
 });
 
 describe("Phase 3 Sections: Hero", () => {
-  it("renders classified radar coordinates and primary CTAs", () => {
+  it("renders system status beacon and primary CTAs", () => {
     render(<Hero />);
-    expect(screen.getAllByText(/15°29'N 73°49'E/i).length).toBeGreaterThanOrEqual(1);
-    expect(screen.getByText(/SEC_00: RADAR ACTIVE/i)).toBeDefined();
+    expect(screen.getByText(/AEK_CORE::ONLINE/i)).toBeDefined();
+    expect(screen.getByText(/AUTONOMOUS ENGINE/i)).toBeDefined();
     expect(screen.getByText(/Get AEK/i)).toBeDefined();
     expect(screen.getByText(/cargo install aek-cli/i)).toBeDefined();
   });

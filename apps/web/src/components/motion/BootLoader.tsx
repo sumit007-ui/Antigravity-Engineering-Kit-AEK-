@@ -71,7 +71,7 @@ export default function BootLoader() {
 
         <div>
           <div className="text-[11px] font-mono text-primary-gold tracking-widest uppercase mb-1 font-bold">
-            ✦ 15°29&apos;N 73°49&apos;E • CLASSIFIED ORBIT
+            ✦ SYSTEM_KERNEL • INITIALIZING
           </div>
           <h2 className="font-editorial text-2xl text-paper-beige font-bold">
             Antigravity Engineering Kit

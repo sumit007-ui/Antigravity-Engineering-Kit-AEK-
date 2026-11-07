@@ -14,7 +14,7 @@ export default function Footer() {
         <div className="pb-16 border-b-2 border-space-border/80 text-center sm:text-left flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary-gold/40 bg-space-surface text-xs font-mono text-primary-gold mb-4 font-bold shadow-hard-sm">
-              <span>✦ 15°29&apos;N 73&apos;49&apos;E • GOA COASTAL TERMINAL</span>
+              <span>✦ AEK AUTONOMOUS ENGINEERING KIT</span>
             </div>
             <h2 className="font-editorial text-4xl sm:text-6xl lg:text-7xl text-paper-beige tracking-tight font-bold">
               Build beyond the <span className="italic text-gradient-editorial">ordinary.</span>
