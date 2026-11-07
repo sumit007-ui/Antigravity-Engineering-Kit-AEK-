@@ -10,6 +10,8 @@ import EditorialBentoGrid from "../components/EditorialBentoGrid";
 import InteractiveTerminal from "../components/InteractiveTerminal";
 import AgentShowcase from "../components/AgentShowcase";
 import Footer from "../components/Footer";
+import BootLoader from "../components/motion/BootLoader";
+import DecryptText from "../components/motion/DecryptText";
 
 describe("Domain3DIcon", () => {
   it("renders without crashing for all 8 domain types", () => {
@@ -175,5 +177,22 @@ describe("Phase 3 Sections: Footer", () => {
     expect(screen.getByText(/Terms of Service/i)).toBeDefined();
     expect(screen.getByText(/Security Audit/i)).toBeDefined();
     expect(screen.getByText(/Code of Conduct/i)).toBeDefined();
+  });
+});
+
+describe("Phase 4 Motion: Recipe A1 BootLoader", () => {
+  it("renders classified loader dialog with progress bar and skip cues", () => {
+    render(<BootLoader />);
+    // When rendered without reduced-motion match and no prior session token
+    expect(screen.getByRole("dialog", { name: /System Initializing/i })).toBeDefined();
+    expect(screen.getByText(/BOOTING RUST ENGINE/i)).toBeDefined();
+    expect(screen.getByText(/CLICK ANYWHERE OR PRESS ESC TO SKIP/i)).toBeDefined();
+  });
+});
+
+describe("Phase 4 Motion: Recipe A6 DecryptText", () => {
+  it("renders text decrypt component without crashing", () => {
+    const { container } = render(<DecryptText text="AEK-SECURE-HASH-256" speed={10} />);
+    expect(container.textContent).toBeTruthy();
   });
 });

@@ -32,3 +32,4 @@ export default function FilterChip({ label, active, onClick, count }: FilterChip
     </button>
   );
 }
+

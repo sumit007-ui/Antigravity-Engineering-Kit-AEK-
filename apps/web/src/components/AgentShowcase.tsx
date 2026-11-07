@@ -125,7 +125,7 @@ export default function AgentShowcase() {
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="w-10 h-10 rounded-xl bg-space-deep border border-space-border flex items-center justify-center group-hover:border-primary-gold/50 transition-colors">
-                    <AgentLogo agent={agent.id as AgentId} size={22} className="transition-transform group-hover:scale-110" />
+                    <AgentLogo agent={agent.id as AgentId} size={22} className="grayscale group-hover:grayscale-0 transition-all duration-160 group-hover:scale-110" />
                   </div>
                   {isSelected ? (
                     <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-primary-gold text-space-black uppercase">

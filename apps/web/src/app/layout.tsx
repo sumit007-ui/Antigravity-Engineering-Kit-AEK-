@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { fontDisplay, fontMono, fontPixel, fontBody } from "./fonts";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import CustomCursor from "@/components/motion/CustomCursor";
-import { fontDisplay, fontMono, fontPixel, fontBody } from "./fonts";
+import BootLoader from "@/components/motion/BootLoader";
 
 export const metadata: Metadata = {
   title: "Antigravity Engineering Kit (AEK) — One Engineering Kit. Every AI Coding Agent.",
@@ -59,6 +60,7 @@ export default function RootLayout({
       className={`dark ${fontDisplay.variable} ${fontMono.variable} ${fontPixel.variable} ${fontBody.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-bg text-fg font-body antialiased selection:bg-accent-primary/30 selection:text-fg">
+        <BootLoader />
         <SmoothScroll>
           <CustomCursor />
           <Navbar />

@@ -3,29 +3,49 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Terminal, Shield, Download, CheckCircle2, Clock } from "lucide-react";
+import { ArrowRight, Terminal, Download, CheckCircle2, Clock, ChevronDown } from "lucide-react";
 import { GITHUB_REPO_URL, LATEST_VERSION } from "@/lib/utils";
 import HeroArtifact from "@/components/three/HeroArtifact";
 import TactileButton from "@/components/primitives/TactileButton";
+import DecryptText from "@/components/motion/DecryptText";
 
 export default function Hero() {
-  // Live orbital T-plus / T-minus countdown
   const [timeStr, setTimeStr] = useState<string>("00:00:00 UTC");
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
+    // Clock update
     const updateTime = () => {
       const now = new Date();
       setTimeStr(now.toTimeString().split(" ")[0] + " UTC");
     };
     updateTime();
     const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
+
+    // Parallax update (Recipe A2)
+    const handleScroll = () => {
+      // Limit to 8% of scroll
+      setScrollY(window.scrollY * 0.08);
+    };
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!prefersReducedMotion) {
+      window.addEventListener("scroll", handleScroll, { passive: true });
+    }
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
-    <section className="relative min-h-[92vh] flex items-center justify-center pt-8 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-space-black">
-      {/* 16-bit Coastal Pixel Art Background */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+    <section className="relative min-h-[95vh] flex flex-col justify-between pt-8 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-space-black">
+      {/* 16-bit Coastal Pixel Art Background with Ambient Parallax (A2) */}
+      <div
+        className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none transition-transform duration-75 ease-out"
+        style={{ transform: `translate3d(0, ${scrollY}px, 0)` }}
+      >
         <Image
           src="/images/hero-scene@4x.png"
           alt="16-bit Coastal Sunset Pixel Art"
@@ -39,23 +59,25 @@ export default function Hero() {
         <div className="absolute inset-0 bg-tactile-grid opacity-15" />
       </div>
 
-      <div className="max-w-content w-full mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div className="max-w-content w-full mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center my-auto">
         {/* Left Column: Editorial Headline & Actions */}
         <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
           
-          {/* Classified Radar & Time Awareness Beacon */}
+          {/* Classified Radar & Time Awareness Beacon (A2 & A3) */}
           <div className="inline-flex flex-wrap items-center gap-2 px-3.5 py-1.5 rounded-full border-2 border-primary-gold/40 bg-space-violet/90 text-xs font-mono text-primary-gold mb-6 shadow-hard-sm">
-            <span className="relative flex h-2 w-2">
+            <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
             </span>
-            <span className="font-bold tracking-wider">15°29&apos;N 73°49&apos;E</span>
+            <span className="font-bold tracking-wider">
+              <DecryptText text="15°29'N 73°49'E" />
+            </span>
             <span className="text-secondary-mauve">•</span>
             <span className="text-paper-beige font-semibold">SEC_00: RADAR ACTIVE</span>
             <span className="text-secondary-mauve">•</span>
             <span className="text-primary-gold font-mono font-bold flex items-center gap-1">
               <Clock className="w-3 h-3 text-primary-gold" />
-              <span>{timeStr}</span>
+              <span className="tabular-nums">{timeStr}</span>
             </span>
           </div>
 
@@ -138,6 +160,12 @@ export default function Hero() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* A2: SCROLL Cue Indicator */}
+      <div className="w-full flex flex-col items-center justify-center pt-8 text-[11px] font-mono text-primary-gold/70 select-none">
+        <span className="tracking-widest uppercase mb-1">▼ SCROLL TO DECRYPT SYSTEM</span>
+        <ChevronDown className="w-4 h-4 animate-bounce text-warm-orange" />
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Copy, Check } from "lucide-react";
 import SectionHeader from "@/components/primitives/SectionHeader";
 import FilterChip from "@/components/primitives/FilterChip";
@@ -74,6 +74,28 @@ export default function InteractiveTerminal() {
   const [copied, setCopied] = useState(false);
 
   const current = TABS[activeTab];
+  const [charCount, setCharCount] = useState(current.command.length);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      setCharCount(current.command.length);
+      return;
+    }
+
+    setCharCount(0);
+    let count = 0;
+    const interval = setInterval(() => {
+      count++;
+      setCharCount(count);
+      if (count >= current.command.length) {
+        clearInterval(interval);
+      }
+    }, 25);
+
+    return () => clearInterval(interval);
+  }, [current.command]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(current.command);
@@ -140,7 +162,9 @@ export default function InteractiveTerminal() {
           <div className="p-6 bg-space-black font-mono text-xs sm:text-sm">
             <div className="flex items-center gap-2 text-primary-gold pb-4 border-b border-space-border/60 mb-6">
               <span className="text-warm-orange font-bold font-pixel text-xs">{">"}</span>
-              <span className="text-paper-beige font-semibold select-all tracking-wide">{current.command}</span>
+              <span className="text-paper-beige font-semibold select-all tracking-wide">
+                {current.command.slice(0, charCount)}
+              </span>
               <span className="w-2 h-4 bg-primary-gold inline-block animate-pulse ml-1" />
             </div>
 

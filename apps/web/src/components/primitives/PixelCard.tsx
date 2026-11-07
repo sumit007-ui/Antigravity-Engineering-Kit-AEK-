@@ -76,13 +76,13 @@ export function LockedCard({
   const [notified, setNotified] = useState(false);
 
   return (
-    <div className="rounded-lg border-2 border-dashed border-border bg-surface-base p-6 shadow-hard-sm relative flex flex-col justify-between min-h-[220px]">
+    <div className="rounded-lg border-2 border-dashed border-border bg-surface-base p-6 shadow-hard-sm relative flex flex-col justify-between min-h-[220px] transition-all duration-120 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard-md hover:border-accent-primary/60">
       <div>
         <div className="flex items-center justify-between mb-3 text-[11px] font-mono">
           <span className="text-muted tracking-widest uppercase">
             [{category}]
           </span>
-          <span className="inline-flex items-center gap-1 text-accent-primary font-bold">
+          <span className="inline-flex items-center gap-1 text-accent-primary font-bold animate-pulse">
             <Lock className="w-3 h-3" />
             <span>{status}</span>
           </span>
@@ -120,3 +120,4 @@ export function LockedCard({
     </div>
   );
 }
+

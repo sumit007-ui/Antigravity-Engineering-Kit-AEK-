@@ -9,10 +9,9 @@ export interface MarqueeItem {
 }
 
 interface MarqueeTrackProps {
-  items?: MarqueeItem[];
+  items: MarqueeItem[];
   reverse?: boolean;
   className?: string;
-  speed?: number;
   pauseOnHover?: boolean;
 }
 
