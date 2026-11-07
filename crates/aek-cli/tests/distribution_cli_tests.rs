@@ -144,6 +144,24 @@ fn test_cli_update_with_custom_manifest() {
                 "size_bytes": 10485760,
                 "sha256": "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
                 "download_url": "https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/releases/download/v0.2.0/aek-v0.2.0-test.tar.gz"
+            },
+            {
+                "filename": "aek-v0.2.0-macos-x86_64.tar.gz",
+                "target_triple": "x86_64-apple-darwin",
+                "os": "macos",
+                "arch": "x86_64",
+                "size_bytes": 10485760,
+                "sha256": "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+                "download_url": "https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/releases/download/v0.2.0/aek-v0.2.0-macos-x86_64.tar.gz"
+            },
+            {
+                "filename": "aek-v0.2.0-macos-aarch64.tar.gz",
+                "target_triple": "aarch64-apple-darwin",
+                "os": "macos",
+                "arch": "aarch64",
+                "size_bytes": 10485760,
+                "sha256": "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+                "download_url": "https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/releases/download/v0.2.0/aek-v0.2.0-macos-aarch64.tar.gz"
             }
         ]
     }"#;
