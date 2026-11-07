@@ -69,31 +69,34 @@ export default function Navbar() {
             : "bg-transparent border-transparent"
         }`}
       >
-        <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
-          {/* Brand Monogram & Coordinates Badge */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-lg bg-surface-card border-2 border-accent-gold flex items-center justify-center shadow-hard-sm group-hover:border-accent-primary transition-all">
-              <span className="font-display text-base font-black text-accent-gold group-hover:text-accent-primary transition-colors">
+        <div className="max-w-content mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-2 sm:gap-4">
+          {/* Brand Monogram & System Version */}
+          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-surface-card border-2 border-accent-gold flex items-center justify-center shadow-hard-sm group-hover:border-accent-primary transition-all">
+              <span className="font-display text-sm sm:text-base font-black text-accent-gold group-hover:text-accent-primary transition-colors">
                 AEK
               </span>
             </div>
             <div className="flex flex-col">
-              <div className="flex items-center gap-2">
-                <span className="font-display text-base font-black text-fg tracking-tight group-hover:text-accent-primary transition-colors">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="font-display text-sm sm:text-base font-black text-fg tracking-tight group-hover:text-accent-primary transition-colors">
                   Antigravity Kit
                 </span>
-                <span className="w-2 h-2 rounded-full bg-success animate-radar" />
+                <span className="w-2 h-2 rounded-full bg-success animate-radar shrink-0" />
               </div>
-              <span className="text-[10px] font-mono tracking-wider text-muted uppercase">
+              <span className="text-[10px] font-mono tracking-wider text-muted uppercase hidden sm:inline">
                 ONE KIT • EVERY AGENT • v{LATEST_VERSION}
+              </span>
+              <span className="text-[10px] font-mono tracking-wider text-muted uppercase sm:hidden">
+                v{LATEST_VERSION}
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation with Hotkey Hints */}
+          {/* Desktop Navigation with Hotkey Hints (Clean & Spacious) */}
           <nav
             aria-label="Main Navigation"
-            className="hidden md:flex items-center gap-1 bg-surface-card px-2.5 py-1.5 rounded-lg border-2 border-border shadow-hard-sm"
+            className="hidden lg:flex items-center gap-0.5 xl:gap-1 bg-surface-card px-2 py-1 rounded-lg border-2 border-border shadow-hard-sm"
           >
             {NAV_ITEMS.map((item) => {
               const isActive = pathname.startsWith(item.href);
@@ -101,38 +104,40 @@ export default function Navbar() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`px-3 py-1.5 text-xs font-mono font-bold tracking-wider uppercase rounded transition-all select-none flex items-center gap-1.5 ${
+                  className={`px-2.5 xl:px-3 py-1.5 text-xs font-mono font-bold tracking-wider uppercase rounded transition-all select-none flex items-center gap-1.5 ${
                     isActive
                       ? "bg-accent-primary text-black border border-black shadow-hard-sm"
                       : "text-muted hover:text-fg hover:bg-surface-elevated"
                   }`}
                 >
-                  <span className="text-[10px] text-accent-gold opacity-80">[{item.hotkey}]</span>
+                  <span className="text-[10px] text-accent-gold opacity-80 hidden xl:inline">
+                    [{item.hotkey}]
+                  </span>
                   <span>{item.name}</span>
                 </Link>
               );
             })}
           </nav>
 
-          {/* Right Action Bar */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Aesthetic Motion-Powered GitHub Star Button */}
-            <GitHubStarButton stars="1.2k" />
+          {/* Right Action Bar (Spacious & Balanced) */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            {/* Live Direct GitHub Star Button with Golden Glow Hover */}
+            <GitHubStarButton />
 
             {/* Console Menu Trigger Button */}
             <button
               onClick={() => setConsoleOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg border-2 border-border bg-surface-card hover:border-accent-primary text-xs font-mono font-bold text-fg shadow-hard-sm cursor-pointer select-none min-h-[44px]"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg border-2 border-border bg-surface-card hover:border-accent-primary text-xs font-mono font-bold text-fg shadow-hard-sm cursor-pointer select-none min-h-[40px] sm:min-h-[44px]"
               aria-label="Open console menu [M]"
             >
               <LayoutGrid className="w-3.5 h-3.5 text-accent-gold" />
               <span className="hidden sm:inline">[M] MENU</span>
-              <span className="sm:hidden">[M]</span>
+              <span className="sm:hidden font-mono text-[11px]">[M]</span>
             </button>
 
             {/* Launch / Download Primary CTA */}
-            <Link href="/download" className="hidden sm:inline-flex">
-              <TactileButton variant="primary">
+            <Link href="/download" className="hidden md:inline-flex">
+              <TactileButton variant="primary" className="py-2 px-3 sm:px-4 text-xs font-mono">
                 Launch Kit ↗
               </TactileButton>
             </Link>

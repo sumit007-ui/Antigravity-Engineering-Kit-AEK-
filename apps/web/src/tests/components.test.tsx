@@ -199,11 +199,21 @@ describe("Phase 4 Motion: Recipe A6 DecryptText", () => {
   });
 });
 
-describe("Navbar with GitHub Star Animation", () => {
-  it("renders GitHub link with star badge and counter", () => {
+describe("Navbar and GitHubStarButton Component", () => {
+  it("renders GitHub link with star badge and dynamic count", async () => {
+    const { default: GitHubStarButton } = await import("../components/motion/GitHubStarButton");
+    render(<GitHubStarButton stars="5" />);
+    const link = screen.getByLabelText(/GitHub Repository and Star/i);
+    expect(link).toBeDefined();
+    expect(link.getAttribute("href")).toContain("sumit007-ui/Antigravity-Engineering-Kit-AEK-");
+    expect(screen.getByText(/5/i)).toBeDefined();
+  });
+
+  it("renders Navbar with spacious layout and accessible navigation", () => {
     render(<Navbar />);
+    expect(screen.getByLabelText(/Main Navigation/i)).toBeDefined();
     expect(screen.getByLabelText(/GitHub Repository and Star/i)).toBeDefined();
-    expect(screen.getByText(/1.2k/i)).toBeDefined();
+    expect(screen.getByText(/Antigravity Kit/i)).toBeDefined();
   });
 });
 
