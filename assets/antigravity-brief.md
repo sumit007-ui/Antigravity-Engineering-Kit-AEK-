@@ -7,3 +7,4 @@
 - **Shading:** Ordered dithering, max 3 tones per surface.
 - **Composition:** Strong silhouettes, clear horizon, dark negative space for typography.
 - **Rules:** Never put text inside generated images; render text in HTML/SVG using Space Grotesk, JetBrains Mono, or Press Start 2P.
+

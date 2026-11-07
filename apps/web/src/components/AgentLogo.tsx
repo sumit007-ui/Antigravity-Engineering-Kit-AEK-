@@ -140,3 +140,4 @@ export default function AgentLogo({ agent, className = "w-6 h-6", size = 24 }: A
       );
   }
 }
+

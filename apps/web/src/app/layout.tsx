@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import CustomCursor from "@/components/motion/CustomCursor";
+import { fontDisplay, fontMono, fontPixel, fontBody } from "./fonts";
 
 export const metadata: Metadata = {
   title: "Antigravity Engineering Kit (AEK) — One Engineering Kit. Every AI Coding Agent.",
@@ -53,8 +54,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className="min-h-screen flex flex-col bg-espresso-deep text-ivory antialiased selection:bg-flamingo/30 selection:text-ivory">
+    <html
+      lang="en-IN"
+      className={`dark ${fontDisplay.variable} ${fontMono.variable} ${fontPixel.variable} ${fontBody.variable}`}
+    >
+      <body className="min-h-screen flex flex-col bg-bg text-fg font-body antialiased selection:bg-accent-primary/30 selection:text-fg">
         <SmoothScroll>
           <CustomCursor />
           <Navbar />
