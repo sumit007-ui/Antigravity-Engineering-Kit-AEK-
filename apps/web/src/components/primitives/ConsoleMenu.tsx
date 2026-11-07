@@ -57,27 +57,32 @@ export default function ConsoleMenu({ isOpen, onClose }: ConsoleMenuProps) {
       role="dialog"
       aria-modal="true"
       aria-label="Classified Console Navigation"
-      className="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-10 lg:p-16 overflow-y-auto animate-fade-in safe-pt safe-pb -webkit-overflow-scrolling-touch"
+      className="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex flex-col justify-between p-4 sm:p-10 lg:p-16 overflow-y-auto animate-fade-in safe-pt safe-pb -webkit-overflow-scrolling-touch"
     >
-      {/* Top Bar */}
-      <div className="flex items-center justify-between border-b-2 border-border pb-6 select-none">
-        <div className="flex items-center gap-3">
-          <span className="w-3 h-3 rounded-full bg-accent-primary animate-radar" />
-          <span className="font-mono text-xs font-bold tracking-widest uppercase text-accent-gold">
-            SYS_CONSOLE // SYSTEM CONTROL DECK
-          </span>
-          <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-surface-card border border-border text-accent-secondary">
+      {/* Top Bar (Clean, Collision-Free on All Mobile Screens) */}
+      <div className="flex items-center justify-between gap-2 sm:gap-3 border-b-2 border-border pb-4 sm:pb-6 select-none shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-accent-primary animate-radar shrink-0" />
+          <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2.5 min-w-0">
+            <span className="font-mono text-xs font-bold tracking-widest uppercase text-accent-gold truncate">
+              SYS_CONSOLE
+            </span>
+            <span className="hidden md:inline font-mono text-xs text-sand/60 font-medium tracking-wider">
+              // SYSTEM CONTROL DECK
+            </span>
+          </div>
+          <span className="hidden sm:inline-flex px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-surface-card border border-border text-accent-secondary shrink-0">
             v{LATEST_VERSION} RUST
           </span>
         </div>
 
         <button
           onClick={onClose}
-          className="flex items-center gap-2 px-3 py-2 rounded border-2 border-border bg-surface-card text-xs font-mono font-bold text-fg hover:border-accent-primary hover:text-accent-primary transition-all shadow-hard-sm cursor-pointer select-none min-h-[44px]"
+          className="flex items-center justify-center gap-1.5 w-10 h-10 sm:w-auto sm:h-auto sm:px-3 sm:py-2 rounded-lg border-2 border-border bg-surface-card text-xs font-mono font-bold text-fg hover:border-accent-primary hover:text-accent-primary transition-all shadow-hard-sm cursor-pointer select-none shrink-0"
           aria-label="Close menu [ESC]"
         >
-          <span>[ESC] CLOSE</span>
-          <X className="w-4 h-4" />
+          <span className="hidden sm:inline">[ESC] CLOSE</span>
+          <X className="w-4 h-4 text-accent-gold sm:text-current" />
         </button>
       </div>
 
