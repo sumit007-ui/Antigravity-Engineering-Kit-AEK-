@@ -44,10 +44,11 @@ describe("DocsNavigation", () => {
 });
 
 describe("MarqueeTicker Component (Goa-style UX)", () => {
-  it("renders the animated marquee ticker with key high-energy badges", () => {
+  it("renders the animated marquee ticker with key high-energy badges and official symbols", () => {
     render(<MarqueeTicker />);
     expect(screen.getAllByText(/RUST WORKSPACE/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/MODEL CONTEXT PROTOCOL/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByAltText(/AEK/i).length).toBeGreaterThan(0);
   });
 });
 
