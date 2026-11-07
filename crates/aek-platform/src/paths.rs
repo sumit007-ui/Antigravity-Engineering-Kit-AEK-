@@ -24,7 +24,8 @@ impl PlatformPaths {
     /// Resolves standard directories using the host platform conventions without hardcoding.
     #[must_use]
     pub fn resolve() -> Self {
-        let (config_dir, data_dir, cache_dir) = if let Ok(custom) = std::env::var("AEK_CONFIG_DIR") {
+        let (config_dir, data_dir, cache_dir) = if let Ok(custom) = std::env::var("AEK_CONFIG_DIR")
+        {
             let custom_p = PathBuf::from(custom);
             (
                 custom_p.clone(),
