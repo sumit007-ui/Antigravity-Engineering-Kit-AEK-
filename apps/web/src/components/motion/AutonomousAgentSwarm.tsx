@@ -151,7 +151,9 @@ export default function AutonomousAgentSwarm() {
       };
     };
 
-    const bots: Bot[] = Array.from({ length: 12 }).map(() => createBot(false));
+    const isMobileScreen = typeof window !== "undefined" && window.innerWidth < 640;
+    const botCount = isMobileScreen ? 5 : 12;
+    const bots: Bot[] = Array.from({ length: botCount }).map(() => createBot(false));
     const debris: PixelDebris[] = [];
     const shockwaves: Shockwave[] = [];
     const floatingScores: FloatingScore[] = [];
@@ -372,8 +374,26 @@ export default function AutonomousAgentSwarm() {
         } else {
           bot.idleTimer--;
           if (bot.idleTimer <= 0) {
-            bot.targetX = 30 + Math.random() * (width - 60);
-            bot.targetY = 30 + Math.random() * (height - 60);
+            if (isMobileScreen) {
+              // On mobile, keep bots patrolling perimeter edges to keep central text pristine
+              const side = Math.floor(Math.random() * 4);
+              if (side === 0) {
+                bot.targetX = 15 + Math.random() * (width - 30);
+                bot.targetY = 20 + Math.random() * 60;
+              } else if (side === 1) {
+                bot.targetX = 15 + Math.random() * (width - 30);
+                bot.targetY = height - (20 + Math.random() * 70);
+              } else if (side === 2) {
+                bot.targetX = 15 + Math.random() * 50;
+                bot.targetY = 20 + Math.random() * (height - 40);
+              } else {
+                bot.targetX = width - (15 + Math.random() * 50);
+                bot.targetY = 20 + Math.random() * (height - 40);
+              }
+            } else {
+              bot.targetX = 30 + Math.random() * (width - 60);
+              bot.targetY = 30 + Math.random() * (height - 60);
+            }
             bot.idleTimer = 80 + Math.random() * 140;
           }
         }

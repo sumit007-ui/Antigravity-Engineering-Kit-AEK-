@@ -65,10 +65,10 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`sticky top-0 z-40 w-full transition-all duration-160 border-b-2 ${
+        className={`sticky top-0 z-40 w-full transition-all duration-160 border-b ${
           scrolled
             ? "bg-bg/95 backdrop-blur-xl border-border shadow-hard-md"
-            : "bg-transparent border-transparent"
+            : "bg-bg/85 backdrop-blur-md border-border/40"
         }`}
       >
         <div className="max-w-content mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-2 sm:gap-4">

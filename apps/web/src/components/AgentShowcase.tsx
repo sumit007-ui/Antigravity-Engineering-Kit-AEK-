@@ -147,18 +147,18 @@ export default function AgentShowcase() {
         </div>
 
         {/* Detailed Inspector Card */}
-        <div className="rounded-3xl border-2 border-primary-gold/40 bg-space-black p-8 shadow-hard-md grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="rounded-3xl border-2 border-primary-gold/40 bg-space-black p-4 sm:p-6 lg:p-8 shadow-hard-md grid grid-cols-1 lg:grid-cols-12 gap-8 items-center overflow-hidden">
           {/* Left Details */}
-          <div className="lg:col-span-6 space-y-6">
+          <div className="lg:col-span-6 space-y-6 overflow-hidden">
             <div>
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-primary-gold">
                 ✦ NATIVE TRANSLATION MATRIX
               </span>
               <div className="flex items-center gap-3 mt-2 mb-2">
-                <div className="w-10 h-10 rounded-xl bg-space-surface border border-space-border flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-space-surface border border-space-border flex items-center justify-center shrink-0">
                   <AgentLogo agent={active.id as AgentId} size={24} />
                 </div>
-                <h3 className="font-editorial text-3xl text-paper-beige font-bold">
+                <h3 className="font-editorial text-2xl sm:text-3xl text-paper-beige font-bold truncate">
                   {active.name}
                 </h3>
               </div>
@@ -166,17 +166,17 @@ export default function AgentShowcase() {
             </div>
 
             <div className="space-y-3 text-xs">
-              <div className="p-3.5 rounded-xl bg-space-surface border border-space-border">
+              <div className="p-3.5 rounded-xl bg-space-surface border border-space-border overflow-hidden">
                 <span className="font-mono text-primary-gold block mb-1">RULES CONFIGURATION:</span>
-                <span className="font-mono text-sand">{active.rulesConfig}</span>
+                <span className="font-mono text-sand text-[11px] sm:text-xs break-all block">{active.rulesConfig}</span>
               </div>
-              <div className="p-3.5 rounded-xl bg-space-surface border border-space-border">
+              <div className="p-3.5 rounded-xl bg-space-surface border border-space-border overflow-hidden">
                 <span className="font-mono text-primary-gold block mb-1">MCP INTEGRATION PATH:</span>
-                <span className="font-mono text-sand">{active.mcpConfig}</span>
+                <span className="font-mono text-sand text-[11px] sm:text-xs break-all block">{active.mcpConfig}</span>
               </div>
-              <div className="p-3.5 rounded-xl bg-space-surface border border-space-border">
+              <div className="p-3.5 rounded-xl bg-space-surface border border-space-border overflow-hidden">
                 <span className="font-mono text-primary-gold block mb-1">SKILLS RUNBOOKS:</span>
-                <span className="font-mono text-sand">{active.skillsConfig}</span>
+                <span className="font-mono text-sand text-[11px] sm:text-xs break-all block">{active.skillsConfig}</span>
               </div>
             </div>
 

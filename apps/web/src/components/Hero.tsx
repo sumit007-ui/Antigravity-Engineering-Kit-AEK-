@@ -96,19 +96,19 @@ export default function Hero() {
             <strong className="text-primary-gold font-bold">ruthless precision</strong> across Antigravity, Claude Code, Cursor, and OpenCode.
           </p>
 
-          {/* Verified Quality Invariants */}
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6 text-xs text-sand/80 pt-4 border-t border-space-border/60">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Zero Shell-Injection Risk</span>
+          {/* Verified Quality Invariants (Solid Tactile Pills for Pristine Contrast) */}
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 sm:gap-4 text-xs font-mono text-sand pt-4 border-t border-space-border/60">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-space-surface/95 border border-primary-gold/30 shadow-hard-sm backdrop-blur-md">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="font-semibold">Zero Shell-Injection Risk</span>
             </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Sub-50 MB Memory Footprint</span>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-space-surface/95 border border-primary-gold/30 shadow-hard-sm backdrop-blur-md">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="font-semibold">Sub-50 MB Memory Footprint</span>
             </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Cryptographic Rollbacks</span>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-space-surface/95 border border-primary-gold/30 shadow-hard-sm backdrop-blur-md">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="font-semibold">Cryptographic Rollbacks</span>
             </div>
           </div>
         </div>
