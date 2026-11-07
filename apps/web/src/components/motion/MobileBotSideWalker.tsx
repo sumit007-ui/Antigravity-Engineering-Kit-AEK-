@@ -23,6 +23,7 @@ export default function MobileBotSideWalker() {
 
   const [scores, setScores] = useState<FloatingScore[]>([]);
   const [comboCount, setComboCount] = useState(0);
+  const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
     if (shouldReduceMotion) return;
@@ -158,6 +159,8 @@ export default function MobileBotSideWalker() {
     }, 1200);
   };
 
+  if (dismissed) return null;
+
   return (
     <aside
       ref={containerRef}
@@ -182,6 +185,20 @@ export default function MobileBotSideWalker() {
         ref={positionWrapperRef}
         className="absolute right-0.5 w-7 h-7 pointer-events-none flex items-center justify-center"
       >
+        {/* Dismiss mini-button */}
+        <button
+          type="button"
+          aria-label="Hide companion bot"
+          onClick={(e) => {
+            e.stopPropagation();
+            setDismissed(true);
+          }}
+          className="absolute -top-3.5 right-0.5 w-3.5 h-3.5 rounded-full bg-space-black/90 border border-[#FFD36B]/60 text-[8px] font-mono text-sand/80 hover:text-white pointer-events-auto flex items-center justify-center leading-none shadow-hard-sm"
+          title="Hide bot"
+        >
+          ✕
+        </button>
+
         {/* Interactive Cyber-Bot Unit */}
         <div
           ref={botGraphicRef}

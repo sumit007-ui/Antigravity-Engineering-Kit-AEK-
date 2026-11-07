@@ -25,11 +25,11 @@ export default function GettingStartedPage() {
           <div className="p-3.5 sm:p-4 rounded-xl bg-espresso-deep border border-espresso-border font-mono text-[11px] sm:text-xs text-custard space-y-2 overflow-x-auto">
             <div>
               <span className="text-muted-text"># Windows (PowerShell):</span>
-              <div className="select-all break-all sm:break-normal">irm https://raw.githubusercontent.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/main/installers/windows/install.ps1 | iex</div>
+              <pre className="select-all overflow-x-auto whitespace-pre font-mono text-custard py-0.5">irm https://raw.githubusercontent.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/main/installers/windows/install.ps1 | iex</pre>
             </div>
             <div className="pt-2">
               <span className="text-muted-text"># Linux & macOS (Bash):</span>
-              <div className="select-all break-all sm:break-normal">curl -fsSL https://raw.githubusercontent.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/main/installers/linux/install.sh | bash</div>
+              <pre className="select-all overflow-x-auto whitespace-pre font-mono text-custard py-0.5">curl -fsSL https://raw.githubusercontent.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/main/installers/linux/install.sh | bash</pre>
             </div>
           </div>
         </section>

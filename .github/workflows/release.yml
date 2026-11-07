@@ -106,9 +106,40 @@ jobs:
           path: dist/
           retention-days: 1
 
+  build-macos:
+    name: Build & Package macOS (Apple Silicon aarch64)
+    needs: verify
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build release binary
+        run: cargo build --workspace --release
+
+      - name: Make scripts executable
+        run: chmod +x ./packaging/*.sh
+
+      - name: Package macOS artifact
+        run: |
+          ver="${{ github.ref_name }}"
+          ver="${ver#v}"
+          [ -z "$ver" ] && ver="0.1.0"
+          ./packaging/package-macos.sh "$ver" "aarch64-apple-darwin" target/release/aek dist
+
+      - name: Upload macOS build artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: macos-artifacts
+          path: dist/
+          retention-days: 1
+
   publish-release:
     name: Publish GitHub Release
-    needs: [build-windows, build-linux]
+    needs: [build-windows, build-linux, build-macos]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -126,6 +157,12 @@ jobs:
           name: linux-artifacts
           path: dist/
 
+      - name: Download macOS artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: macos-artifacts
+          path: dist/
+
       - name: Generate Release Manifest & Verify Checksums
         run: |
           ver="${{ github.ref_name }}"
@@ -139,6 +176,10 @@ jobs:
           lin_tar=$(find dist -name "*linux-x86_64.tar.gz" -exec basename {} \;)
           lin_sha=$(cat dist/${lin_tar}.sha256 | awk '{print $1}')
           lin_size=$(stat -c%s "dist/${lin_tar}")
+
+          mac_tar=$(find dist -name "*macos-*.tar.gz" -exec basename {} \;)
+          mac_sha=$(cat dist/${mac_tar}.sha256 | awk '{print $1}')
+          mac_size=$(stat -c%s "dist/${mac_tar}")
 
           cat <<EOF > dist/release-manifest.json
           {
@@ -164,6 +205,15 @@ jobs:
                 "size_bytes": ${lin_size},
                 "sha256": "${lin_sha}",
                 "download_url": "${{ github.server_url }}/${{ github.repository }}/releases/download/${{ github.ref_name }}/${lin_tar}"
+              },
+              {
+                "filename": "${mac_tar}",
+                "target_triple": "aarch64-apple-darwin",
+                "os": "macos",
+                "arch": "aarch64",
+                "size_bytes": ${mac_size},
+                "sha256": "${mac_sha}",
+                "download_url": "${{ github.server_url }}/${{ github.repository }}/releases/download/${{ github.ref_name }}/${mac_tar}"
               }
             ]
           }

@@ -124,7 +124,7 @@ export default function ScrollStorytelling() {
             </div>
 
             {/* Bottom Coordinate Bar - Zero Collision on Mobile */}
-            <div className="absolute bottom-2.5 sm:bottom-3 left-3 sm:left-5 right-3 sm:right-5 flex flex-col sm:flex-row items-center justify-between font-mono text-[8px] sm:text-[11px] text-sand/60 z-10 pointer-events-none gap-0.5 sm:gap-2">
+            <div className="absolute bottom-2 left-3 sm:left-5 right-3 sm:right-5 flex flex-col sm:flex-row items-center justify-between font-mono text-[8px] sm:text-[11px] text-sand/60 z-10 pointer-events-none gap-0.5 sm:gap-2">
               <span className="truncate min-w-0">RUST_2024::SAFE_SUBPROCESS</span>
               <span className="truncate min-w-0">SHA256_INTEGRITY::LOCKED</span>
             </div>
@@ -142,41 +142,41 @@ export default function ScrollStorytelling() {
                   transition={{ duration: 0.3 }}
                   className="w-full h-full relative flex items-center justify-center min-w-0"
                 >
-                  {/* Warning Callouts - Vertically Staggered on Mobile for Guaranteed Zero Collision */}
-                  <div className="absolute top-7 sm:top-9 left-2 sm:left-4 max-w-[48%] sm:max-w-none p-1.5 sm:p-2.5 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-space-surface/95 border-2 border-red-500/50 text-[9px] sm:text-[11px] text-red-300 font-mono shadow-hard-sm flex items-center gap-1.5 sm:gap-2 z-20">
+                  {/* Warning Callouts - Guaranteed Zero Collision with 46% Max Width and Truncate */}
+                  <div className="absolute top-7 left-2 sm:top-8 sm:left-4 max-w-[46%] sm:max-w-none p-1.5 sm:p-2.5 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-space-surface/95 border-2 border-red-500/50 text-[9px] sm:text-[11px] text-red-300 font-mono shadow-hard-sm flex items-center gap-1 sm:gap-2 z-20">
                     <AlertTriangle className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-red-400 shrink-0" />
                     <span className="truncate">Conflicting .cursorrules</span>
                   </div>
 
-                  <div className="absolute top-16 sm:top-9 right-2 sm:right-4 max-w-[48%] sm:max-w-none p-1.5 sm:p-2.5 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-space-surface/95 border-2 border-amber-500/50 text-[9px] sm:text-[11px] text-amber-300 font-mono shadow-hard-sm flex items-center gap-1.5 sm:gap-2 z-20">
+                  <div className="absolute top-7 right-2 sm:top-8 sm:right-4 max-w-[46%] sm:max-w-none p-1.5 sm:p-2.5 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-space-surface/95 border-2 border-amber-500/50 text-[9px] sm:text-[11px] text-amber-300 font-mono shadow-hard-sm flex items-center gap-1 sm:gap-2 z-20">
                     <AlertTriangle className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400 shrink-0" />
                     <span className="truncate">Ad-hoc MCP scripts</span>
                   </div>
 
-                  <div className="absolute bottom-18 sm:bottom-10 left-2 sm:left-4 max-w-[48%] sm:max-w-none p-1.5 sm:p-2.5 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-space-surface/95 border-2 border-red-500/50 text-[9px] sm:text-[11px] text-red-300 font-mono shadow-hard-sm flex items-center gap-1.5 sm:gap-2 z-20">
+                  <div className="absolute bottom-7 left-2 sm:bottom-8 sm:left-4 max-w-[46%] sm:max-w-none p-1.5 sm:p-2.5 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-space-surface/95 border-2 border-red-500/50 text-[9px] sm:text-[11px] text-red-300 font-mono shadow-hard-sm flex items-center gap-1 sm:gap-2 z-20">
                     <AlertTriangle className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-red-400 shrink-0" />
                     <span className="truncate">Unchecked prompt drift</span>
                   </div>
 
-                  <div className="absolute bottom-8 sm:bottom-10 right-2 sm:right-4 max-w-[48%] sm:max-w-none p-1.5 sm:p-2.5 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-space-surface/95 border-2 border-amber-500/50 text-[9px] sm:text-[11px] text-amber-300 font-mono shadow-hard-sm flex items-center gap-1.5 sm:gap-2 z-20">
+                  <div className="absolute bottom-7 right-2 sm:bottom-8 sm:right-4 max-w-[46%] sm:max-w-none p-1.5 sm:p-2.5 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-space-surface/95 border-2 border-amber-500/50 text-[9px] sm:text-[11px] text-amber-300 font-mono shadow-hard-sm flex items-center gap-1 sm:gap-2 z-20">
                     <AlertTriangle className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400 shrink-0" />
                     <span className="truncate">Broken shell escapes</span>
                   </div>
 
                   {/* Central 2x2 Official AI Agent Grid */}
-                  <div className="grid grid-cols-2 gap-4 sm:gap-6 z-10 max-w-sm w-full px-4">
+                  <div className="grid grid-cols-2 gap-3 sm:gap-6 z-10 max-w-sm w-full px-3 sm:px-4">
                     {agentsList.map((agent) => (
                       <div
                         key={agent.id}
-                        className={`p-4 rounded-2xl bg-space-surface/90 border-2 ${agent.color} shadow-hard-sm flex flex-col items-center text-center transition-transform hover:scale-105`}
+                        className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-space-surface/90 border-2 ${agent.color} shadow-hard-sm flex flex-col items-center text-center transition-transform hover:scale-105`}
                       >
-                        <div className="w-10 h-10 mb-2 flex items-center justify-center">
-                          <AgentLogo agent={agent.id} size={32} />
+                        <div className="w-8 h-8 sm:w-10 sm:h-10 mb-1.5 sm:mb-2 flex items-center justify-center">
+                          <AgentLogo agent={agent.id} size={28} />
                         </div>
-                        <span className="font-editorial text-sm font-bold text-paper-beige mb-1">
+                        <span className="font-editorial text-xs sm:text-sm font-bold text-paper-beige mb-0.5 sm:mb-1 truncate w-full">
                           {agent.name}
                         </span>
-                        <span className="text-[9px] font-mono font-bold text-red-400 tracking-wider">
+                        <span className="text-[8px] sm:text-[9px] font-mono font-bold text-red-400 tracking-wider">
                           {agent.status}
                         </span>
                       </div>

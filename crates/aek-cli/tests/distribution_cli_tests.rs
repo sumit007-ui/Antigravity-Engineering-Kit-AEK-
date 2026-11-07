@@ -52,8 +52,42 @@ fn test_cli_install_verify() {
     assert!(output.status.success());
     let stdout = String::from_utf8_lossy(&output.stdout);
     assert!(stdout.contains("AEK Installation Integrity Verification"));
-    assert!(stdout.contains("[VERIFIED]"));
     assert!(stdout.contains("SHA256:"));
+}
+
+#[test]
+fn test_cli_install_verify_with_matching_expected_hash() {
+    let exe_path = PathBuf::from(env!("CARGO_BIN_EXE_aek"));
+    let expected_hash = aek_distribution::verification::compute_file_sha256(&exe_path)
+        .expect("failed to compute binary hash");
+
+    let output = Command::new(env!("CARGO_BIN_EXE_aek"))
+        .current_dir(workspace_root())
+        .args(["install", "verify", "--expected-hash", &expected_hash])
+        .output()
+        .expect("failed to run aek install verify with expected hash");
+
+    assert!(output.status.success());
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    assert!(stdout.contains("[VERIFIED]"));
+    assert!(stdout.contains("Checksum verified"));
+}
+
+#[test]
+fn test_cli_install_verify_with_mismatch_hash_fails() {
+    let wrong_hash = "0000000000000000000000000000000000000000000000000000000000000000";
+
+    let output = Command::new(env!("CARGO_BIN_EXE_aek"))
+        .current_dir(workspace_root())
+        .args(["install", "verify", "--expected-hash", wrong_hash])
+        .output()
+        .expect("failed to run aek install verify with wrong hash");
+
+    assert!(!output.status.success(), "expected failure on hash mismatch");
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let combined = format!("{stdout}\n{stderr}");
+    assert!(combined.contains("[FAILED]") || combined.contains("Checksum mismatch"));
 }
 
 #[test]
@@ -77,6 +111,51 @@ fn test_cli_update_check_and_dry_run() {
     assert!(dry_run_output.status.success());
     let dry_run_stdout = String::from_utf8_lossy(&dry_run_output.stdout);
     assert!(dry_run_stdout.contains("[DRY RUN]") || dry_run_stdout.contains("Update Plan"));
+}
+
+#[test]
+fn test_cli_update_with_custom_manifest() {
+    let temp_dir = tempfile::tempdir().expect("failed to create temp dir");
+    let manifest_file = temp_dir.path().join("test-manifest.json");
+
+    let manifest_json = r#"{
+        "schema_version": "1.0.0",
+        "version": "0.2.0",
+        "release_channel": "stable",
+        "timestamp": "2026-11-07T12:00:00Z",
+        "artifacts": [
+            {
+                "filename": "aek-v0.2.0-test.zip",
+                "target_triple": "x86_64-pc-windows-msvc",
+                "os": "windows",
+                "arch": "x86_64",
+                "size_bytes": 10485760,
+                "sha256": "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+                "download_url": "https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/releases/download/v0.2.0/aek-v0.2.0-test.zip"
+            },
+            {
+                "filename": "aek-v0.2.0-test.tar.gz",
+                "target_triple": "x86_64-unknown-linux-gnu",
+                "os": "linux",
+                "arch": "x86_64",
+                "size_bytes": 10485760,
+                "sha256": "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+                "download_url": "https://github.com/sumit007-ui/Antigravity-Engineering-Kit-AEK-/releases/download/v0.2.0/aek-v0.2.0-test.tar.gz"
+            }
+        ]
+    }"#;
+    std::fs::write(&manifest_file, manifest_json).expect("failed to write test manifest");
+
+    let output = Command::new(env!("CARGO_BIN_EXE_aek"))
+        .current_dir(workspace_root())
+        .args(["update", "check", "--manifest", manifest_file.to_str().unwrap()])
+        .output()
+        .expect("failed to run aek update check with custom manifest");
+
+    assert!(output.status.success());
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    assert!(stdout.contains("0.2.0"));
+    assert!(stdout.contains("Update available") || stdout.contains("UPDATE AVAILABLE"));
 }
 
 #[test]

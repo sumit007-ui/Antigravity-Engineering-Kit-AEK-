@@ -88,8 +88,11 @@ export default function Navbar() {
               <span className="font-display text-sm sm:text-base font-black text-fg tracking-tight group-hover:text-[#FFD36B] transition-colors leading-tight truncate">
                 Antigravity Kit
               </span>
-              <span className="text-[9px] sm:text-[10px] font-mono tracking-wider text-sand/80 uppercase font-semibold truncate max-w-[130px] sm:max-w-none">
+              <span className="hidden sm:inline text-[9px] sm:text-[10px] font-mono tracking-wider text-sand/80 uppercase font-semibold truncate">
                 ONE KIT • EVERY AGENT • V{LATEST_VERSION}
+              </span>
+              <span className="sm:hidden text-[8px] font-mono tracking-wider text-sand/70 uppercase font-semibold truncate">
+                v{LATEST_VERSION} • RUST
               </span>
             </div>
           </Link>

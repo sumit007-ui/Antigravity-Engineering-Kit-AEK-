@@ -1,9 +1,17 @@
-//! Prompt Optimizer adapter implementing the structured prompt engineering framework.
+//! AEK Deterministic Structural Prompt Compiler.
+//!
+//! Transforms unoptimized prompts into verified, production-grade instructions
+//! using deterministic structural prompt engineering principles:
+//! 1. Role & Intent Clarity
+//! 2. Context & Input Engineering
+//! 3. Step-by-Step Reasoning
+//! 4. Negative Constraints
+//! 5. Deterministic Output Schema
 
 use aek_prompt::errors::PromptError;
 use aek_prompt::model::PromptRecord;
 
-/// Adapter implementing the structured prompt engineering framework based on linshenkx/prompt-optimizer.
+/// Deterministic structural prompt engineering compiler.
 #[derive(Debug, Default, Clone)]
 pub struct PromptOptimizerAdapter;
 
@@ -21,7 +29,7 @@ impl PromptOptimizerAdapter {
         // Extract primary domain / role title
         let role = if content.contains("Rust") {
             "Principal Rust Systems Engineer"
-        } else if content.contains("Go") {
+        } else if content.contains("Go") || content.contains("Golang") {
             "Principal Go Backend Architect"
         } else if content.contains("C++") || content.contains("Cpp") {
             "Principal C++ Systems Engineer"
@@ -29,15 +37,18 @@ impl PromptOptimizerAdapter {
             "Principal Zig Systems Programmer"
         } else if content.contains("Python") {
             "Principal Python Infrastructure Architect"
-        } else if content.contains("Flutter") {
+        } else if content.contains("Flutter") || content.contains("Dart") {
             "Principal Flutter & Mobile Architect"
         } else if content.contains("ROS") || content.contains("robotics") {
             "Principal Robotics & ROS 2 Systems Engineer"
+        } else if content.contains("TypeScript") || content.contains("Next.js") || content.contains("React") {
+            "Principal Fullstack & Systems Architect"
         } else {
             "Principal Software Engineer & Technical Architect"
         };
 
         let mut output = String::new();
+        output.push_str("<!-- Compiler: AEK Deterministic Structural Engine (Zero Hallucination) -->\n\n");
         output.push_str(&format!("# Role: {role}\n\n"));
 
         output.push_str("## Profile\n");

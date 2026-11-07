@@ -165,18 +165,18 @@ export default function AgentShowcase() {
               <p className="text-xs font-mono text-warm-orange font-semibold truncate">{active.provider}</p>
             </div>
 
-            <div className="space-y-2.5 sm:space-y-3 text-xs w-full min-w-0">
-              <div className="p-3 sm:p-3.5 rounded-xl bg-space-surface border border-space-border overflow-hidden min-w-0">
-                <span className="font-mono text-primary-gold text-[11px] sm:text-xs font-bold block mb-1">RULES CONFIGURATION:</span>
-                <span className="font-mono text-sand text-[11px] sm:text-xs break-all block leading-relaxed">{active.rulesConfig}</span>
+            <div className="space-y-2 sm:space-y-3 text-xs w-full min-w-0">
+              <div className="p-2.5 sm:p-3.5 rounded-xl bg-space-surface border border-space-border overflow-hidden min-w-0">
+                <span className="font-mono text-primary-gold text-[10px] sm:text-xs font-bold block mb-1">RULES CONFIGURATION:</span>
+                <code className="font-mono text-sand text-[10px] sm:text-xs break-all block leading-relaxed select-all">{active.rulesConfig}</code>
               </div>
-              <div className="p-3 sm:p-3.5 rounded-xl bg-space-surface border border-space-border overflow-hidden min-w-0">
-                <span className="font-mono text-primary-gold text-[11px] sm:text-xs font-bold block mb-1">MCP INTEGRATION PATH:</span>
-                <span className="font-mono text-sand text-[11px] sm:text-xs break-all block leading-relaxed">{active.mcpConfig}</span>
+              <div className="p-2.5 sm:p-3.5 rounded-xl bg-space-surface border border-space-border overflow-hidden min-w-0">
+                <span className="font-mono text-primary-gold text-[10px] sm:text-xs font-bold block mb-1">MCP INTEGRATION PATH:</span>
+                <code className="font-mono text-sand text-[10px] sm:text-xs break-all block leading-relaxed select-all">{active.mcpConfig}</code>
               </div>
-              <div className="p-3 sm:p-3.5 rounded-xl bg-space-surface border border-space-border overflow-hidden min-w-0">
-                <span className="font-mono text-primary-gold text-[11px] sm:text-xs font-bold block mb-1">SKILLS RUNBOOKS:</span>
-                <span className="font-mono text-sand text-[11px] sm:text-xs break-all block leading-relaxed">{active.skillsConfig}</span>
+              <div className="p-2.5 sm:p-3.5 rounded-xl bg-space-surface border border-space-border overflow-hidden min-w-0">
+                <span className="font-mono text-primary-gold text-[10px] sm:text-xs font-bold block mb-1">SKILLS RUNBOOKS:</span>
+                <code className="font-mono text-sand text-[10px] sm:text-xs break-all block leading-relaxed select-all">{active.skillsConfig}</code>
               </div>
             </div>
 

@@ -1151,6 +1151,10 @@ pub struct UpdateArgs {
     /// Force update even if target is a downgrade.
     #[arg(long)]
     pub force: bool,
+
+    /// Path to a release manifest file to verify against.
+    #[arg(long, global = true)]
+    pub manifest: Option<PathBuf>,
 }
 
 /// Subcommands under `aek update`.
@@ -1207,7 +1211,11 @@ pub enum InstallSubcommand {
     /// Inspect installation integrity, permissions, and PATH configuration.
     Doctor,
     /// Verify cryptographic checksums of installed managed files.
-    Verify,
+    Verify {
+        /// Expected SHA-256 hash to verify against.
+        #[arg(long)]
+        expected_hash: Option<String>,
+    },
 }
 
 /// Arguments for `aek setup`.
