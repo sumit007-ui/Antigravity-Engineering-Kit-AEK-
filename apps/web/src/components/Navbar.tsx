@@ -71,10 +71,10 @@ export default function Navbar() {
             : "bg-bg/85 backdrop-blur-md border-border/40"
         }`}
       >
-        <div className="max-w-content mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-2 sm:gap-4">
+        <div className="max-w-content mx-auto px-2.5 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-1.5 sm:gap-4">
           {/* Pure Transparent Brand Symbol (No Box / No Background) */}
-          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
-            <div className="relative flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0 min-w-0">
+            <div className="relative flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 shrink-0">
               <Image
                 src="/icons/symbol.png"
                 alt="AEK Emblem"
@@ -84,11 +84,11 @@ export default function Navbar() {
                 priority
               />
             </div>
-            <div className="flex flex-col">
-              <span className="font-display text-sm sm:text-base font-black text-fg tracking-tight group-hover:text-[#FFD36B] transition-colors leading-tight">
+            <div className="flex flex-col min-w-0">
+              <span className="font-display text-sm sm:text-base font-black text-fg tracking-tight group-hover:text-[#FFD36B] transition-colors leading-tight truncate">
                 Antigravity Kit
               </span>
-              <span className="text-[10px] font-mono tracking-wider text-sand/80 uppercase font-semibold">
+              <span className="text-[9px] sm:text-[10px] font-mono tracking-wider text-sand/80 uppercase font-semibold truncate">
                 ONE KIT • EVERY AGENT • V{LATEST_VERSION}
               </span>
             </div>
@@ -117,7 +117,7 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Right Action Bar (Spacious & Balanced) */}
+          {/* Right Action Bar (Spacious & Balanced, Zero Overflow on Mobile) */}
           <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             {/* Live Direct GitHub Star Button with Golden Glow Hover */}
             <GitHubStarButton />
@@ -125,12 +125,11 @@ export default function Navbar() {
             {/* Console Menu Trigger Button */}
             <button
               onClick={() => setConsoleOpen(true)}
-              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg border-2 border-border bg-surface-card hover:border-[#FFD36B] text-xs font-mono font-bold text-fg shadow-hard-sm cursor-pointer select-none min-h-[40px] sm:min-h-[44px]"
+              className="flex items-center justify-center gap-1.5 w-9 h-9 sm:w-auto sm:h-auto sm:px-3 sm:py-2 rounded-lg border-2 border-border bg-surface-card hover:border-[#FFD36B] text-xs font-mono font-bold text-fg shadow-hard-sm cursor-pointer select-none shrink-0"
               aria-label="Open console menu [M]"
             >
-              <LayoutGrid className="w-3.5 h-3.5 text-[#FFD36B]" />
-              <span className="hidden sm:inline">[M] MENU</span>
-              <span className="sm:hidden font-mono text-[11px]">[M]</span>
+              <LayoutGrid className="w-4 h-4 text-[#FFD36B] shrink-0" />
+              <span className="hidden sm:inline font-mono">[M] MENU</span>
             </button>
 
             {/* Launch / Download Primary CTA */}

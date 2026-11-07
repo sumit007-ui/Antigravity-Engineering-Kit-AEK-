@@ -67,7 +67,7 @@ export default function GitHubStarButton({
       whileHover={shouldReduceMotion ? {} : { scale: 1.02, y: -1 }}
       whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
       transition={{ type: "spring", stiffness: 400, damping: 25 }}
-      className={`relative inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg border-2 transition-all duration-200 select-none cursor-pointer overflow-hidden group min-h-[40px] sm:min-h-[44px] ${
+      className={`relative inline-flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-2 rounded-lg border-2 transition-all duration-200 select-none cursor-pointer overflow-hidden group min-h-[36px] sm:min-h-[44px] shrink-0 ${
         isHovered
           ? "border-[#FFD36B] bg-space-surface/95 shadow-[0_0_16px_rgba(255,211,107,0.22)]"
           : "border-space-border/90 bg-space-surface/80 hover:border-sand/40"
