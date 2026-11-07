@@ -1,36 +1,34 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 96" width="420" height="96">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 80" width="380" height="80">
   <defs>
-    <linearGradient id="logoPlum" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#4E3A3C"/>
-      <stop offset="100%" stop-color="#241B1C"/>
-    </linearGradient>
-    <linearGradient id="logoPopcorn" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FFF3D1"/>
-      <stop offset="50%" stop-color="#F8D878"/>
-      <stop offset="100%" stop-color="#E5BE52"/>
-    </linearGradient>
-    <linearGradient id="logoCerulean" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#C8D9EC"/>
-      <stop offset="100%" stop-color="#98B4D4"/>
-    </linearGradient>
+    <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#FFD36B" flood-opacity="0.3"/>
+    </filter>
   </defs>
 
   <!-- Left Mark Container -->
-  <g transform="translate(8, 8)">
-    <rect width="80" height="80" rx="18" fill="url(#logoPlum)"/>
-    <rect x="1" y="1" width="78" height="78" rx="17" fill="none" stroke="#4E3A3C" stroke-width="1.5"/>
-    <circle cx="40" cy="40" r="26" fill="none" stroke="url(#logoCerulean)" stroke-width="2" stroke-dasharray="4 3" opacity="0.85"/>
-    <polygon points="40,18 60,40 40,62 20,40" fill="url(#logoPopcorn)"/>
-    <polygon points="40,26 51,40 40,54 29,40" fill="#241B1C"/>
-    <circle cx="40" cy="40" r="3.5" fill="#98B4D4"/>
+  <g transform="translate(4, 4)">
+    <rect width="72" height="72" rx="18" fill="#0D0B18" stroke="#FFD36B" stroke-width="5"/>
+    <text x="36" y="49" 
+          font-family="system-ui, -apple-system, sans-serif" 
+          font-size="28" 
+          font-weight="900" 
+          fill="#FFD36B" 
+          text-anchor="middle" 
+          letter-spacing="1">AEK</text>
   </g>
 
   <!-- Wordmark Typography -->
-  <text x="108" y="48" font-family="'Playfair Display', Georgia, serif" font-size="28" font-weight="700" fill="#FFF9F0" letter-spacing="-0.5">
-    Antigravity Kit
-  </text>
-  <text x="110" y="68" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="11" font-weight="600" fill="#F8D878" letter-spacing="2">
-    AEK INFRASTRUCTURE • RUST 2024
-  </text>
+  <text x="96" y="38" 
+        font-family="system-ui, -apple-system, 'Plus Jakarta Sans', sans-serif" 
+        font-size="24" 
+        font-weight="900" 
+        fill="#FFFFFF" 
+        letter-spacing="-0.3">Antigravity Kit</text>
+  
+  <text x="96" y="60" 
+        font-family="'JetBrains Mono', monospace" 
+        font-size="11" 
+        font-weight="700" 
+        fill="#E5D3B3" 
+        letter-spacing="1.5">ONE KIT • EVERY AGENT • V0.1.0</text>
 </svg>
-

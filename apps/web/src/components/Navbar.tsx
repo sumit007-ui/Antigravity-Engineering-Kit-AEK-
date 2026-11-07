@@ -10,11 +10,12 @@ import TactileButton from "@/components/primitives/TactileButton";
 import GitHubStarButton from "@/components/motion/GitHubStarButton";
 
 const NAV_ITEMS = [
-  { name: "About", href: "/about", hotkey: "A" },
-  { name: "Features", href: "/features", hotkey: "F" },
-  { name: "Agents", href: "/agents", hotkey: "G" },
-  { name: "Integrations", href: "/integrations", hotkey: "I" },
-  { name: "Docs", href: "/docs", hotkey: "D" },
+  { name: "Features", href: "/features" },
+  { name: "Agents", href: "/agents" },
+  { name: "Integrations", href: "/integrations" },
+  { name: "Architecture", href: "/architecture" },
+  { name: "Docs", href: "/docs" },
+  { name: "Download", href: "/download" },
 ];
 
 export default function Navbar() {
@@ -70,33 +71,27 @@ export default function Navbar() {
         }`}
       >
         <div className="max-w-content mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-2 sm:gap-4">
-          {/* Brand Monogram & System Version */}
+          {/* Brand Monogram & System Version (Matches Official Lockup) */}
           <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-surface-card border-2 border-accent-gold flex items-center justify-center shadow-hard-sm group-hover:border-accent-primary transition-all">
-              <span className="font-display text-sm sm:text-base font-black text-accent-gold group-hover:text-accent-primary transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-[#0D0B18] border-2 border-[#FFD36B] flex items-center justify-center shadow-[0_0_12px_rgba(255,211,107,0.15)] group-hover:shadow-[0_0_18px_rgba(255,211,107,0.35)] group-hover:border-[#FFC15E] transition-all">
+              <span className="font-mono text-sm font-black text-[#FFD36B] group-hover:text-[#FFC15E] tracking-wider transition-colors">
                 AEK
               </span>
             </div>
             <div className="flex flex-col">
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <span className="font-display text-sm sm:text-base font-black text-fg tracking-tight group-hover:text-accent-primary transition-colors">
-                  Antigravity Kit
-                </span>
-                <span className="w-2 h-2 rounded-full bg-success animate-radar shrink-0" />
-              </div>
-              <span className="text-[10px] font-mono tracking-wider text-muted uppercase hidden sm:inline">
-                ONE KIT • EVERY AGENT • v{LATEST_VERSION}
+              <span className="font-display text-sm sm:text-base font-black text-fg tracking-tight group-hover:text-[#FFD36B] transition-colors leading-tight">
+                Antigravity Kit
               </span>
-              <span className="text-[10px] font-mono tracking-wider text-muted uppercase sm:hidden">
-                v{LATEST_VERSION}
+              <span className="text-[10px] font-mono tracking-wider text-sand/80 uppercase font-semibold">
+                ONE KIT • EVERY AGENT • V{LATEST_VERSION}
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation with Hotkey Hints (Clean & Spacious) */}
+          {/* Desktop Navigation Links without Hotkey Alphabet Badges (Clean Golden Style) */}
           <nav
             aria-label="Main Navigation"
-            className="hidden lg:flex items-center gap-0.5 xl:gap-1 bg-surface-card px-2 py-1 rounded-lg border-2 border-border shadow-hard-sm"
+            className="hidden lg:flex items-center gap-1 xl:gap-2 bg-[#0D0B18]/70 backdrop-blur-md px-3 py-1.5 rounded-xl border border-[#FFD36B]/20 shadow-hard-sm"
           >
             {NAV_ITEMS.map((item) => {
               const isActive = pathname.startsWith(item.href);
@@ -104,16 +99,13 @@ export default function Navbar() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`px-2.5 xl:px-3 py-1.5 text-xs font-mono font-bold tracking-wider uppercase rounded transition-all select-none flex items-center gap-1.5 ${
+                  className={`px-3 py-1 text-sm font-semibold tracking-wide transition-all select-none rounded-lg ${
                     isActive
-                      ? "bg-accent-primary text-black border border-black shadow-hard-sm"
-                      : "text-muted hover:text-fg hover:bg-surface-elevated"
+                      ? "text-[#FFD36B] bg-[#FFD36B]/15 drop-shadow-[0_0_8px_rgba(255,211,107,0.4)]"
+                      : "text-[#FFD36B]/85 hover:text-fg hover:drop-shadow-[0_0_6px_rgba(255,211,107,0.3)] hover:bg-[#FFD36B]/10"
                   }`}
                 >
-                  <span className="text-[10px] text-accent-gold opacity-80 hidden xl:inline">
-                    [{item.hotkey}]
-                  </span>
-                  <span>{item.name}</span>
+                  {item.name}
                 </Link>
               );
             })}
@@ -127,10 +119,10 @@ export default function Navbar() {
             {/* Console Menu Trigger Button */}
             <button
               onClick={() => setConsoleOpen(true)}
-              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg border-2 border-border bg-surface-card hover:border-accent-primary text-xs font-mono font-bold text-fg shadow-hard-sm cursor-pointer select-none min-h-[40px] sm:min-h-[44px]"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg border-2 border-border bg-surface-card hover:border-[#FFD36B] text-xs font-mono font-bold text-fg shadow-hard-sm cursor-pointer select-none min-h-[40px] sm:min-h-[44px]"
               aria-label="Open console menu [M]"
             >
-              <LayoutGrid className="w-3.5 h-3.5 text-accent-gold" />
+              <LayoutGrid className="w-3.5 h-3.5 text-[#FFD36B]" />
               <span className="hidden sm:inline">[M] MENU</span>
               <span className="sm:hidden font-mono text-[11px]">[M]</span>
             </button>

@@ -209,11 +209,20 @@ describe("Navbar and GitHubStarButton Component", () => {
     expect(screen.getByText(/5/i)).toBeDefined();
   });
 
-  it("renders Navbar with spacious layout and accessible navigation", () => {
+  it("renders Navbar with spacious layout and accessible navigation without alphabet hotkey badges", () => {
     render(<Navbar />);
     expect(screen.getByLabelText(/Main Navigation/i)).toBeDefined();
     expect(screen.getByLabelText(/GitHub Repository and Star/i)).toBeDefined();
     expect(screen.getByText(/Antigravity Kit/i)).toBeDefined();
+    expect(screen.getByRole("link", { name: /^Features$/i })).toBeDefined();
+    expect(screen.getByRole("link", { name: /^Agents$/i })).toBeDefined();
+    expect(screen.getByRole("link", { name: /^Integrations$/i })).toBeDefined();
+    expect(screen.getByRole("link", { name: /^Architecture$/i })).toBeDefined();
+    expect(screen.getByRole("link", { name: /^Docs$/i })).toBeDefined();
+    expect(screen.getByRole("link", { name: /^Download$/i })).toBeDefined();
+    // Confirms no [F], [A] shortcut badges in the navigation items
+    expect(screen.queryByText("[F]")).toBeNull();
+    expect(screen.queryByText("[A]")).toBeNull();
   });
 });
 

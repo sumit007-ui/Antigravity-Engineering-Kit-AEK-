@@ -1,37 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
   <defs>
-    <linearGradient id="plumGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#4E3A3C"/>
-      <stop offset="100%" stop-color="#241B1C"/>
-    </linearGradient>
-    <linearGradient id="popcornGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FFF3D1"/>
-      <stop offset="50%" stop-color="#F8D878"/>
-      <stop offset="100%" stop-color="#E5BE52"/>
-    </linearGradient>
-    <linearGradient id="ceruleanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#C8D9EC"/>
-      <stop offset="100%" stop-color="#98B4D4"/>
-    </linearGradient>
-    <filter id="subtleGlow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#98B4D4" flood-opacity="0.35"/>
+    <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#FFD36B" flood-opacity="0.35"/>
     </filter>
   </defs>
 
-  <!-- Base Plum Rounded Card -->
-  <rect width="128" height="128" rx="28" fill="url(#plumGrad)"/>
-  <rect x="1" y="1" width="126" height="126" rx="27" fill="none" stroke="#4E3A3C" stroke-width="2"/>
+  <!-- Dark Classified Terminal Squircle Base -->
+  <rect x="6" y="6" width="116" height="116" rx="26" fill="#0D0B18" stroke="#FFD36B" stroke-width="8"/>
+  <rect x="12" y="12" width="104" height="104" rx="20" fill="none" stroke="#FFD36B" stroke-width="1.5" stroke-opacity="0.3"/>
 
-  <!-- Orbital Cerulean Precision Ring -->
-  <circle cx="64" cy="64" r="42" fill="none" stroke="url(#ceruleanGrad)" stroke-width="3" stroke-dasharray="6 4" opacity="0.85"/>
-
-  <!-- Interlocking Precision Diamond Core (Popcorn) -->
-  <polygon points="64,28 96,64 64,100 32,64" fill="url(#popcornGrad)" filter="url(#subtleGlow)"/>
-
-  <!-- Inner Architectural Cutout (Plum) -->
-  <polygon points="64,42 82,64 64,86 46,64" fill="#241B1C"/>
-
-  <!-- Center Monogram Dot (Cerulean) -->
-  <circle cx="64" cy="64" r="5" fill="#98B4D4"/>
+  <!-- AEK Brand Monogram Typography -->
+  <text x="64" y="80" 
+        font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'JetBrains Mono', monospace" 
+        font-size="44" 
+        font-weight="900" 
+        fill="#FFD36B" 
+        text-anchor="middle" 
+        letter-spacing="1.5"
+        filter="url(#goldGlow)">AEK</text>
 </svg>
-
