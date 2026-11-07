@@ -6,6 +6,8 @@ import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import CustomCursor from "@/components/motion/CustomCursor";
 import BootLoader from "@/components/motion/BootLoader";
+import MobileBotSideWalker from "@/components/motion/MobileBotSideWalker";
+import MobileMicroAnimations from "@/components/motion/MobileMicroAnimations";
 
 export const metadata: Metadata = {
   title: "Antigravity Engineering Kit (AEK) — One Engineering Kit. Every AI Coding Agent.",
@@ -61,6 +63,8 @@ export default function RootLayout({
     >
       <body className="min-h-screen flex flex-col bg-bg text-fg font-body antialiased selection:bg-accent-primary/30 selection:text-fg">
         <BootLoader />
+        <MobileMicroAnimations />
+        <MobileBotSideWalker />
         <SmoothScroll>
           <CustomCursor />
           <Navbar />

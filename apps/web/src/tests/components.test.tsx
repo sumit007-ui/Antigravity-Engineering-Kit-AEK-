@@ -260,3 +260,29 @@ describe("CyberBotArcade Component (Interactive Gamified Bot Layer)", () => {
     expect(container.querySelector("canvas")).toBeTruthy();
   });
 });
+
+describe("MobileBotSideWalker & GSAP Micro-animations (Mobile Gaming Layer)", () => {
+  it("renders mobile side-walking cyber-bot with interactive touch target", async () => {
+    const { default: MobileBotSideWalker } = await import("../components/motion/MobileBotSideWalker");
+    const { container } = render(<MobileBotSideWalker />);
+    expect(container.querySelector("[data-testid='mobile-bot-walker']")).toBeTruthy();
+    expect(container.querySelector("[data-testid='mobile-bot-unit']")).toBeTruthy();
+  });
+
+  it("triggers gaming tap reaction and score pop on bot interaction", async () => {
+    const { default: MobileBotSideWalker } = await import("../components/motion/MobileBotSideWalker");
+    const { container } = render(<MobileBotSideWalker />);
+    const botUnit = container.querySelector("[data-testid='mobile-bot-unit']");
+    expect(botUnit).toBeTruthy();
+    if (botUnit) {
+      fireEvent.click(botUnit);
+      expect(container.querySelector("[data-testid='mobile-bot-score']")).toBeTruthy();
+    }
+  });
+
+  it("renders mobile micro-animations controller without throwing", async () => {
+    const { default: MobileMicroAnimations } = await import("../components/motion/MobileMicroAnimations");
+    const { container } = render(<MobileMicroAnimations />);
+    expect(container).toBeDefined();
+  });
+});

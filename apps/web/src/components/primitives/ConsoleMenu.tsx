@@ -57,7 +57,7 @@ export default function ConsoleMenu({ isOpen, onClose }: ConsoleMenuProps) {
       role="dialog"
       aria-modal="true"
       aria-label="Classified Console Navigation"
-      className="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-10 lg:p-16 overflow-y-auto animate-fade-in"
+      className="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-10 lg:p-16 overflow-y-auto animate-fade-in safe-pt safe-pb -webkit-overflow-scrolling-touch"
     >
       {/* Top Bar */}
       <div className="flex items-center justify-between border-b-2 border-border pb-6 select-none">

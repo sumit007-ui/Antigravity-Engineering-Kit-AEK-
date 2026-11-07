@@ -104,6 +104,7 @@ html {
   scroll-behavior: smooth;
   background-color: var(--bg);
   color: var(--fg);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -113,6 +114,34 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: pan-y;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Safari WebKit Backdrop Filter Polyfill Utility */
+@supports (-webkit-backdrop-filter: none) {
+  .backdrop-blur-sm {
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .backdrop-blur-md {
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .backdrop-blur-lg {
+    -webkit-backdrop-filter: blur(16px);
+  }
+  .backdrop-blur-xl {
+    -webkit-backdrop-filter: blur(24px);
+  }
+}
+
+/* iOS Safari Safe Area Insets */
+.safe-pb {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+.safe-pt {
+  padding-top: max(1rem, env(safe-area-inset-top));
 }
 
 /* Typography Utility Classes */
