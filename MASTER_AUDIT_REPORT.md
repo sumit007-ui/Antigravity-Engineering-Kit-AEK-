@@ -105,10 +105,10 @@ In response to the specific audit request for the navigation menu, the entire me
 ## 6. Audit Artifact Index
 
 Detailed individual audit domain reports are published in the repository root:
-1. [`SECURITY_AUDIT.md`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/SECURITY_AUDIT.md) — Exhaustive OWASP/CWE findings and vulnerability classifications.
-2. [`CODE_QUALITY_AUDIT.md`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/CODE_QUALITY_AUDIT.md) — SOLID, DRY, error handling, and code coverage.
-3. [`ARCHITECTURE_AUDIT.md`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/ARCHITECTURE_AUDIT.md) — 16-crate dependency graph and scalability analysis.
-4. [`PERFORMANCE_AUDIT.md`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/PERFORMANCE_AUDIT.md) — Latency, memory RSS profiling, and bundle analysis.
-5. [`PRODUCTION_READINESS.md`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/PRODUCTION_READINESS.md) — Launch gates and operational verification checklist.
-6. [`MASTER_AUDIT_REPORT.md`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/MASTER_AUDIT_REPORT.md) — This master document.
+1. [`SECURITY_AUDIT.md`](SECURITY_AUDIT.md) — Exhaustive OWASP/CWE findings and vulnerability classifications.
+2. [`CODE_QUALITY_AUDIT.md`](CODE_QUALITY_AUDIT.md) — SOLID, DRY, error handling, and code coverage.
+3. [`ARCHITECTURE_AUDIT.md`](ARCHITECTURE_AUDIT.md) — 16-crate dependency graph and scalability analysis.
+4. [`PERFORMANCE_AUDIT.md`](PERFORMANCE_AUDIT.md) — Latency, memory RSS profiling, and bundle analysis.
+5. [`PRODUCTION_READINESS.md`](PRODUCTION_READINESS.md) — Launch gates and operational verification checklist.
+6. [`MASTER_AUDIT_REPORT.md`](MASTER_AUDIT_REPORT.md) — This master document.
 

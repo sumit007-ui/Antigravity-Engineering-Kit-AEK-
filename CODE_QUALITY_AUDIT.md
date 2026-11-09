@@ -31,7 +31,7 @@ However, notable code quality defects exist:
 
 ### Open/Closed Principle (OCP): Grade: A
 - **Strengths**: Agent adapters implement the `AgentAdapter` trait; MCP transports implement `McpTransport` trait. Adding new agents (e.g. GitHub Copilot, Roo Code) or transports requires implementing traits without altering existing adapter logic.
-- **Evidence**: [`crates/aek-agents/src/adapters/mod.rs`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/crates/aek-agents/src/adapters/mod.rs) cleanly isolates adapter behavior.
+- **Evidence**: [`crates/aek-agents/src/adapters/mod.rs`](crates/aek-agents/src/adapters/mod.rs) cleanly isolates adapter behavior.
 
 ### Liskov Substitution Principle (LSP): Grade: A
 - **Strengths**: Trait implementations (`AntigravityAdapter`, `ClaudeCodeAdapter`, `CursorAdapter`, `OpenCodeAdapter`) can be swapped seamlessly in `AgentRegistry`.
@@ -48,22 +48,22 @@ However, notable code quality defects exist:
 ## 3. Code Quality Findings by Component
 
 ### CQ-01: Synthetic Stubs Masquerading as AI Optimization
-- **File**: [`crates/aek-prompt-adapters/src/prompt_optimizer.rs#L21-L76`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/crates/aek-prompt-adapters/src/prompt_optimizer.rs#L21-L76)
+- **File**: [`crates/aek-prompt-adapters/src/prompt_optimizer.rs#L21-L76`](crates/aek-prompt-adapters/src/prompt_optimizer.rs#L21-L76)
 - **Defect**: The class `PromptOptimizerAdapter` claims to perform prompt optimization but consists entirely of 8 hardcoded `if content.contains(...)` string branches and static markdown concatenation.
 - **Remediation**: Re-classify as `DeterministicPromptFormatter` or integrate actual model optimization.
 
 ### CQ-02: Hardcoded Metric Scores in DSPy Python Bridge
-- **File**: [`integrations/prompt/dspy/bridge.py#L31-L35`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/integrations/prompt/dspy/bridge.py#L31-L35)
+- **File**: [`integrations/prompt/dspy/bridge.py#L31-L35`](integrations/prompt/dspy/bridge.py#L31-L35)
 - **Defect**: `metric_score` is hardcoded to `0.95` (or `0.88` when dspy is missing).
 - **Remediation**: Execute real DSPy teleprompter evaluation with a defined scoring metric.
 
 ### CQ-03: In-Place Mutation of Committed Configuration Files in Tests
-- **File**: [`crates/aek-mcp/tests/registry_tests.rs#L12-L35`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/crates/aek-mcp/tests/registry_tests.rs#L12-L35)
+- **File**: [`crates/aek-mcp/tests/registry_tests.rs#L12-L35`](crates/aek-mcp/tests/registry_tests.rs#L12-L35)
 - **Defect**: Running `cargo test --workspace` mutates `integrations/mcp/registry.toml` because the test deserializes and writes back to the tracked file in the working tree instead of a temporary directory (`tempfile::tempdir()`).
 - **Remediation**: Ensure all unit/integration tests write only to isolated temporary directories.
 
 ### CQ-04: Subprocess Call Blocking in `aek-core`
-- **File**: [`crates/aek-core/src/system.rs#L23-L27`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/crates/aek-core/src/system.rs#L23-L27)
+- **File**: [`crates/aek-core/src/system.rs#L23-L27`](crates/aek-core/src/system.rs#L23-L27)
 - **Defect**: Synchronous `Command::new(cmd).args(args).output()` will block the caller thread indefinitely if a subprocess stalls.
 - **Remediation**: Use `tokio::process::Command` with `tokio::time::timeout` or spawn a background monitor.
 

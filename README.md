@@ -34,6 +34,20 @@
 - **Validated Configuration (`aek config`)**: TOML-backed configuration with strict schema validation, unknown-field rejection, and atomic writes.
 - **Backup & Restore Engine (`aek backup`, `aek restore`)**: Unique-ID timestamped backups with safety copies prior to destructive modifications.
 
+## Capability Matrix
+
+| Subsystem / Capability | Command | Status | Notes |
+| ---------------------- | ------- | ------ | ----- |
+| Multi-Agent Adapters | `aek agent` | **Implemented** | Antigravity, Claude Code, Cursor, OpenCode |
+| Rule & Skill Engine | `aek rules`, `aek skills` | **Implemented** | Validation, size budgeting, heuristic recommendations |
+| MCP Client & Presets | `aek mcp` | **Implemented** | Stdio & HTTP transports, 5 official server presets |
+| Security Scanning | `aek security scan` | **Implemented (Fail-Closed)** | Semgrep, Trivy, cargo-audit; fails closed on missing tools |
+| Multi-format Reporting | `aek report` | **Implemented** | Terminal, JSON, Markdown, OASIS SARIF v2.1.0 |
+| Lifecycle & Distribution | `aek install`, `aek update`, `aek rollback` | **Implemented** | SHA-256 verification, atomic swap, semver sort |
+| Deterministic Formatting | `aek prompt optimize` | **Implemented** | Rule-based structural template generation (not ML/LLM) |
+| DSPy Bridge Optimization | `aek prompt optimize --adapter dspy` | **Experimental** | Requires local Python DSPy environment; explicit `--allow-simulated` for offline |
+| Promptfoo Red-teaming | `aek prompt evaluate` | **Implemented** | Requires local promptfoo / npx (pinned 0.125.1) |
+
 ---
 
 ## Workspace Structure

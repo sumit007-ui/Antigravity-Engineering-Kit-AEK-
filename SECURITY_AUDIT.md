@@ -30,7 +30,7 @@ The AEK repository was audited across all 16 Rust crates (`crates/`), the Next.j
 - **Confidence Level**: `100% (Physically Verified)`
 - **Category**: Broken Cryptographic Integrity / Misleading Security Indicator
 - **CWE**: `CWE-353: Missing Support for Integrity Check`, `CWE-345: Insufficient Verification of Data Authenticity`
-- **Affected File & Lines**: [`crates/aek-cli/src/commands/distribution.rs#L343-L355`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/crates/aek-cli/src/commands/distribution.rs#L343-L355)
+- **Affected File & Lines**: [`crates/aek-cli/src/commands/distribution.rs#L343-L355`](crates/aek-cli/src/commands/distribution.rs#L343-L355)
 - **Code Evidence**:
   ```rust
   match compute_file_sha256(&exe_path) {
@@ -84,7 +84,7 @@ The AEK repository was audited across all 16 Rust crates (`crates/`), the Next.j
 - **Confidence Level**: `100% (Physically Verified)`
 - **Category**: Security Feature Bypass / Cryptographic Nullification
 - **CWE**: `CWE-347: Improper Verification of Cryptographic Signature`, `CWE-398: Indicator of Poor Code Quality`
-- **Affected File & Lines**: [`crates/aek-cli/src/commands/distribution.rs#L43-L59`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/crates/aek-cli/src/commands/distribution.rs#L43-L59)
+- **Affected File & Lines**: [`crates/aek-cli/src/commands/distribution.rs#L43-L59`](crates/aek-cli/src/commands/distribution.rs#L43-L59)
 - **Code Evidence**:
   ```rust
   let manifest = aek_distribution::manifest::ReleaseManifest {
@@ -118,8 +118,8 @@ The AEK repository was audited across all 16 Rust crates (`crates/`), the Next.j
 - **Category**: Software Integrity / Misleading Capability Claims
 - **CWE**: `CWE-1007: Insufficient Visual Distinction of System and Non-System Information`
 - **Affected Files & Lines**:
-  1. [`crates/aek-prompt-adapters/src/prompt_optimizer.rs#L21-L38`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/crates/aek-prompt-adapters/src/prompt_optimizer.rs#L21-L38)
-  2. [`integrations/prompt/dspy/bridge.py#L29-L43`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/integrations/prompt/dspy/bridge.py#L29-L43)
+  1. [`crates/aek-prompt-adapters/src/prompt_optimizer.rs#L21-L38`](crates/aek-prompt-adapters/src/prompt_optimizer.rs#L21-L38)
+  2. [`integrations/prompt/dspy/bridge.py#L29-L43`](integrations/prompt/dspy/bridge.py#L29-L43)
 - **Code Evidence**:
   ```rust
   let role = if content.contains("Rust") {
@@ -146,7 +146,7 @@ The AEK repository was audited across all 16 Rust crates (`crates/`), the Next.j
 - **Confidence Level**: `100% (Physically Verified)`
 - **Category**: DevSecOps / Broken Quality Gates
 - **CWE**: `CWE-1127: Compilation with Insufficient Information or Warnings`
-- **Affected File & Lines**: [`.github/workflows/ci.yml#L16-L57`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/.github/workflows/ci.yml#L16-L57)
+- **Affected File & Lines**: [`.github/workflows/ci.yml#L16-L57`](.github/workflows/ci.yml#L16-L57)
 - **Root Cause**: `.github/workflows/ci.yml` only runs Cargo steps (`cargo fmt`, `cargo clippy`, `cargo test`, `cargo build`). The entire `apps/web` project is omitted from CI. Broken web builds, TypeScript errors, or broken tests on `apps/web` can be merged into `main` without CI flagging any errors.
 - **Impact**: Production frontend regressions pass undetected through pull requests.
 - **Remediation**: Add a matrix or dedicated job in `ci.yml` running `npm --prefix apps/web test` and `npm --prefix apps/web run build`.
@@ -159,7 +159,7 @@ The AEK repository was audited across all 16 Rust crates (`crates/`), the Next.j
 - **Finding ID**: `SEC-06`
 - **Severity**: `P2 - Medium`
 - **CWE**: `CWE-400: Uncontrolled Resource Consumption`
-- **Affected File & Lines**: [`crates/aek-core/src/system.rs#L23-L27`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/crates/aek-core/src/system.rs#L23-L27)
+- **Affected File & Lines**: [`crates/aek-core/src/system.rs#L23-L27`](crates/aek-core/src/system.rs#L23-L27)
 - **Root Cause**: `execute_safe` calls `Command::new(cmd).args(args).output()`. This is a synchronous, blocking standard library call without a timeout mechanism. If an external binary (e.g. `rustc`, `git`, `npm`) hangs or waits on standard input, the AEK CLI hangs indefinitely.
 - **Remediation**: Introduce a default timeout (e.g. 30 seconds) using asynchronous subprocess execution or a background monitoring thread.
 
@@ -167,7 +167,7 @@ The AEK repository was audited across all 16 Rust crates (`crates/`), the Next.j
 - **Finding ID**: `SEC-07`
 - **Severity**: `P2 - Medium`
 - **CWE**: `CWE-200: Exposure of Sensitive Information to an Unauthorized Actor`
-- **Affected File & Lines**: [`crates/aek-mcp/src/transport/stdio.rs#L45-L54`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/crates/aek-mcp/src/transport/stdio.rs#L45-L54)
+- **Affected File & Lines**: [`crates/aek-mcp/src/transport/stdio.rs#L45-L54`](crates/aek-mcp/src/transport/stdio.rs#L45-L54)
 - **Root Cause**: Subprocess spawn inherits the entire host process environment variables. Sensitive secrets in host memory (tokens, AWS credentials) are exposed to child MCP tools.
 - **Remediation**: Use `cmd.env_clear()` and explicitly inject only allowlisted environment variables required by the target server.
 
@@ -175,7 +175,7 @@ The AEK repository was audited across all 16 Rust crates (`crates/`), the Next.j
 - **Finding ID**: `SEC-08`
 - **Severity**: `P2 - Medium`
 - **CWE**: `CWE-693: Protection Mechanism Failure`
-- **Affected File & Lines**: [`.github/workflows/release.yml#L43-L105`](file:///c:/Users/hp/Desktop/ANTIGRAVITY%20ENGINEERING%20KIT%20(AEK)/.github/workflows/release.yml#L43-L105)
+- **Affected File & Lines**: [`.github/workflows/release.yml#L43-L105`](.github/workflows/release.yml#L43-L105)
 - **Root Cause**: `release.yml` includes `build-windows` and `build-linux`, but has no `build-macos` job. No release packages are compiled or distributed for macOS users upon release tag publication.
 - **Remediation**: Add `build-macos` targeting both `x86_64-apple-darwin` and `aarch64-apple-darwin`.
 

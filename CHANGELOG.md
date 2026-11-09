@@ -5,6 +5,18 @@ All notable changes to the Antigravity Engineering Kit (AEK) will be documented 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-11-09
+
+### Security & Integrity (Fail-Closed Architecture)
+- **Security Scanning Fail-Closed**: `aek security scan` now treats missing scanner binaries (`semgrep`, `trivy`) as incomplete and a policy violation by default, setting non-zero exit codes. Added `allow_missing_scanners` opt-in to `SecurityPolicy`.
+- **Component-Based Path Traversal Protection**: Replaced substring-based `../` checks in `DependencyAuditor` with `Path::components` rejecting `Component::ParentDir`.
+- **Honest Adapter Results**: Removed fake metric scores (0.94) and iterations (4) from offline DSPy fallback; returns `DspyOptimizationResult::passthrough()` with `simulated: true`, `score: 0.0`, and non-zero exit unless `--allow-simulated` is passed.
+- **Pinned Promptfoo**: Pinned exact Promptfoo version `0.125.1` from npm registry; returns explicit error instead of mock 5/5 passed evaluation when tools are absent.
+- **Honest Naming**: Renamed `PromptOptimizerAdapter` to `DeterministicRuleFormatter` (preserving deprecated alias for backwards compatibility) and documented as rule-based heuristic formatting, not ML/LLM optimization.
+- **Integrity Verification**: `InstallationVerifier` computes real SHA-256 binary hash before returning `Verified`; returns `Unverified` when no baseline exists and `Mismatch` on discrepancies.
+- **Semver Rollback Sorting**: Fixed rollback version ordering to sort by semantic versioning (`Version::cmp`), placing newer semver before older versions.
+- **CI Supply Chain Hardening**: Pinned GitHub Actions to immutable full commit SHAs, added MSRV 1.85.0 verification, `cargo deny check` with `deny.toml`, and clean doc build verification.
+
 ## [0.1.0] - 2026-11-06
 
 ### Added
