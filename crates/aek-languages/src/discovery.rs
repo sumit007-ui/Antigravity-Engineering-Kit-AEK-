@@ -49,18 +49,18 @@ impl ToolchainDiscovery {
 
     /// Internal probe executing PATH lookup and version check.
     async fn probe_tool(&self, def: &ToolDefinition) -> DiscoveredTool {
-        let path = find_executable_in_path(&def.binary);
-        if path.is_none() {
-            debug!("Binary '{}' not found on system PATH", def.binary);
-            return DiscoveredTool {
-                definition: def.clone(),
-                path: None,
-                version: None,
-                is_available: false,
-            };
-        }
-
-        let found_path = path.unwrap();
+        let found_path = match find_executable_in_path(&def.binary) {
+            Some(p) => p,
+            None => {
+                debug!("Binary '{}' not found on system PATH", def.binary);
+                return DiscoveredTool {
+                    definition: def.clone(),
+                    path: None,
+                    version: None,
+                    is_available: false,
+                };
+            }
+        };
 
         // Query version safely using argument array and timeout
         let version = if !def.version_args.is_empty() {

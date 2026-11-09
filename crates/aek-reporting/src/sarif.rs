@@ -59,10 +59,9 @@ impl SarifReportGenerator {
             });
 
             if !location_json.is_empty() {
-                result_obj
-                    .as_object_mut()
-                    .unwrap()
-                    .insert("locations".to_string(), json!([location_json]));
+                if let Some(map) = result_obj.as_object_mut() {
+                    map.insert("locations".to_string(), json!([location_json]));
+                }
             }
 
             results.push(result_obj);

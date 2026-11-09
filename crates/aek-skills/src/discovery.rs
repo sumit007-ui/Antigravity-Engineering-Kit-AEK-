@@ -8,7 +8,8 @@ use std::path::Path;
 pub struct SkillRecommendation {
     /// Recommended skill identifier.
     pub skill_name: String,
-    /// Confidence score between 0.0 and 1.0.
+    /// Rule weight / match strength heuristic between 0.0 and 1.0 (not a statistical probability).
+    #[serde(alias = "match_strength")]
     pub confidence: f32,
     /// Human-readable explanation for the recommendation.
     pub reason: String,

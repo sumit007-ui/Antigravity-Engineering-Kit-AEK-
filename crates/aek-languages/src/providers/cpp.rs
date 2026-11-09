@@ -220,14 +220,14 @@ impl LanguageProvider for CppProvider {
             });
         }
 
-        if compiler.is_some_and(|t| t.is_available) {
+        if let Some(comp) = compiler.filter(|t| t.is_available) {
             items.push(CompatibilityItem {
                 name: "C/C++ Compiler".to_string(),
                 level: CompatibilityLevel::Compatible,
                 message: format!(
                     "Found compiler '{}' ({})",
-                    compiler.unwrap().definition.binary,
-                    compiler.unwrap().version.as_deref().unwrap_or("unknown")
+                    comp.definition.binary,
+                    comp.version.as_deref().unwrap_or("unknown")
                 ),
                 remediation: None,
             });
