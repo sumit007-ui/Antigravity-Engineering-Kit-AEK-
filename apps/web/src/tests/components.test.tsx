@@ -184,12 +184,24 @@ describe("Phase 3 Sections: Footer", () => {
 });
 
 describe("Phase 4 Motion: Recipe A1 BootLoader", () => {
+  beforeEach(() => {
+    sessionStorage.clear();
+  });
+
   it("renders classified loader dialog with progress bar and skip cues", () => {
     render(<BootLoader />);
     // When rendered without reduced-motion match and no prior session token
     expect(screen.getByRole("dialog", { name: /System Initializing/i })).toBeDefined();
-    expect(screen.getByText(/BOOTING RUST ENGINE/i)).toBeDefined();
+    expect(screen.getByText(/BOOTING RUST ENGINE v0\.2\.0/i)).toBeDefined();
     expect(screen.getByText(/CLICK ANYWHERE OR PRESS ESC TO SKIP/i)).toBeDefined();
+    expect(screen.getByRole("progressbar")).toBeDefined();
+  });
+
+  it("dismisses loader when Escape key is pressed", () => {
+    render(<BootLoader />);
+    expect(screen.getByRole("dialog", { name: /System Initializing/i })).toBeDefined();
+    fireEvent.keyDown(window, { key: "Escape", code: "Escape" });
+    expect(sessionStorage.getItem("aek_boot_completed")).toBe("true");
   });
 });
 
