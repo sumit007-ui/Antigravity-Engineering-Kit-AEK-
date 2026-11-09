@@ -8,6 +8,10 @@ use std::path::Path;
 use std::time::Duration;
 use tracing::{info, warn};
 
+/// Exact pinned version of Promptfoo on npm registry.
+/// Update via verified npm releases: check `npm view promptfoo version`.
+pub const PINNED_PROMPTFOO_VERSION: &str = "0.125.1";
+
 /// Parsed results from Promptfoo evaluation execution.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PromptfooEvalResult {
@@ -16,6 +20,10 @@ pub struct PromptfooEvalResult {
     pub failed_tests: usize,
     pub score: f64,
     pub success: bool,
+    /// Indicates whether this evaluation was simulated/offline fallback rather than
+    /// executed against real LLMs and real evaluation assertions.
+    #[serde(default)]
+    pub simulated: bool,
 }
 
 /// Adapter orchestrating Promptfoo evaluation runs and configuration generation.
@@ -69,87 +77,99 @@ impl PromptfooAdapter {
         output_path: &Path,
         no_cache: bool,
     ) -> Result<PromptfooEvalResult, PromptError> {
-        let promptfoo_bin =
-            find_executable_in_path("promptfoo").or_else(|| find_executable_in_path("npx"));
-
-        if let Some(bin) = promptfoo_bin {
-            let is_npx = bin
-                .file_name()
-                .and_then(|n| n.to_str())
-                .unwrap_or("")
-                .starts_with("npx");
-
-            let mut cmd = SafeCommand::new(bin.to_string_lossy());
-            if is_npx {
-                cmd = cmd.arg("-y").arg("promptfoo@latest");
+        let promptfoo_bin = match find_executable_in_path("promptfoo")
+            .or_else(|| find_executable_in_path("npx"))
+        {
+            Some(b) => b,
+            None => {
+                return Err(PromptError::Evaluation(
+                    "Promptfoo CLI or npx not found on system PATH. Install promptfoo (`npm i -g promptfoo`) to run evaluations.".to_string(),
+                ));
             }
+        };
+
+        let is_npx = promptfoo_bin
+            .file_name()
+            .and_then(|n| n.to_str())
+            .unwrap_or("")
+            .starts_with("npx");
+
+        let mut cmd = SafeCommand::new(promptfoo_bin.to_string_lossy());
+        if is_npx {
             cmd = cmd
-                .arg("eval")
-                .arg("-c")
-                .arg(config_path.to_string_lossy())
-                .arg("-o")
-                .arg(output_path.to_string_lossy());
+                .arg("-y")
+                .arg(format!("promptfoo@{PINNED_PROMPTFOO_VERSION}"));
+        }
+        cmd = cmd
+            .arg("eval")
+            .arg("-c")
+            .arg(config_path.to_string_lossy())
+            .arg("-o")
+            .arg(output_path.to_string_lossy());
 
-            if no_cache {
-                cmd = cmd.arg("--no-cache");
+        if no_cache {
+            cmd = cmd.arg("--no-cache");
+        }
+        cmd = cmd.timeout(Duration::from_secs(120));
+
+        info!("Executing Promptfoo command: {:?}", cmd);
+        match cmd.execute().await {
+            Ok(res) if res.success => {
+                if !output_path.is_file() {
+                    return Err(PromptError::Evaluation(format!(
+                        "Promptfoo succeeded but did not write expected output file '{}'",
+                        output_path.display()
+                    )));
+                }
+
+                let raw = std::fs::read_to_string(output_path)?;
+                let json_val = serde_json::from_str::<serde_json::Value>(&raw).map_err(|e| {
+                    PromptError::Evaluation(format!("Invalid Promptfoo JSON report: {e}"))
+                })?;
+
+                let total = json_val["results"]["stats"]["successes"]
+                    .as_u64()
+                    .unwrap_or(0)
+                    + json_val["results"]["stats"]["failures"]
+                        .as_u64()
+                        .unwrap_or(0);
+                let passed = json_val["results"]["stats"]["successes"]
+                    .as_u64()
+                    .unwrap_or(0);
+                let failed = json_val["results"]["stats"]["failures"]
+                    .as_u64()
+                    .unwrap_or(0);
+                let score = if total > 0 {
+                    (passed as f64) / (total as f64)
+                } else {
+                    0.0
+                };
+
+                Ok(PromptfooEvalResult {
+                    total_tests: total as usize,
+                    passed_tests: passed as usize,
+                    failed_tests: failed as usize,
+                    score,
+                    success: failed == 0 && total > 0,
+                    simulated: false,
+                })
             }
-            cmd = cmd.timeout(Duration::from_secs(120));
-
-            info!("Executing Promptfoo command: {:?}", cmd);
-            match cmd.execute().await {
-                Ok(res) if res.success => {
-                    if output_path.is_file() {
-                        if let Ok(raw) = std::fs::read_to_string(output_path) {
-                            if let Ok(json_val) = serde_json::from_str::<serde_json::Value>(&raw) {
-                                let total = json_val["results"]["stats"]["successes"]
-                                    .as_u64()
-                                    .unwrap_or(0)
-                                    + json_val["results"]["stats"]["failures"]
-                                        .as_u64()
-                                        .unwrap_or(0);
-                                let passed = json_val["results"]["stats"]["successes"]
-                                    .as_u64()
-                                    .unwrap_or(0);
-                                let failed = json_val["results"]["stats"]["failures"]
-                                    .as_u64()
-                                    .unwrap_or(0);
-                                let score = if total > 0 {
-                                    (passed as f64) / (total as f64)
-                                } else {
-                                    1.0
-                                };
-
-                                return Ok(PromptfooEvalResult {
-                                    total_tests: total as usize,
-                                    passed_tests: passed as usize,
-                                    failed_tests: failed as usize,
-                                    score,
-                                    success: failed == 0,
-                                });
-                            }
-                        }
-                    }
-                }
-                Ok(res) => {
-                    warn!(
-                        "Promptfoo execution completed with exit code {:?}: {}",
-                        res.status_code, res.stderr
-                    );
-                }
-                Err(err) => {
-                    warn!("Promptfoo execution error: {err}");
-                }
+            Ok(res) => {
+                warn!(
+                    "Promptfoo execution completed with exit code {:?}: {}",
+                    res.status_code, res.stderr
+                );
+                Err(PromptError::Evaluation(format!(
+                    "Promptfoo evaluation failed (exit {:?}): {}",
+                    res.status_code, res.stderr
+                )))
+            }
+            Err(err) => {
+                warn!("Promptfoo execution error: {err}");
+                Err(PromptError::Evaluation(format!(
+                    "Promptfoo subprocess error: {err}"
+                )))
             }
         }
-
-        // Deterministic fallback evaluation for offline / standard CI runs
-        info!("Promptfoo adapter operating in deterministic evaluation mode");
-        Ok(PromptfooEvalResult {
-            total_tests: 5,
-            passed_tests: 5,
-            failed_tests: 0,
-            score: 1.0,
-            success: true,
-        })
     }
 }

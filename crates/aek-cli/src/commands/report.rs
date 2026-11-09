@@ -63,35 +63,23 @@ fn load_report(path: &std::path::Path) -> Result<(ValidationReport, Vec<Security
     let content = fs::read_to_string(path)
         .with_context(|| format!("Failed to read report file '{}'", path.display()))?;
 
-    // Try parsing as combined JSON report
-    if let Ok(val) = serde_json::from_str::<serde_json::Value>(&content) {
-        let findings: Vec<SecurityFinding> = val["security_findings"]
-            .as_array()
-            .and_then(|arr| serde_json::from_value(serde_json::Value::Array(arr.clone())).ok())
-            .unwrap_or_default();
+    // Parse as combined JSON report
+    let val: serde_json::Value = serde_json::from_str(&content)
+        .with_context(|| format!("File '{}' is not valid JSON", path.display()))?;
 
-        let val_report: ValidationReport = if val.get("project_name").is_some() {
-            serde_json::from_str(&content).unwrap_or_else(|_| dummy_report())
-        } else {
-            dummy_report()
-        };
+    let findings: Vec<SecurityFinding> = val
+        .get("security_findings")
+        .and_then(|f| f.as_array())
+        .and_then(|arr| serde_json::from_value(serde_json::Value::Array(arr.clone())).ok())
+        .unwrap_or_default();
 
-        return Ok((val_report, findings));
-    }
+    // Must have valid ValidationReport fields, or fail honestly with file path and reason
+    let val_report: ValidationReport = serde_json::from_str(&content).with_context(|| {
+        format!(
+            "File '{}' does not match AEK ValidationReport schema (missing or invalid report fields)",
+            path.display()
+        )
+    })?;
 
-    bail!("File '{}' is not valid AEK report JSON.", path.display());
-}
-
-fn dummy_report() -> ValidationReport {
-    ValidationReport {
-        project_name: "security-audit".to_string(),
-        language: "multi".to_string(),
-        dry_run: false,
-        overall_success: true,
-        passed_count: 0,
-        failed_count: 0,
-        skipped_count: 0,
-        total_duration_ms: 0,
-        results: Vec::new(),
-    }
+    Ok((val_report, findings))
 }

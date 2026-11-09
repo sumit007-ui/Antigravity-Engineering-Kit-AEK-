@@ -22,6 +22,9 @@ pub struct ModelProviderConfig {
     pub timeout_secs: u64,
     pub temperature: f32,
     pub max_tokens: Option<u32>,
+    /// Indicates whether model execution is simulated / offline mock.
+    #[serde(default)]
+    pub simulated: bool,
 }
 
 impl Default for ModelProviderConfig {
@@ -34,6 +37,7 @@ impl Default for ModelProviderConfig {
             timeout_secs: 30,
             temperature: 0.0,
             max_tokens: Some(2048),
+            simulated: true,
         }
     }
 }

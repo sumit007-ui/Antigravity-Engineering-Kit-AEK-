@@ -1,7 +1,7 @@
-//! AEK Deterministic Structural Prompt Compiler.
+//! AEK Deterministic Structural Prompt Formatter.
 //!
-//! Transforms unoptimized prompts into verified, production-grade instructions
-//! using deterministic structural prompt engineering principles:
+//! Applies deterministic heuristic structural formatting to raw prompts using
+//! rule-based template generation (not ML/LLM optimization):
 //! 1. Role & Intent Clarity
 //! 2. Context & Input Engineering
 //! 3. Step-by-Step Reasoning
@@ -11,12 +11,21 @@
 use aek_prompt::errors::PromptError;
 use aek_prompt::model::PromptRecord;
 
-/// Deterministic structural prompt engineering compiler.
+/// Deterministic structural prompt engineering formatter.
+///
+/// Note: This is a deterministic rule-based template formatter, not an ML/LLM optimization engine.
 #[derive(Debug, Default, Clone)]
-pub struct PromptOptimizerAdapter;
+pub struct DeterministicRuleFormatter;
 
-impl PromptOptimizerAdapter {
-    /// Creates a new `PromptOptimizerAdapter`.
+/// Deprecated type alias for [`DeterministicRuleFormatter`]. Will be removed in v1.0.
+#[deprecated(
+    since = "0.2.0",
+    note = "Renamed to DeterministicRuleFormatter to accurately reflect deterministic heuristic behavior"
+)]
+pub type PromptOptimizerAdapter = DeterministicRuleFormatter;
+
+impl DeterministicRuleFormatter {
+    /// Creates a new `DeterministicRuleFormatter`.
     #[must_use]
     pub fn new() -> Self {
         Self

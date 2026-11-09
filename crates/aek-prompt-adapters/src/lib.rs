@@ -8,5 +8,6 @@ pub mod prompt_optimizer;
 pub mod promptfoo;
 
 pub use dspy::{DspyAdapter, DspyBridgePayload, DspyOptimizationResult};
-pub use prompt_optimizer::PromptOptimizerAdapter;
+#[allow(deprecated)]
+pub use prompt_optimizer::{DeterministicRuleFormatter, PromptOptimizerAdapter};
 pub use promptfoo::{PromptfooAdapter, PromptfooEvalResult};

@@ -27,6 +27,29 @@ pub struct DspyOptimizationResult {
     pub metric_score: f64,
     pub iterations: usize,
     pub success: bool,
+    /// Indicates whether the result was produced by an offline simulated/passthrough path
+    /// rather than a real executed DSPy optimization run.
+    #[serde(default)]
+    pub simulated: bool,
+}
+
+impl DspyOptimizationResult {
+    /// Constructs a passthrough result when DSPy dependencies/bridge are unavailable.
+    ///
+    /// Preserves original prompt text, contains no demonstrations, 0 metric score,
+    /// 0 iterations, success = false, and simulated = true.
+    #[must_use]
+    pub fn passthrough(task_id: impl Into<String>, prompt_text: impl Into<String>) -> Self {
+        Self {
+            task_id: task_id.into(),
+            optimized_instructions: prompt_text.into(),
+            demonstrations: Vec::new(),
+            metric_score: 0.0,
+            iterations: 0,
+            success: false,
+            simulated: true,
+        }
+    }
 }
 
 /// Adapter orchestrating DSPy prompt compilation via Python subprocess bridge.
@@ -92,9 +115,13 @@ impl DspyAdapter {
 
             match cmd.execute().await {
                 Ok(res) if res.success => {
-                    if let Ok(parsed) = serde_json::from_str::<DspyOptimizationResult>(&res.stdout)
-                    {
-                        return Ok(parsed);
+                    match serde_json::from_str::<DspyOptimizationResult>(&res.stdout) {
+                        Ok(parsed) => return Ok(parsed),
+                        Err(err) => {
+                            return Err(PromptError::Adapter(format!(
+                                "DSPy bridge produced invalid JSON output: {err}"
+                            )));
+                        }
                     }
                 }
                 Ok(res) => {
@@ -109,26 +136,14 @@ impl DspyAdapter {
             }
         }
 
-        // Deterministic fallback compilation when DSPy dependencies are not installed
+        // Return passthrough result with simulated: true when DSPy dependencies/bridge are unavailable
         info!(
-            "DSPy bridge operating in deterministic compilation mode for '{}'",
+            "DSPy bridge offline or unavailable for '{}'; returning simulated passthrough",
             payload.task_id
         );
-        let simulated_instructions = format!(
-            "# DSPy Compiled Instruction ({})\n{}\n\nRationale: Compiled via BootstrapFewShot teleprompter",
-            payload.task_id, payload.prompt_text
-        );
-
-        Ok(DspyOptimizationResult {
-            task_id: payload.task_id.clone(),
-            optimized_instructions: simulated_instructions,
-            demonstrations: vec![
-                "Example 1: Verified valid generation".to_string(),
-                "Example 2: Verified negative constraint adherence".to_string(),
-            ],
-            metric_score: 0.94,
-            iterations: 4,
-            success: true,
-        })
+        Ok(DspyOptimizationResult::passthrough(
+            &payload.task_id,
+            &payload.prompt_text,
+        ))
     }
 }

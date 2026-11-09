@@ -16,7 +16,7 @@ use aek_prompt::optimizer::ContextAssembler;
 use aek_prompt::security::detect_injection_risk;
 use aek_prompt::versions::PromptVersionManager;
 use aek_prompt_adapters::dspy::DspyAdapter;
-use aek_prompt_adapters::prompt_optimizer::PromptOptimizerAdapter;
+use aek_prompt_adapters::prompt_optimizer::DeterministicRuleFormatter;
 use anyhow::{Context, Result, bail};
 use std::env;
 use std::fs;
@@ -427,9 +427,10 @@ async fn handle_optimize(mgr: &PromptVersionManager, args: PromptOptimizeArgs) -
         PromptRecord::new("temp_optimization", "Task", "Optimization task", &content)
     });
 
+    let mut is_simulated = false;
     let optimized = match args.adapter.as_str() {
         "prompt-optimizer" => {
-            let adapter = PromptOptimizerAdapter;
+            let adapter = DeterministicRuleFormatter::new();
             adapter.optimize(&temp_rec)?
         }
         "dspy" => {
@@ -437,6 +438,17 @@ async fn handle_optimize(mgr: &PromptVersionManager, args: PromptOptimizeArgs) -
             let payload =
                 adapter.build_bridge_payload(&temp_rec, "datasets/examples/rust.jsonl", 3);
             let res = adapter.run_bridge(&payload, None).await?;
+            if res.simulated {
+                is_simulated = true;
+                eprintln!(
+                    "[WARN] DSPy bridge is unavailable/offline. Returning simulated passthrough prompt."
+                );
+                if !args.allow_simulated {
+                    eprintln!(
+                        "[FAIL] Simulated optimization rejected. Pass `--allow-simulated` to accept offline passthrough."
+                    );
+                }
+            }
             res.optimized_instructions
         }
         "generic" => {
@@ -453,14 +465,22 @@ async fn handle_optimize(mgr: &PromptVersionManager, args: PromptOptimizeArgs) -
 
     if args.json {
         let json_out = serde_json::json!({
-            "status": "success",
+            "status": if is_simulated && !args.allow_simulated { "failed" } else { "success" },
             "adapter": args.adapter,
+            "simulated": is_simulated,
             "original_length": content.len(),
             "optimized_length": optimized.len(),
             "optimized_content": optimized,
         });
         println!("{json_out}");
+        if is_simulated && !args.allow_simulated {
+            bail!("DSPy returned simulated output and `--allow-simulated` was not provided.");
+        }
         return Ok(());
+    }
+
+    if is_simulated && !args.allow_simulated {
+        bail!("DSPy returned simulated output and `--allow-simulated` was not provided.");
     }
 
     println!("\n=== Optimized Prompt Preview ===");

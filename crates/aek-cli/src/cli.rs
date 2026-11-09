@@ -1074,6 +1074,10 @@ pub struct PromptOptimizeArgs {
     /// Emit machine-readable JSON output.
     #[arg(long)]
     pub json: bool,
+
+    /// Allow simulated or fallback results from offline adapters without error.
+    #[arg(long)]
+    pub allow_simulated: bool,
 }
 
 /// Arguments for `aek prompt evaluate`.
