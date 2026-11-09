@@ -2,7 +2,10 @@
 
 use crate::errors::DistributionError;
 use crate::paths::DistributionPaths;
-use std::fs;
+use semver::Version;
+use sha2::{Digest, Sha256};
+use std::fs::{self, File};
+use std::io::Read;
 use std::path::{Path, PathBuf};
 
 /// Record of an archived version available for rollback.
@@ -33,12 +36,33 @@ impl RollbackManager {
         Self { paths }
     }
 
+    /// Validates version string component: only [A-Za-z0-9._+-], max 64 chars, not "." or "..".
+    fn validate_version_component(version: &str) -> Result<(), DistributionError> {
+        let v = version.trim();
+        if v.is_empty()
+            || v.len() > 64
+            || v == "."
+            || v == ".."
+            || !v
+                .chars()
+                .all(|c| c.is_ascii_alphanumeric() || c == '.' || c == '_' || c == '+' || c == '-')
+        {
+            return Err(DistributionError::Rollback(format!(
+                "Invalid version identifier '{version}': must match [A-Za-z0-9._+-], max 64 chars, not '.' or '..'"
+            )));
+        }
+        Ok(())
+    }
+
     /// Archives an existing binary before an upgrade into the versions directory.
+    /// Also records a sha256 checksum file to detect tampering before rollback restore.
     pub fn archive_version(
         &self,
         version: &str,
         current_binary: &Path,
     ) -> Result<PathBuf, DistributionError> {
+        Self::validate_version_component(version)?;
+
         let versions_dir = self.paths.versions_dir();
         let target_dir = versions_dir.join(version);
         fs::create_dir_all(&target_dir)?;
@@ -49,6 +73,21 @@ impl RollbackManager {
         let archived_bin = target_dir.join(exe_name);
 
         fs::copy(current_binary, &archived_bin)?;
+
+        // Compute and store SHA-256 for integrity verification during restore
+        let mut file = File::open(&archived_bin)?;
+        let mut hasher = Sha256::new();
+        let mut buf = [0u8; 8192];
+        loop {
+            let n = file.read(&mut buf)?;
+            if n == 0 {
+                break;
+            }
+            hasher.update(&buf[..n]);
+        }
+        let checksum = format!("{:x}", hasher.finalize());
+        fs::write(target_dir.join("checksum.sha256"), checksum)?;
+
         Ok(archived_bin)
     }
 
@@ -83,7 +122,19 @@ impl RollbackManager {
             }
         }
 
-        entries.sort_by(|a, b| b.version.cmp(&a.version));
+        entries.sort_by(|a, b| {
+            let ver_a = Version::parse(&a.version);
+            let ver_b = Version::parse(&b.version);
+            match (ver_a, ver_b) {
+                // Both valid semver: sort newest first (b compared to a)
+                (Ok(va), Ok(vb)) => vb.cmp(&va),
+                // Valid semver comes before invalid
+                (Ok(_), Err(_)) => std::cmp::Ordering::Less,
+                (Err(_), Ok(_)) => std::cmp::Ordering::Greater,
+                // Neither valid: sort alphabetically descending
+                (Err(_), Err(_)) => b.version.cmp(&a.version),
+            }
+        });
         Ok(entries)
     }
 
@@ -92,6 +143,10 @@ impl RollbackManager {
         &self,
         target_version: Option<&str>,
     ) -> Result<RollbackPlan, DistributionError> {
+        if let Some(v) = target_version {
+            Self::validate_version_component(v)?;
+        }
+
         let rollbacks = self.list_rollbacks()?;
         if rollbacks.is_empty() {
             return Err(DistributionError::Rollback(
@@ -106,7 +161,9 @@ impl RollbackManager {
                 .ok_or_else(|| {
                     DistributionError::Rollback(format!("Archived version '{v}' not found"))
                 })?,
-            None => rollbacks.into_iter().next().unwrap(),
+            None => rollbacks.into_iter().next().ok_or_else(|| {
+                DistributionError::Rollback("No archived versions found".to_string())
+            })?,
         };
 
         Ok(RollbackPlan {
@@ -116,13 +173,37 @@ impl RollbackManager {
         })
     }
 
-    /// Executes the rollback restoration plan safely.
+    /// Executes the rollback restoration plan safely, verifying stored hash if available.
     pub fn execute_rollback(&self, plan: &RollbackPlan) -> Result<(), DistributionError> {
         if !plan.source_binary.is_file() {
             return Err(DistributionError::Rollback(format!(
                 "Source binary '{}' does not exist",
                 plan.source_binary.display()
             )));
+        }
+
+        // Verify hash against archived checksum.sha256 if present
+        if let Some(parent) = plan.source_binary.parent() {
+            let checksum_file = parent.join("checksum.sha256");
+            if checksum_file.is_file() {
+                let expected = fs::read_to_string(&checksum_file)?.trim().to_string();
+                let mut file = File::open(&plan.source_binary)?;
+                let mut hasher = Sha256::new();
+                let mut buf = [0u8; 8192];
+                loop {
+                    let n = file.read(&mut buf)?;
+                    if n == 0 {
+                        break;
+                    }
+                    hasher.update(&buf[..n]);
+                }
+                let actual = format!("{:x}", hasher.finalize());
+                if !actual.eq_ignore_ascii_case(&expected) {
+                    return Err(DistributionError::Rollback(format!(
+                        "Archived binary integrity check failed! Expected sha256 {expected}, found {actual}"
+                    )));
+                }
+            }
         }
 
         if let Some(parent) = plan.destination_binary.parent() {

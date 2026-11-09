@@ -43,7 +43,12 @@ pub fn verify_file_checksum(path: &Path, expected_sha256: &str) -> Result<(), Di
 pub struct InstallationVerifier;
 
 impl InstallationVerifier {
-    /// Audits an installation manifest and verifies each managed file exists on disk.
+    /// Audits an installation manifest and verifies binary and managed files.
+    ///
+    /// - Returns `Mismatch` if binary is missing or if its checksum does not match `manifest.binary_checksum`.
+    /// - Returns `Unverified` if `manifest.binary_checksum` is None/empty (no authentic baseline exists).
+    /// - Returns `Unknown` on unrecoverable I/O errors reading the file.
+    /// - Returns `Verified` ONLY when real hash matching succeeds.
     #[must_use]
     pub fn verify_installation(manifest: &InstallationManifest) -> VerificationStatus {
         if !manifest.binary_path.is_file() {
@@ -56,6 +61,20 @@ impl InstallationVerifier {
             }
         }
 
-        VerificationStatus::Verified
+        match &manifest.binary_checksum {
+            Some(expected) if !expected.trim().is_empty() => {
+                match compute_file_sha256(&manifest.binary_path) {
+                    Ok(actual) => {
+                        if actual.eq_ignore_ascii_case(expected.trim()) {
+                            VerificationStatus::Verified
+                        } else {
+                            VerificationStatus::Mismatch
+                        }
+                    }
+                    Err(_) => VerificationStatus::Unknown,
+                }
+            }
+            _ => VerificationStatus::Unverified,
+        }
     }
 }
