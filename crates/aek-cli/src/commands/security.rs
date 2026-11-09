@@ -121,10 +121,22 @@ async fn handle_scan(args: SecurityScanArgs) -> Result<()> {
             }
         }
     }
+
+    // Report skipped scanners — always print on stderr so CI sees it even when piping.
+    if report.incomplete {
+        eprintln!(
+            "\n[WARN] The following scanners were requested but not found on PATH: {}",
+            report.skipped_scanners.join(", ")
+        );
+        eprintln!(
+            "[WARN] Install the missing tools or set `allow_missing_scanners = true` in your security policy to suppress this error."
+        );
+    }
+
     println!("{:-<60}\n", "");
 
     if report.policy_violated {
-        bail!("Security scan failed: policy threshold exceeded.");
+        bail!("Security scan failed: policy threshold exceeded or scanners missing.");
     }
 
     Ok(())

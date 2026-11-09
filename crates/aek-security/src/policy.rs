@@ -12,6 +12,10 @@ pub struct SecurityPolicy {
     pub fail_on_low: bool,
     pub ignored_rules: Vec<String>,
     pub ignored_paths: Vec<String>,
+    /// When true, a scan that completes with some scanners missing/skipped is NOT
+    /// treated as a policy violation.  Default false (fail-closed).
+    #[serde(default)]
+    pub allow_missing_scanners: bool,
 }
 
 impl Default for SecurityPolicy {
@@ -23,6 +27,7 @@ impl Default for SecurityPolicy {
             fail_on_low: false,
             ignored_rules: Vec::new(),
             ignored_paths: Vec::new(),
+            allow_missing_scanners: false,
         }
     }
 }

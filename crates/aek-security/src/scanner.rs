@@ -20,6 +20,12 @@ pub struct SecurityScanReport {
     pub low_count: usize,
     pub policy_violated: bool,
     pub findings: Vec<SecurityFinding>,
+    /// Scanners that were requested but could not run (binary not found).
+    #[serde(default)]
+    pub skipped_scanners: Vec<String>,
+    /// True when at least one requested scanner was skipped.
+    #[serde(default)]
+    pub incomplete: bool,
 }
 
 /// Orchestrator coordinating all security scanners and applying security policies.
@@ -50,6 +56,11 @@ impl SecurityScanner {
     }
 
     /// Executes configured scanners against target directory and produces a `SecurityScanReport`.
+    ///
+    /// When a requested scanner binary is absent the scanner is recorded in
+    /// `skipped_scanners` and `incomplete` is set.  Unless
+    /// `policy.allow_missing_scanners` is `true`, an incomplete scan sets
+    /// `policy_violated = true`.
     pub async fn scan(
         &self,
         target_dir: &Path,
@@ -59,21 +70,38 @@ impl SecurityScanner {
         timeout_secs: u64,
     ) -> Result<SecurityScanReport, SecurityError> {
         let mut all_findings = Vec::new();
+        let mut skipped_scanners = Vec::new();
 
         if run_semgrep {
-            let mut findings = self.semgrep.scan(target_dir, None, timeout_secs).await?;
-            all_findings.append(&mut findings);
+            match self.semgrep.detect() {
+                Some(_) => {
+                    let mut findings = self.semgrep.scan(target_dir, None, timeout_secs).await?;
+                    all_findings.append(&mut findings);
+                }
+                None => {
+                    skipped_scanners.push("semgrep".to_string());
+                }
+            }
         }
 
         if run_trivy {
-            let mut findings = self.trivy.scan(target_dir, timeout_secs).await?;
-            all_findings.append(&mut findings);
+            match self.trivy.detect() {
+                Some(_) => {
+                    let mut findings = self.trivy.scan(target_dir, timeout_secs).await?;
+                    all_findings.append(&mut findings);
+                }
+                None => {
+                    skipped_scanners.push("trivy".to_string());
+                }
+            }
         }
 
         if run_dependencies {
             let mut findings = self.dependencies.audit(target_dir, timeout_secs).await?;
             all_findings.append(&mut findings);
         }
+
+        let incomplete = !skipped_scanners.is_empty();
 
         let mut critical_count = 0;
         let mut high_count = 0;
@@ -95,6 +123,11 @@ impl SecurityScanner {
             }
         }
 
+        // Fail-closed: an incomplete scan is a policy violation unless explicitly opted out.
+        if incomplete && !self.policy.allow_missing_scanners {
+            policy_violated = true;
+        }
+
         Ok(SecurityScanReport {
             target_dir: target_dir.to_path_buf(),
             total_findings: all_findings.len(),
@@ -104,6 +137,8 @@ impl SecurityScanner {
             low_count,
             policy_violated,
             findings: all_findings,
+            skipped_scanners,
+            incomplete,
         })
     }
 }

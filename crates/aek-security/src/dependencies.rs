@@ -6,7 +6,7 @@ use aek_core::execution::SafeCommand;
 use aek_platform::find_executable_in_path;
 use serde_json::Value;
 use std::collections::HashMap;
-use std::path::{Path, PathBuf};
+use std::path::{Component, Path, PathBuf};
 use std::time::Duration;
 use tracing::info;
 
@@ -22,10 +22,15 @@ impl DependencyAuditor {
     }
 
     /// Verifies that target directory is safe from path traversal.
+    ///
+    /// Uses component-based validation — rejects any path containing a
+    /// `..` (`Component::ParentDir`) component, which the string-contains
+    /// approach would miss for paths like `foo/..` or Windows `foo\..\bar`.
     pub fn validate_path(&self, path: &Path) -> Result<(), SecurityError> {
-        let path_str = path.to_string_lossy();
-        if path_str.contains("../") || path_str.contains("..\\") {
-            return Err(SecurityError::PathTraversal(path.to_path_buf()));
+        for component in path.components() {
+            if component == Component::ParentDir {
+                return Err(SecurityError::PathTraversal(path.to_path_buf()));
+            }
         }
         Ok(())
     }

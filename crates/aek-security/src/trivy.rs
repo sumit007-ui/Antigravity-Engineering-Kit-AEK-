@@ -8,7 +8,7 @@ use serde_json::Value;
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 use std::time::Duration;
-use tracing::{info, warn};
+use tracing::warn;
 
 /// Adapter executing Trivy filesystem and dependency vulnerability scans.
 #[derive(Debug, Default, Clone)]
@@ -134,6 +134,10 @@ impl TrivyAdapter {
     }
 
     /// Executes Trivy scan against filesystem directory.
+    ///
+    /// Returns `Err(SecurityError::ScannerNotFound)` when the Trivy binary is absent.
+    /// Callers that want graceful degradation should call [`detect`](Self::detect) first
+    /// and skip this method when it returns `None`.
     pub async fn scan(
         &self,
         target_dir: &Path,
@@ -142,8 +146,7 @@ impl TrivyAdapter {
         let bin = match self.detect() {
             Some(b) => b,
             None => {
-                info!("Trivy not installed on host system; returning empty scan results");
-                return Ok(Vec::new());
+                return Err(SecurityError::ScannerNotAvailable("trivy".to_string()));
             }
         };
 

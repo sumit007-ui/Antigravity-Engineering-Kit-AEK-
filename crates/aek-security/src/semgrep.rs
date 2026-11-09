@@ -8,7 +8,7 @@ use serde_json::Value;
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 use std::time::Duration;
-use tracing::{info, warn};
+use tracing::warn;
 
 /// Adapter executing Semgrep scans and parsing findings.
 #[derive(Debug, Default, Clone)]
@@ -82,6 +82,10 @@ impl SemgrepAdapter {
     }
 
     /// Executes Semgrep scan against target directory.
+    ///
+    /// Returns `Err(SecurityError::ScannerNotFound)` when the Semgrep binary is absent.
+    /// Callers that want graceful degradation should call [`detect`](Self::detect) first
+    /// and skip this method when it returns `None`.
     pub async fn scan(
         &self,
         target_dir: &Path,
@@ -91,8 +95,7 @@ impl SemgrepAdapter {
         let bin = match self.detect() {
             Some(b) => b,
             None => {
-                info!("Semgrep not installed on host system; returning empty scan results");
-                return Ok(Vec::new());
+                return Err(SecurityError::ScannerNotAvailable("semgrep".to_string()));
             }
         };
 

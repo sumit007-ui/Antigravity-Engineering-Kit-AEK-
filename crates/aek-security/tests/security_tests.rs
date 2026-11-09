@@ -1,6 +1,7 @@
 use aek_security::dependencies::DependencyAuditor;
 use aek_security::findings::{ScannerKind, SecurityFinding, Severity};
 use aek_security::policy::SecurityPolicy;
+use aek_security::scanner::{SecurityScanReport, SecurityScanner};
 use aek_security::semgrep::SemgrepAdapter;
 use aek_security::trivy::TrivyAdapter;
 use std::collections::HashMap;
@@ -147,6 +148,7 @@ fn test_security_policy_evaluation() {
         fail_on_low: false,
         ignored_rules: vec!["ignored-rule".to_string()],
         ignored_paths: vec!["tests/*".to_string()],
+        allow_missing_scanners: false,
     };
 
     let critical_finding = SecurityFinding {
@@ -213,4 +215,96 @@ fn test_security_injection_and_path_traversal_guards() {
             .audit_directory(&PathBuf::from("../../etc/passwd"))
             .is_err()
     );
+    assert!(
+        auditor
+            .audit_directory(&PathBuf::from("foo/../bar"))
+            .is_err()
+    );
+    assert!(
+        auditor
+            .audit_directory(&PathBuf::from(r"foo\..\bar"))
+            .is_err()
+    );
+}
+
+#[tokio::test]
+async fn test_missing_scanners_fail_closed_and_incomplete() {
+    // When scanners (e.g. semgrep / trivy) are missing on host, scan must mark incomplete and policy_violated = true
+    let scanner = SecurityScanner::new();
+    let temp_dir = std::env::temp_dir();
+    let report = scanner
+        .scan(&temp_dir, true, true, false, 5)
+        .await
+        .expect("scanner should complete returning scan report");
+
+    // If semgrep or trivy are not installed, incomplete must be true and policy_violated must be true
+    if scanner.semgrep.detect().is_none() || scanner.trivy.detect().is_none() {
+        assert!(report.incomplete);
+        assert!(report.policy_violated);
+        assert!(!report.skipped_scanners.is_empty());
+    }
+}
+
+#[tokio::test]
+async fn test_missing_scanners_allowed_by_policy_opt_in() {
+    let policy = SecurityPolicy {
+        allow_missing_scanners: true,
+        ..Default::default()
+    };
+    let scanner = SecurityScanner::with_policy(policy);
+    let temp_dir = std::env::temp_dir();
+    let report = scanner
+        .scan(&temp_dir, true, true, false, 5)
+        .await
+        .expect("scan succeeded");
+
+    if report.incomplete {
+        // Since allow_missing_scanners is true and there are no critical/high findings, policy_violated should be false
+        assert!(!report.policy_violated);
+    }
+}
+
+#[tokio::test]
+async fn test_direct_scanner_error_when_binary_missing() {
+    let semgrep = SemgrepAdapter::new();
+    if semgrep.detect().is_none() {
+        let res = semgrep.scan(&PathBuf::from("."), None, 5).await;
+        assert!(
+            res.is_err(),
+            "Direct semgrep scan must fail when binary is missing"
+        );
+    }
+
+    let trivy = TrivyAdapter::new();
+    if trivy.detect().is_none() {
+        let res = trivy.scan(&PathBuf::from("."), 5).await;
+        assert!(
+            res.is_err(),
+            "Direct trivy scan must fail when binary is missing"
+        );
+    }
+}
+
+#[test]
+fn test_security_scan_report_serialization_includes_skipped() {
+    let report = SecurityScanReport {
+        target_dir: PathBuf::from("."),
+        total_findings: 0,
+        critical_count: 0,
+        high_count: 0,
+        medium_count: 0,
+        low_count: 0,
+        policy_violated: true,
+        findings: Vec::new(),
+        skipped_scanners: vec!["semgrep".to_string(), "trivy".to_string()],
+        incomplete: true,
+    };
+    let json = serde_json::to_string(&report).expect("serialize report");
+    assert!(json.contains("skipped_scanners"));
+    assert!(json.contains("incomplete"));
+    assert!(json.contains("semgrep"));
+
+    let deserialized: SecurityScanReport = serde_json::from_str(&json).expect("deserialize report");
+    assert!(deserialized.incomplete);
+    assert_eq!(deserialized.skipped_scanners.len(), 2);
 }
